@@ -164,6 +164,14 @@ export default function ComingSoon() {
       </footer>
 
       <style jsx>{`
+        .animate-entrance {
+          opacity: 0;
+          animation: entrance 1s ease-out 0.1s forwards;
+        }
+        @keyframes entrance {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
         @keyframes float0 {
           0%, 100% { transform: translateY(0px) translateX(0px); }
           50% { transform: translateY(-30px) translateX(10px); }
