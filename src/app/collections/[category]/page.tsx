@@ -8,7 +8,6 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
-import ReviewsWidget from '@/components/layout/ReviewsWidget';
 
 import { Product } from '@/types';
 import { useStoreData } from '@/context/StoreDataContext';
@@ -68,12 +67,12 @@ function ProductCard({ product }: { product: Product }) {
 
         <div style={{ position: 'absolute', top: 0, left: 0, display: 'flex', flexDirection: 'column', gap: '2px', zIndex: 2 }}>
           {product.discountBadge && (
-            <span style={{ background: '#e60000', color: '#fff', fontSize: '9px', fontWeight: 700, padding: '2px 6px', lineHeight: 1.4 }}>
+            <span style={{ background: '#7F011F', color: '#fff', fontSize: '9px', fontWeight: 700, padding: '2px 6px', lineHeight: 1.4 }}>
               {product.discountBadge}
             </span>
           )}
           {product.isBestSeller && (
-            <span style={{ background: '#fac80a', color: '#fff', fontSize: '9px', fontWeight: 700, padding: '2px 6px', lineHeight: 1.4 }}>
+            <span style={{ background: '#6B4B2E', color: '#fff', fontSize: '9px', fontWeight: 700, padding: '2px 6px', lineHeight: 1.4 }}>
               Best Selling
             </span>
           )}
@@ -97,7 +96,7 @@ function ProductCard({ product }: { product: Product }) {
             {displayWeight}:
           </span>
         )}
-        <span style={{ color: '#e60000', fontWeight: 700 }}>
+        <span style={{ color: '#7F011F', fontWeight: 700 }}>
           Rs.{displayPrice.toLocaleString()}.00
         </span>
       </div>
@@ -121,7 +120,7 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
   let categoryProducts: Product[] = [];
   if (categorySlug === 'all' || categorySlug === 'all-products') {
     categoryProducts = products.filter(p => p.showInAllProducts !== false);
-  } else if (categorySlug === 'best-selling' || categorySlug === 'best-sellers' || categorySlug === 'best-selling-pickles') {
+  } else if (categorySlug === 'best-selling' || categorySlug === 'best-sellers') {
     categoryProducts = products.filter(p => p.isBestSeller);
   } else if (categorySlug === 'new-arrivals') {
     categoryProducts = products.filter(p => p.isNew);
@@ -170,7 +169,7 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
               onClick={() => setShowFilter(false)}
               style={{
                 fontSize: '12px',
-                color: cat.slug === categorySlug ? '#e60000' : '#444',
+                color: cat.slug === categorySlug ? '#7F011F' : '#444',
                 fontWeight: cat.slug === categorySlug ? 700 : 400,
                 textDecoration: 'none',
                 display: 'flex',
@@ -191,7 +190,7 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
               type="checkbox"
               checked={inStockFilter}
               onChange={e => setInStockFilter(e.target.checked)}
-              className="accent-[#e60000] cursor-pointer"
+              className="accent-wine cursor-pointer"
             />
             <span>In Stock ({inStockCount})</span>
           </label>
@@ -200,7 +199,7 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
               type="checkbox"
               checked={outOfStockFilter}
               onChange={e => setOutOfStockFilter(e.target.checked)}
-              className="accent-[#e60000] cursor-pointer"
+              className="accent-wine cursor-pointer"
             />
             <span>Out Of Stock ({outOfStockCount})</span>
           </label>
@@ -213,7 +212,7 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
             <Link key={p.id} href={`/products/${p.slug}`} className="flex gap-2.5 items-center no-underline">
               <div className="relative w-14 h-14 flex-shrink-0 border border-gray-200 overflow-hidden">
                 {p.discountBadge && (
-                  <div className="absolute top-0 left-0 bg-[#e60000] text-white text-[8px] font-bold px-1 py-px z-10">
+                  <div className="absolute top-0 left-0 bg-wine text-white text-[8px] font-bold px-1 py-px z-10">
                     {p.discountBadge}
                   </div>
                 )}
@@ -225,7 +224,7 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
                   {p.originalPrice && p.originalPrice > p.price ? (
                     <span className="line-through text-gray-400 mr-1">Rs.{p.originalPrice.toLocaleString()}</span>
                   ) : null}
-                  <span className="text-[#e60000] font-bold">Rs.{p.price.toLocaleString()}</span>
+                  <span className="text-wine font-bold">Rs.{p.price.toLocaleString()}</span>
                 </p>
               </div>
             </Link>

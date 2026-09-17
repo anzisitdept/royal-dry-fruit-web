@@ -12,28 +12,28 @@ import { CATEGORIES } from '@/data/categories';
 
 const DEFAULT_STORE_CONTENT: StoreContent = {
   topBarMessages: [
-    'GET 5% OFF ON ORDERS WITH ADVANCE PAYMENT.',
-    '⚡ FREE NATIONWIDE SHIPPING ON ORDERS OVER RS. 2,999',
-    '🎁 100% PURE & HOMEMADE DESI QUALITY GUARANTEED'
+    'FREE NATIONWIDE SHIPPING ON ORDERS OVER RS. 3,000',
+    'PREMIUM DRY FRUITS — HANDPICKED QUALITY',
+    'GIFT BOXES & HAMPERS FOR EVERY OCCASION'
   ],
   heroSlides: [
     {
       id: 'slide-1',
-      desktopImage: 'https://nisarachar.com/cdn/shop/files/MAINN_WEB.jpg?v=1763724941&width=3840',
-      mobileImage: 'https://nisarachar.com/cdn/shop/files/MAIN.jpg?v=1763724992&width=750',
-      alt: 'Nisar Achar Hero'
+      desktopImage: 'https://images.unsplash.com/photo-1724675007843-3be518bed385?auto=format&fit=crop&w=2048&q=80',
+      mobileImage: 'https://images.unsplash.com/photo-1724675007843-3be518bed385?auto=format&fit=crop&w=750&q=80',
+      alt: 'Royal Dry Fruits — Premium Nuts'
     },
     {
       id: 'slide-2',
-      desktopImage: 'https://nisarachar.com/cdn/shop/files/Banner-01.jpg?v=1776446341&width=3840',
-      mobileImage: 'https://nisarachar.com/cdn/shop/files/Mobile_banner-01.jpg?v=1776446397&width=750',
-      alt: 'Premium Desi Pickles'
+      desktopImage: 'https://images.unsplash.com/photo-1769255485022-f9bb6d6e8169?auto=format&fit=crop&w=2048&q=80',
+      mobileImage: 'https://images.unsplash.com/photo-1769255485022-f9bb6d6e8169?auto=format&fit=crop&w=750&q=80',
+      alt: 'Dry Fruits Collection'
     },
     {
       id: 'slide-3',
-      desktopImage: 'https://nisarachar.com/cdn/shop/files/Banner-02_1.jpg?v=1786468968&width=3840',
-      mobileImage: 'https://nisarachar.com/cdn/shop/files/Mobile_banner-02_4.jpg?v=1786468989&width=750',
-      alt: 'Authentic Traditional Taste'
+      desktopImage: 'https://images.unsplash.com/photo-1764764138587-189f22804ec4?auto=format&fit=crop&w=2048&q=80',
+      mobileImage: 'https://images.unsplash.com/photo-1764764138587-189f22804ec4?auto=format&fit=crop&w=750&q=80',
+      alt: 'Gift Hampers'
     }
   ],
   shopByCategory: {
@@ -51,7 +51,7 @@ const DEFAULT_STORE_CONTENT: StoreContent = {
   midBanners: [
     {
       id: 'mid-1',
-      image: 'https://nisarachar.com/cdn/shop/files/Web_banner_37_4b8a7db5-2237-470a-957b-d1ce5fc8f492.jpg?v=1774275085&width=3840',
+      image: 'https://images.unsplash.com/photo-1514537193821-ed4955693802?auto=format&fit=crop&w=2048&q=80',
       link: '/collections/all-products',
       alt: 'Promotional Mid Banner 1'
     }

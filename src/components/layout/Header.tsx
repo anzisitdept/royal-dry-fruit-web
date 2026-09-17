@@ -3,14 +3,29 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
-import { Search, ShoppingBag, Heart, User, Menu, X } from 'lucide-react';
+import Image from 'next/image';
+import { Search, ShoppingBag, Heart, User, Menu, X, ChevronDown, Globe, LogOut, Package, UserCircle, Gift, MapPin } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
+import { SignInModal } from '@/components/auth/SignInModal';
+import { COLLECTION_NAVIGATION } from '@/data/navigation';
+
+const NAV_ITEMS = [
+  { label: 'About RDF', href: '/pages/about' },
+  { label: 'Outlets', href: '/pages/outlets' },
+  { label: 'Contact', href: '/pages/contact-us' },
+];
 
 export default function Header() {
   const { totalCount, setIsCartOpen, setIsSearchOpen, wishlist } = useCart();
+  const { user, loading: authLoading, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState(false);
+  const [desktopCollectionsOpen, setDesktopCollectionsOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -25,7 +40,6 @@ export default function Header() {
       ticking = true;
       window.requestAnimationFrame(() => {
         const y = window.scrollY;
-        // Hide header when scrolling down past the hero, show when near top or scrolling up
         if (y > lastY && y > 120) {
           setHidden(true);
         } else {
@@ -40,7 +54,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Lock background scroll while the drawer is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -52,179 +65,428 @@ export default function Header() {
     };
   }, [mobileMenuOpen]);
 
-  const navItems = [
-    { label: 'NEW ARRIVALS', href: '/collections/new-arrivals' },
-    {
-      label: 'ACHAR',
-      href: '/collections/achar',
-      badge: { text: 'NEW ARRIVALS', className: 'bg-[#e60000] text-white' },
-    },
-    { label: 'CHUTNEY', href: '/collections/chutney' },
-    { label: 'BEST SELLING', href: '/collections/best-selling-pickles' },
-
-    { label: 'ALL PRODUCTS', href: '/collections/all-products' },
-  ];
+  const displayName = user
+    ? (user.displayName || user.email?.split('@')[0] || '').slice(0, 12)
+    : '';
 
   return (
     <>
-      <header className={`bg-white border-b border-gray-100 sticky top-0 z-40 shadow-xs transition-transform duration-300 ${hidden ? '-translate-y-full' : 'translate-y-0'}`}>
-        <div className="container mx-auto px-3 md:px-4 lg:px-8 py-3 lg:py-4">
-
-          {/* Top Header Row */}
-          <div className="flex items-center justify-between gap-2">
-
-            {/* Mobile Menu Toggle */}
+      <header
+        className={`sticky top-0 z-40 bg-wine text-ivory transition-transform duration-300 ${hidden ? '-translate-y-full' : 'translate-y-0'}`}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 lg:px-8 py-1 lg:py-1.5">
+          {/* Left zone — Logo & Mobile menu button */}
+          <div className="flex items-center gap-2 flex-shrink-0">
             <button
               suppressHydrationWarning
-              onClick={() => setMobileMenuOpen(true)}
-              className="lg:hidden p-2 text-[#e60000] flex-shrink-0"
+              onClick={() => {
+                setMobileCollectionsOpen(false);
+                setMobileMenuOpen(true);
+              }}
+              className="lg:hidden p-1.5 -ml-1 text-ivory flex-shrink-0"
               aria-label="Open menu"
             >
-              <Menu className="w-5 h-5 md:w-6 md:h-6" />
+              <Menu className="w-5 h-5" />
             </button>
 
-            {/* Logo — this wrapper's height is what sizes the header row.
-              The <img> itself is absolutely positioned and can be drawn
-              larger than the wrapper without stretching the row, since
-              absolutely-positioned elements are pulled out of normal flow
-              and don't contribute to their parent's height. */}
-            <div className="flex-shrink-0 relative h-12 sm:h-14 md:h-14 w-36 sm:w-40 md:w-36">
-              <Link
-                href="/"
-                className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center z-10"
-              >
-                <img
-                  src="/NISAAR.png"
-                  alt="Nisar Achar"
-                  className="h-24 sm:h-28 md:h-32 w-auto object-contain"
-                />
-              </Link>
-            </div>
-
-            {/* Right Side Info & Actions */}
-            <div className="flex flex-col items-end min-w-0">
-              {/* Customer Service Text */}
-              <div className="hidden md:block text-[11px] text-[#e60000] font-semibold text-right mb-2">
-                Customer Service<br />
-                WhatsApp & Cell 0334-1677114
-              </div>
-
-              {/* Actions Row: Search, Shopping Cart, Wishlist, Sign in */}
-              <div className="flex items-center space-x-1.5 sm:space-x-3 md:space-x-5 text-sm">
-
-                {/* Search Bar Trigger */}
-                <button
-                  suppressHydrationWarning
-                  onClick={() => setIsSearchOpen(true)}
-                  className="flex items-center bg-[#fae9e8] text-[#e60000] px-2 sm:px-3 md:px-4 py-1.5 md:py-2 rounded-full text-[10px] md:text-xs font-semibold hover:bg-[#f5d6d4] transition"
-                >
-                  <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:mr-2" />
-                  <span className="hidden md:inline">Search products...</span>
-                </button>
-
-                {/* Shopping Cart Button */}
-                <button
-                  suppressHydrationWarning
-                  onClick={() => setIsCartOpen(true)}
-                  className="flex items-center space-x-1.5 text-[#e60000] font-bold text-[10px] md:text-xs hover:opacity-80 transition"
-                >
-                  <div className="relative">
-                    <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
-                    {mounted && totalCount > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-[#e60000] text-white text-[9px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center font-extrabold animate-pulse">
-                        {totalCount}
-                      </span>
-                    )}
-                  </div>
-                  <span className="hidden sm:inline">Shopping Cart</span>
-                </button>
-
-                {/* Sign in Link connected to /account */}
-                <Link
-                  href="/account"
-                  className="flex items-center space-x-1.5 text-[#e60000] font-bold text-[10px] md:text-xs hover:opacity-80 transition border-l border-gray-200 pl-1.5 sm:pl-3 md:pl-4"
-                >
-                  <User className="w-4 h-4 sm:w-5 sm:h-5" />
-                  <span className="hidden sm:inline">Sign in</span>
-                </Link>
-
-              </div>
-            </div>
-
+            <Link href="/" aria-label="Royal Dry Fruits — Home" className="flex-shrink-0 flex items-center -mt-4 sm:-mt-5 lg:-mt-6 relative z-10">
+              <Image
+                src="/RDF-logo.png"
+                alt="Royal Dry Fruits"
+                width={130}
+                height={44}
+                priority
+                className="w-24 sm:w-28 lg:w-32 h-auto object-contain drop-shadow-md"
+              />
+            </Link>
           </div>
 
-          {/* Navigation Row - Desktop */}
-          <nav className="mt-4 hidden lg:flex justify-between items-center px-2 border-t pt-3 border-gray-100">
-            {navItems.map((item) => (
+          {/* Desktop center — Nav */}
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
+            <Link
+              href="/collections/all-products"
+              className="text-ivory/90 hover:text-ivory text-[11px] xl:text-[12px] font-semibold uppercase tracking-wider xl:tracking-widest whitespace-nowrap transition-colors"
+            >
+              Shop All
+            </Link>
+
+            <Link
+              href="/custom-basket"
+              className="text-ivory hover:text-ivory text-[11px] xl:text-[12px] font-bold uppercase tracking-wider xl:tracking-widest whitespace-nowrap transition-colors border border-sand/40 rounded-full px-3 py-1.5 hover:bg-sand/15"
+            >
+              Custom Basket
+            </Link>
+
+            <div
+              className="relative"
+              onMouseEnter={() => setDesktopCollectionsOpen(true)}
+              onMouseLeave={() => setDesktopCollectionsOpen(false)}
+            >
+              <button
+                onClick={() => setDesktopCollectionsOpen((v) => !v)}
+                aria-expanded={desktopCollectionsOpen}
+                className="text-ivory/90 hover:text-ivory text-[11px] xl:text-[12px] font-semibold uppercase tracking-wider xl:tracking-widest whitespace-nowrap transition-colors flex items-center gap-1"
+              >
+                Collections
+                <ChevronDown
+                  className={`w-3 h-3 opacity-70 transition-transform duration-200 ${desktopCollectionsOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+
+              <div
+                className={`absolute top-full left-0 pt-2 transition-all duration-200 z-50 ${
+                  desktopCollectionsOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+                }`}
+              >
+                <div className="bg-white rounded-lg shadow-xl border border-gray-100 min-w-[220px] py-1">
+                  {COLLECTION_NAVIGATION.map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      onClick={() => setDesktopCollectionsOpen(false)}
+                      className="block px-4 py-2.5 text-charcoal hover:bg-sand/60 text-sm font-medium transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {NAV_ITEMS.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className="text-[#e60000] font-bold text-xs uppercase tracking-widest relative group py-1 transition-colors"
+                className="text-ivory/90 hover:text-ivory text-[11px] xl:text-[12px] font-semibold uppercase tracking-wider xl:tracking-widest whitespace-nowrap transition-colors"
               >
                 {item.label}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#e60000] transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
           </nav>
 
+          {/* Desktop right zone */}
+          <div className="hidden lg:flex items-center justify-end gap-3 sm:gap-4 lg:gap-5 flex-shrink-0">
+            <button
+              suppressHydrationWarning
+              aria-label="Switch language"
+              className="text-ivory/90 hover:text-ivory transition-colors p-1"
+            >
+              <Globe className="w-5 h-5" />
+            </button>
+
+            <button
+              suppressHydrationWarning
+              onClick={() => setIsSearchOpen(true)}
+              className="text-ivory/90 hover:text-ivory transition-colors p-1"
+              aria-label="Search products"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+
+            <Link
+              href="/wishlist"
+              className="relative text-ivory/90 hover:text-ivory transition-colors p-1"
+              aria-label="Wishlist"
+            >
+              <Heart className="w-5 h-5" />
+              {mounted && wishlist.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-ivory text-wine text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-extrabold">
+                  {wishlist.length}
+                </span>
+              )}
+            </Link>
+
+            <button
+              suppressHydrationWarning
+              onClick={() => setIsCartOpen(true)}
+              className="relative text-ivory/90 hover:text-ivory transition-colors p-1"
+              aria-label="Shopping Cart"
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {mounted && totalCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-ivory text-wine text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-extrabold">
+                  {totalCount}
+                </span>
+              )}
+            </button>
+
+            {!authLoading && (
+              <div
+                className="relative border-l border-ivory/20 pl-3 lg:pl-4"
+                onMouseEnter={() => setProfileDropdownOpen(true)}
+                onMouseLeave={() => setProfileDropdownOpen(false)}
+              >
+                <button
+                  onClick={() => {
+                    if (!user) {
+                      setSignInOpen(true);
+                    } else {
+                      setProfileDropdownOpen((v) => !v);
+                    }
+                  }}
+                  className="flex items-center gap-1.5 text-ivory/90 hover:text-ivory transition-colors text-xs font-semibold p-1"
+                  aria-label="Account / Profile"
+                >
+                  <User className="w-5 h-5 text-ivory" />
+                  <span>{user ? displayName : 'Profile'}</span>
+                  <ChevronDown className={`w-3 h-3 opacity-70 transition-transform duration-200 ${profileDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                <div
+                  className={`absolute top-full right-0 pt-2 transition-all duration-200 z-50 ${
+                    profileDropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+                  }`}
+                >
+                  <div className="bg-white rounded-lg shadow-xl border border-gray-100 min-w-[200px] py-1.5 text-charcoal">
+                    <Link
+                      href="/account"
+                      onClick={() => setProfileDropdownOpen(false)}
+                      className="flex items-center gap-2.5 px-4 py-2.5 hover:bg-sand/60 text-xs font-semibold transition-colors"
+                    >
+                      <UserCircle className="w-4 h-4 text-wine" />
+                      My Profile
+                    </Link>
+
+                    <Link
+                      href="/account/orders"
+                      onClick={() => setProfileDropdownOpen(false)}
+                      className="flex items-center gap-2.5 px-4 py-2.5 hover:bg-sand/60 text-xs font-semibold transition-colors border-b border-gray-100"
+                    >
+                      <Package className="w-4 h-4 text-wine" />
+                      Track Orders
+                    </Link>
+
+                    {user ? (
+                      <button
+                        onClick={() => {
+                          logout();
+                          setProfileDropdownOpen(false);
+                        }}
+                        className="flex items-center gap-2.5 w-full px-4 py-2.5 hover:bg-sand/60 text-xs font-semibold text-red-600 transition-colors"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Sign Out
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          setSignInOpen(true);
+                          setProfileDropdownOpen(false);
+                        }}
+                        className="flex items-center gap-2.5 w-full px-4 py-2.5 hover:bg-sand/60 text-xs font-semibold text-wine transition-colors"
+                      >
+                        <User className="w-4 h-4" />
+                        Sign In / Register
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Mobile right group */}
+          <div className="flex items-center gap-2 sm:gap-3 lg:hidden flex-shrink-0">
+            <button
+              suppressHydrationWarning
+              onClick={() => setIsSearchOpen(true)}
+              className="text-ivory/90 hover:text-ivory transition-colors p-1"
+              aria-label="Search products"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+
+            <Link
+              href="/wishlist"
+              className="relative text-ivory/90 hover:text-ivory transition-colors p-1"
+              aria-label="Wishlist"
+            >
+              <Heart className="w-5 h-5" />
+              {mounted && wishlist.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-ivory text-wine text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-extrabold">
+                  {wishlist.length}
+                </span>
+              )}
+            </Link>
+
+            <button
+              suppressHydrationWarning
+              onClick={() => setIsCartOpen(true)}
+              className="relative text-ivory/90 hover:text-ivory transition-colors p-1"
+              aria-label="Shopping Cart"
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {mounted && totalCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-ivory text-wine text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-extrabold">
+                  {totalCount}
+                </span>
+              )}
+            </button>
+
+            {!authLoading && (
+              user ? (
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-semibold text-ivory/90">{displayName}</span>
+                  <button
+                    onClick={() => logout()}
+                    className="text-ivory/90 hover:text-ivory transition-colors p-1"
+                    aria-label="Sign out"
+                  >
+                    <LogOut className="w-5 h-5" />
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="#"
+                  onClick={(e) => { e.preventDefault(); setSignInOpen(true); }}
+                  className="text-ivory/90 hover:text-ivory transition-colors p-1"
+                  aria-label="Sign in"
+                >
+                  <User className="w-5 h-5" />
+                </Link>
+              )
+            )}
+
+            <button
+              suppressHydrationWarning
+              aria-label="Switch language"
+              className="text-ivory/90 hover:text-ivory transition-colors p-1"
+            >
+              <Globe className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Mobile Off-Canvas Menu (slides in from the left) — portaled to <body> so it
-        escapes the header's transform (transformed ancestors turn `fixed` into
-        containing-block-relative, which was clipping the drawer to the header's height) */}
       {mounted && createPortal(
         <div
           className={`lg:hidden fixed inset-0 z-[100] ${mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
           aria-hidden={!mobileMenuOpen}
         >
-          {/* Backdrop */}
           <div
             onClick={() => setMobileMenuOpen(false)}
             className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
           />
 
-          {/* Drawer Panel */}
           <div
-            className={`absolute top-0 left-0 h-full w-[82%] max-w-[340px] bg-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-out ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-              }`}
+            className={`absolute top-0 left-0 h-full w-[82%] max-w-[340px] bg-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-out ${
+              mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+            }`}
           >
-            {/* Dark "Menu" header bar */}
-            <div className="flex items-center justify-between bg-black px-4 py-4 flex-shrink-0">
-              <span className="text-white font-bold text-base">Menu</span>
+            <div className="flex items-center justify-between bg-wine px-4 py-3.5 flex-shrink-0">
+              <span className="text-ivory font-bold text-base">Menu</span>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-white p-1"
+                className="text-ivory p-1"
                 aria-label="Close menu"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Nav Items */}
             <nav className="flex-1 overflow-y-auto">
-              {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between px-4 py-4 border-b border-gray-100 text-[#e60000] font-bold text-sm capitalize"
-                >
-                  <span className="capitalize">{item.label.charAt(0) + item.label.slice(1).toLowerCase()}</span>
-                  {item.badge && (
-                    <span
-                      className={`text-[10px] font-bold px-3 py-1.5 rounded-full whitespace-nowrap ${item.badge.className}`}
+              <Link
+                href="/account/orders"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-3.5 border-b border-gray-100 text-charcoal hover:bg-sand/50 font-semibold text-sm transition-colors"
+              >
+                <Package className="w-4 h-4" />
+                Track Order
+              </Link>
+
+              <Link
+                href="/account"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-3.5 border-b border-gray-100 text-charcoal hover:bg-sand/50 font-semibold text-sm transition-colors"
+              >
+                <UserCircle className="w-4 h-4" />
+                Profile
+              </Link>
+
+              <Link
+                href="/collections/all-products"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center px-4 py-3.5 border-b border-gray-100 text-charcoal hover:bg-sand/50 font-semibold text-sm transition-colors"
+              >
+                Shop All
+              </Link>
+
+              <button
+                onClick={() => setMobileCollectionsOpen(!mobileCollectionsOpen)}
+                className="flex items-center justify-between w-full px-4 py-3.5 border-b border-gray-100 text-charcoal hover:bg-sand/50 font-semibold text-sm transition-colors"
+              >
+                <span>Collections</span>
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-200 ${mobileCollectionsOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+              {mobileCollectionsOpen && (
+                <div className="bg-sand/20">
+                  {COLLECTION_NAVIGATION.map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block pl-10 pr-4 py-3 border-b border-gray-100 text-charcoal/80 hover:bg-sand/50 text-sm transition-colors"
                     >
-                      {item.badge.text}
-                    </span>
-                  )}
-                </Link>
-              ))}
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+
+              <Link
+                href="/custom-basket"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-3.5 border-b border-gray-100 text-wine hover:bg-sand/50 font-bold text-sm transition-colors"
+              >
+                <Gift className="w-4 h-4" />
+                Custom Basket
+              </Link>
+
+              <Link
+                href="/pages/about"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center px-4 py-3.5 border-b border-gray-100 text-charcoal hover:bg-sand/50 font-semibold text-sm transition-colors"
+              >
+                About RDF
+              </Link>
+
+              <Link
+                href="/pages/outlets"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-3.5 border-b border-gray-100 text-charcoal hover:bg-sand/50 font-semibold text-sm transition-colors"
+              >
+                <MapPin className="w-4 h-4" />
+                Our Outlets
+              </Link>
+
+              <Link
+                href="/pages/contact-us"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center px-4 py-3.5 border-b border-gray-100 text-charcoal hover:bg-sand/50 font-semibold text-sm transition-colors"
+              >
+                Contact
+              </Link>
             </nav>
+
+            {!authLoading && user && (
+              <div className="border-t border-gray-100 flex-shrink-0">
+                <button
+                  onClick={() => { logout(); setMobileMenuOpen(false); }}
+                  className="flex items-center gap-3 w-full px-4 py-3.5 text-charcoal hover:bg-sand/50 font-semibold text-sm transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sign out
+                </button>
+              </div>
+            )}
           </div>
         </div>,
         document.body
       )}
+
+      <SignInModal isOpen={signInOpen} onClose={() => setSignInOpen(false)} />
     </>
   );
 }

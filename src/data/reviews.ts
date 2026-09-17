@@ -3,46 +3,90 @@ import { Review } from '@/types';
 export const REVIEWS: Review[] = [
   {
     id: 'rev-1',
-    author: 'Dr. Tariq Mahmood',
-    location: 'Islamabad',
+    author: 'Muhammad Imran',
+    location: 'Karachi',
     rating: 5,
     date: '2 days ago',
-    comment: 'Authentic taste just like homemade! Packed very securely in glass jar without any oil leakage. Will order again!',
+    comment: 'The premium California almonds exceeded my expectations! Fresh, crunchy, and perfectly packed. Delivery via COD was super fast.',
     verified: true,
-    productSlug: 'sarson-da-saag-pickle',
-    productName: 'Sarson Da Saag Pickle'
+    productSlug: 'california-almonds',
+    productName: 'California Almonds'
   },
   {
     id: 'rev-2',
-    author: 'Fatima Zafar',
+    author: 'Ayesha Khan',
     location: 'Lahore',
     rating: 5,
     date: '1 week ago',
-    comment: 'Great quality and fast delivery. Sarson saag pickle had pure desi mustard oil aroma. Highly recommended!',
+    comment: 'Medjool dates are soft, juicy, and absolutely delicious — just like the ones we get fresh in Madinah. Highly recommended!',
     verified: true,
-    productSlug: 'sarson-da-saag-pickle',
-    productName: 'Sarson Da Saag Pickle'
+    productSlug: 'medjool-dates',
+    productName: 'Medjool Dates'
   },
   {
     id: 'rev-3',
-    author: 'Usman Ghani',
-    location: 'Karachi',
+    author: 'Zainab Ahmed',
+    location: 'Faisalabad',
     rating: 5,
     date: '2 weeks ago',
-    comment: 'Best quality pickles in Pakistan. Delivery was super fast via COD.',
+    comment: 'Ordered the Royal Trail Mix for our family road trip. Perfect balance of nuts and dried fruits — everyone loved it!',
     verified: true,
-    productSlug: 'lahori-lasoora-pickle',
-    productName: 'Lahori Lasoora Pickle'
+    productSlug: 'royal-trail-mix',
+    productName: 'Royal Trail Mix'
   },
   {
     id: 'rev-4',
-    author: 'Ayesha Malik',
-    location: 'Rawalpindi',
+    author: 'Hassan Raza',
+    location: 'Islamabad',
     rating: 5,
     date: '3 weeks ago',
-    comment: 'Quince Murabba (Bahii) is excellent for acidity and heart health. Pure honey taste.',
+    comment: 'Premium cashews are huge and creamy, genuinely the best I have tried in Pakistan. Packaging was pristine.',
     verified: true,
-    productSlug: 'quince-murabba',
-    productName: 'Quince Murabba'
+    productSlug: 'premium-cashews',
+    productName: 'Premium Cashews'
+  },
+  {
+    id: 'rev-5',
+    author: 'Sana Malik',
+    location: 'Multan',
+    rating: 5,
+    date: '1 month ago',
+    comment: 'The Royal Dry Fruits Hamper made a beautiful gift for my brother\'s walima. Elegant box, generous portions, excellent quality.',
+    verified: true,
+    productSlug: 'royal-dry-fruits-hamper',
+    productName: 'Royal Dry Fruits Hamper'
+  },
+  {
+    id: 'rev-6',
+    author: 'Bilal Hussain',
+    location: 'Karachi',
+    rating: 5,
+    date: '1 month ago',
+    comment: 'Honey roasted cashews are dangerously addictive! Sweet, crunchy, and made with real honey. Will definitely reorder.',
+    verified: true,
+    productSlug: 'honey-roasted-cashews',
+    productName: 'Honey Roasted Cashews'
+  },
+  {
+    id: 'rev-7',
+    author: 'Dr. Nida Qureshi',
+    location: 'Peshawar',
+    rating: 5,
+    date: '2 months ago',
+    comment: 'Excellent quality organic chia seeds. I recommend them to my patients — fresh, clean, and genuinely organic.',
+    verified: true,
+    productSlug: 'chia-seeds',
+    productName: 'Organic Chia Seeds'
+  },
+  {
+    id: 'rev-8',
+    author: 'Salman Javed',
+    location: 'Lahore',
+    rating: 5,
+    date: '2 months ago',
+    comment: 'Kashmiri walnuts are buttery and sweet, just like the real thing from the valley. Great value for money with COD.',
+    verified: true,
+    productSlug: 'kashmiri-walnuts',
+    productName: 'Kashmiri Walnuts'
   }
 ];

@@ -220,14 +220,14 @@ export default function CheckoutModal() {
       <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden my-4 md:my-8 max-h-[95vh] md:max-h-[90vh] flex flex-col">
 
         {/* Header */}
-        <div className="bg-[#e60000] text-white p-5 flex justify-between items-center">
+        <div className="bg-wine text-white p-5 flex justify-between items-center">
           <div className="flex items-center space-x-3">
             <Truck className="w-6 h-6" />
             <div>
               <h2 className="font-bold text-lg leading-tight uppercase tracking-wider">
                 {isSubmitted ? 'Order Confirmed!' : 'Cash on Delivery (COD) Checkout'}
               </h2>
-              <p className="text-xs text-red-200">Official Store - Nisar Achar</p>
+              <p className="text-xs text-red-200">Official Store - Royal Dry Fruits</p>
             </div>
           </div>
           <button
@@ -248,7 +248,7 @@ export default function CheckoutModal() {
             <div>
               <h3 className="text-2xl font-bold text-gray-900">Thank You For Your Order!</h3>
               <p className="text-sm text-gray-600 mt-1">
-                Your order number is <span className="font-bold text-[#e60000]">{orderId}</span>
+                Your order number is <span className="font-bold text-wine">{orderId}</span>
               </p>
               <p className="text-xs text-gray-500 mt-2">
                 Order confirmation has been sent to <span className="font-semibold text-gray-800">{formData.email}</span>. Our team will also verify your order on <span className="font-semibold text-gray-800">{formData.phone}</span> before dispatch.
@@ -274,13 +274,13 @@ export default function CheckoutModal() {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500">Total Amount (COD):</span>
-                <span className="font-extrabold text-[#e60000] text-sm">Rs. {grandTotal}</span>
+                <span className="font-extrabold text-wine text-sm">Rs. {grandTotal}</span>
               </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a
-                href={`https://wa.me/923341677114?text=Hi%20Nisar%20Achar,%20I%20placed%20order%20${orderId}`}
+                href={`https://wa.me/923473811510?text=Hi%20Royal%20Dry%20Fruits,%20I%20placed%20order%20${orderId}`}
                 target="_blank"
                 rel="noreferrer"
                 className="bg-green-600 hover:bg-green-700 text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition"
@@ -289,7 +289,7 @@ export default function CheckoutModal() {
               </a>
               <button
                 onClick={handleClose}
-                className="bg-[#e60000] text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-lg hover:bg-[#cc0000] transition"
+                className="bg-wine text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-lg hover:bg-wine-deep transition"
               >
                 Continue Shopping
               </button>
@@ -314,7 +314,7 @@ export default function CheckoutModal() {
                   placeholder="e.g. Muhammad Ali"
                   value={formData.fullName}
                   onChange={e => setFormData({ ...formData, fullName: e.target.value })}
-                  className="w-full text-xs p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#e60000] outline-none"
+                  className="w-full text-xs p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine outline-none"
                 />
               </div>
 
@@ -328,7 +328,7 @@ export default function CheckoutModal() {
                   placeholder="e.g. yourname@example.com"
                   value={formData.email}
                   onChange={e => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full text-xs p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#e60000] outline-none"
+                  className="w-full text-xs p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine outline-none"
                 />
                 <p className="text-[10px] text-gray-500 mt-1">
                   Order confirmation & tracking updates will be sent to this email.
@@ -345,14 +345,14 @@ export default function CheckoutModal() {
                   placeholder="0300 1234567"
                   value={formData.phone}
                   onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full text-xs p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#e60000] outline-none"
+                  className="w-full text-xs p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine outline-none"
                 />
               </div>
 
               {/* Location heading */}
               <div className="pt-1">
                 <div className="flex items-center gap-1.5 border-b pb-2">
-                  <MapPin size={14} className="text-[#e60000]" />
+                  <MapPin size={14} className="text-wine" />
                   <h4 className="font-bold text-gray-900 text-sm uppercase tracking-wide">
                     Province, District & Tehsil
                   </h4>
@@ -399,7 +399,7 @@ export default function CheckoutModal() {
                   placeholder="House #, Street #, Sector/Area, Nearby Landmark"
                   value={formData.address}
                   onChange={e => setFormData({ ...formData, address: e.target.value })}
-                  className="w-full text-xs p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#e60000] outline-none"
+                  className="w-full text-xs p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine outline-none"
                 />
               </div>
 
@@ -412,7 +412,7 @@ export default function CheckoutModal() {
                   placeholder="e.g. Call before delivery"
                   value={formData.notes}
                   onChange={e => setFormData({ ...formData, notes: e.target.value })}
-                  className="w-full text-xs p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#e60000] outline-none"
+                  className="w-full text-xs p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine outline-none"
                 />
               </div>
             </div>
@@ -447,7 +447,7 @@ export default function CheckoutModal() {
                       {deliveryFee === 0 ? <span className="text-green-600 font-bold">FREE</span> : `Rs. ${deliveryFee}`}
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm font-extrabold border-t pt-2 text-[#e60000]">
+                  <div className="flex justify-between text-sm font-extrabold border-t pt-2 text-wine">
                     <span>Total Amount</span>
                     <span>Rs. {grandTotal}</span>
                   </div>
@@ -462,7 +462,7 @@ export default function CheckoutModal() {
               <button
                 type="submit"
                 disabled={isSaving}
-                className="w-full bg-[#e60000] hover:bg-[#cc0000] text-white font-bold text-xs uppercase tracking-widest py-3.5 rounded-lg shadow-lg transition-all disabled:opacity-50"
+                className="w-full bg-wine hover:bg-wine-deep text-white font-bold text-xs uppercase tracking-widest py-3.5 rounded-lg shadow-lg transition-all disabled:opacity-50"
               >
                 {isSaving ? 'CONFIRMING ORDER...' : 'PLACE CONFIRMED COD ORDER'}
               </button>

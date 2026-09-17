@@ -7,7 +7,6 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
-import ReviewsWidget from '@/components/layout/ReviewsWidget';
 import { useCart } from '@/context/CartContext';
 
 export default function CartPage() {
@@ -20,11 +19,10 @@ export default function CartPage() {
     <>
       <TopBar />
       <Header />
-      <ReviewsWidget />
 
-      <section className="bg-[#fae9e8] py-6 md:py-10 border-b border-red-100 w-full">
+      <section className="bg-sand py-6 md:py-10 border-b border-red-100 w-full">
         <div className="mx-auto px-4 max-w-7xl text-center">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-[#e60000] uppercase tracking-wide">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-wine uppercase tracking-wide">
             Shopping Cart ({cart.reduce((a, c) => a + c.quantity, 0)})
           </h1>
         </div>
@@ -32,7 +30,7 @@ export default function CartPage() {
 
       {/* Shipping Notification Banner */}
       {!shippingDismissed && cart.length > 0 && amountNeededForFreeShipping > 0 && (
-        <div className="bg-[#e60000] text-white py-2.5 px-4 w-full relative">
+        <div className="bg-wine text-white py-2.5 px-4 w-full relative">
           <div className="mx-auto max-w-7xl text-center">
             <p className="text-xs md:text-sm font-semibold pr-6">
               Add <span className="font-bold">Rs. {amountNeededForFreeShipping}</span> more for <span className="underline">FREE Shipping</span>! Shipping fee is Rs. 200.
@@ -55,7 +53,7 @@ export default function CartPage() {
             <p className="text-gray-600 font-medium text-xs md:text-sm">Your cart is currently empty.</p>
             <Link
               href="/collections/all-products"
-              className="inline-block bg-[#e60000] text-white text-[10px] md:text-xs font-bold uppercase tracking-wider px-5 md:px-6 py-2.5 md:py-3 rounded-lg hover:bg-[#cc0000] transition"
+              className="inline-block bg-wine text-white text-[10px] md:text-xs font-bold uppercase tracking-wider px-5 md:px-6 py-2.5 md:py-3 rounded-lg hover:bg-wine-deep transition"
             >
               Explore Products
             </Link>
@@ -74,7 +72,7 @@ export default function CartPage() {
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
-                    <Link href={`/products/${item.slug}`} className="font-bold text-[11px] md:text-xs text-gray-900 hover:text-[#e60000] line-clamp-1">
+                    <Link href={`/products/${item.slug}`} className="font-bold text-[11px] md:text-xs text-gray-900 hover:text-wine line-clamp-1">
                       {item.name}
                     </Link>
                     <p className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-0.5">Weight: {item.selectedWeight}</p>
@@ -87,7 +85,7 @@ export default function CartPage() {
                       <button onClick={() => removeFromCart(item.cartId)} className="text-[10px] md:text-xs text-red-600 font-medium hover:underline">Remove</button>
                     </div>
                   </div>
-                  <span className="font-extrabold text-xs md:text-sm text-[#e60000] flex-shrink-0">Rs. {item.price * item.quantity}</span>
+                  <span className="font-extrabold text-xs md:text-sm text-wine flex-shrink-0">Rs. {item.price * item.quantity}</span>
                 </div>
               ))}
             </div>
@@ -97,12 +95,12 @@ export default function CartPage() {
 
               {/* Shipping progress bar */}
               {amountNeededForFreeShipping > 0 && (
-                <div className="bg-[#fae9e8] p-2.5 rounded-lg text-center">
-                  <p className="text-[10px] md:text-xs text-[#e60000] font-semibold">
+                <div className="bg-sand p-2.5 rounded-lg text-center">
+                  <p className="text-[10px] md:text-xs text-wine font-semibold">
                     Add <span className="font-bold">Rs. {amountNeededForFreeShipping}</span> more for FREE Shipping
                   </p>
                   <div className="w-full bg-white/70 h-1.5 rounded-full mt-1.5 overflow-hidden">
-                    <div className="bg-[#e60000] h-full rounded-full transition-all duration-500" style={{ width: `${progressPercent}%` }} />
+                    <div className="bg-wine h-full rounded-full transition-all duration-500" style={{ width: `${progressPercent}%` }} />
                   </div>
                 </div>
               )}
@@ -115,13 +113,13 @@ export default function CartPage() {
                 <span>Shipping</span>
                 <span className="font-bold text-green-700">{amountNeededForFreeShipping === 0 ? 'FREE' : 'Rs. 200'}</span>
               </div>
-              <div className="border-t pt-3 flex justify-between font-extrabold text-[#e60000]">
+              <div className="border-t pt-3 flex justify-between font-extrabold text-wine">
                 <span>Total Payable</span>
                 <span>Rs. {subtotal + (amountNeededForFreeShipping === 0 ? 0 : 200)}</span>
               </div>
               <button
                 onClick={() => setIsCheckoutOpen(true)}
-                className="w-full bg-[#e60000] hover:bg-[#cc0000] text-white font-bold text-[10px] md:text-xs uppercase tracking-widest py-3 md:py-3.5 rounded-xl flex items-center justify-center space-x-2 shadow-lg transition"
+                className="w-full bg-wine hover:bg-wine-deep text-white font-bold text-[10px] md:text-xs uppercase tracking-widest py-3 md:py-3.5 rounded-xl flex items-center justify-center space-x-2 shadow-lg transition"
               >
                 <span>PROCEED TO CHECKOUT</span>
                 <ArrowRight className="w-4 h-4" />

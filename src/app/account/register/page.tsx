@@ -7,7 +7,6 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
-import ReviewsWidget from '@/components/layout/ReviewsWidget';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -28,15 +27,14 @@ export default function RegisterPage() {
     <>
       <TopBar />
       <Header />
-      <ReviewsWidget />
 
-      <section className="bg-[#fae9e8] py-10 border-b border-red-100">
+      <section className="bg-sand py-10 border-b border-red-100">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#e60000] uppercase tracking-wide">
+          <h1 className="text-3xl md:text-4xl font-serif font-bold text-wine uppercase tracking-wide">
             Create New Account
           </h1>
           <p className="text-xs md:text-sm text-gray-600 max-w-xl mx-auto mt-2">
-            Join Nisar Achar family for fast checkout and special discount offers.
+            Join the Royal Dry Fruits family for fast checkout and special discount offers.
           </p>
         </div>
       </section>
@@ -47,10 +45,10 @@ export default function RegisterPage() {
             <div className="text-center py-6 space-y-4">
               <CheckCircle className="w-16 h-16 text-green-600 mx-auto" />
               <h2 className="text-xl font-bold text-gray-900">Account Created!</h2>
-              <p className="text-xs text-gray-600">Your account has been created successfully. Welcome to Nisar Achar!</p>
+              <p className="text-xs text-gray-600">Your account has been created successfully. Welcome to Royal Dry Fruits!</p>
               <Link
                 href="/collections/all-products"
-                className="inline-block bg-[#e60000] text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-xl shadow-md"
+                className="inline-block bg-wine text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-xl shadow-md"
               >
                 Start Shopping
               </Link>
@@ -66,7 +64,7 @@ export default function RegisterPage() {
                     placeholder="Ali"
                     value={formData.firstName}
                     onChange={e => setFormData({ ...formData, firstName: e.target.value })}
-                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e60000] outline-none"
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
                   />
                 </div>
                 <div>
@@ -77,7 +75,7 @@ export default function RegisterPage() {
                     placeholder="Khan"
                     value={formData.lastName}
                     onChange={e => setFormData({ ...formData, lastName: e.target.value })}
-                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e60000] outline-none"
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
                   />
                 </div>
               </div>
@@ -90,7 +88,7 @@ export default function RegisterPage() {
                   placeholder="0300 1234567"
                   value={formData.phone}
                   onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e60000] outline-none"
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
                 />
               </div>
 
@@ -102,7 +100,7 @@ export default function RegisterPage() {
                   placeholder="name@example.com"
                   value={formData.email}
                   onChange={e => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e60000] outline-none"
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
                 />
               </div>
 
@@ -114,13 +112,13 @@ export default function RegisterPage() {
                   placeholder="Minimum 6 characters"
                   value={formData.password}
                   onChange={e => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e60000] outline-none"
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-[#e60000] hover:bg-[#cc0000] text-white font-bold text-xs uppercase tracking-widest py-3.5 rounded-xl flex items-center justify-center space-x-2 shadow-md transition"
+                className="w-full bg-wine hover:bg-wine-deep text-white font-bold text-xs uppercase tracking-widest py-3.5 rounded-xl flex items-center justify-center space-x-2 shadow-md transition"
               >
                 <span>CREATE MY ACCOUNT</span>
                 <ArrowRight className="w-4 h-4" />
@@ -128,7 +126,7 @@ export default function RegisterPage() {
 
               <div className="text-center pt-4 border-t border-gray-100 text-gray-600 text-xs">
                 Already have an account?{' '}
-                <Link href="/account/login" className="font-bold text-[#e60000] hover:underline">
+                <Link href="/account/login" className="font-bold text-wine hover:underline">
                   Sign In Here
                 </Link>
               </div>

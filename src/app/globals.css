@@ -3,39 +3,43 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-josefin-sans);
-  --font-serif: var(--font-abril-fatface);
-  --color-primary: #e60000;
-  --color-secondary: #fae9e8;
-  --color-sale: #e60000;
-  --color-accent: #fac80a;
-  --color-surface: #f9fafb;
+  --font-sans: var(--font-montserrat);
+  --font-serif: var(--font-cormorant-garamond);
+  --font-display: var(--font-cormorant-garamond);
+  --font-body: var(--font-montserrat);
+
+  /* Royal Dry Fruits brand palette */
+  --color-wine: #7F011F;
+  --color-wine-deep: #52010f;
+  --color-sand: #F5EBD0;
+  --color-charcoal: #1E1E1E;
+  --color-ivory: #FAFAF8;
+  --color-dryfruit: #6B4B2E;
+
+  /* Semantic mappings to the RDF palette */
+  --color-primary: #7F011F;
+  --color-secondary: #F5EBD0;
+  --color-sale: #7F011F;
+  --color-accent: #6B4B2E;
+  --color-surface: #FAFAF8;
   --color-muted: #6b7280;
   --color-border: #e5e7eb;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #232323;
-  --color-primary: #e60000;
-  --color-secondary: #fae9e8;
-  --color-sale: #e60000;
-  --color-accent: #fac80a;
-  --color-surface: #f9fafb;
-  --color-text: #232323;
-  --color-muted: #6b7280;
-  --color-border: #e5e7eb;
+  --background: #FAFAF8;
+  --foreground: #1E1E1E;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-josefin-sans), sans-serif;
+  font-family: var(--font-montserrat), sans-serif;
   overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-abril-fatface), serif;
+  font-family: var(--font-cormorant-garamond), serif;
 }
 
 /* Custom Scrollbar */
@@ -47,11 +51,11 @@ h1, h2, h3, h4, h5, h6 {
   background: #f1f1f1;
 }
 ::-webkit-scrollbar-thumb {
-  background: #e60000;
+  background: #7F011F;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #cc0000;
+  background: #52010f;
 }
 
 @keyframes fadeIn {

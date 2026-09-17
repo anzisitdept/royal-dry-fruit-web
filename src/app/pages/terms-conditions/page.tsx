@@ -3,18 +3,16 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
-import ReviewsWidget from '@/components/layout/ReviewsWidget';
 
 export default function TermsPage() {
   return (
     <>
       <TopBar />
       <Header />
-      <ReviewsWidget />
 
-      <section className="bg-[#fae9e8] py-10 border-b border-red-100">
+      <section className="bg-sand py-10 border-b border-red-100">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#e60000] uppercase tracking-wide">
+          <h1 className="text-3xl md:text-4xl font-serif font-bold text-wine uppercase tracking-wide">
             Terms & Conditions
           </h1>
         </div>
@@ -22,14 +20,14 @@ export default function TermsPage() {
 
       <main className="container mx-auto px-4 lg:px-8 max-w-4xl py-12 text-xs md:text-sm text-gray-700 leading-relaxed space-y-6">
         <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-xs space-y-4">
-          <p>Welcome to Nisar Achar. By accessing and using our website, browsing our products, or placing an order, you agree to be bound by the following Terms &amp; Conditions. Please read them carefully before making a purchase.</p>
+          <p>Welcome to Royal Dry Fruits (RDF). By accessing and using our website, browsing our products, or placing an order, you agree to be bound by the following Terms &amp; Conditions. Please read them carefully before making a purchase.</p>
 
           <h3 className="font-bold text-gray-900 uppercase">1. General Terms</h3>
-          <p>Nisar Achar provides this website and its services for your personal, non-commercial use to purchase authentic homemade pickles and preserves. By using our site, you confirm that you are at least 18 years of age or are ordering with the supervision of a parent or guardian.</p>
+          <p>Royal Dry Fruits provides this website and its services for your personal, non-commercial use to purchase premium nuts and dried fruits. By using our site, you confirm that you are at least 18 years of age or are ordering with the supervision of a parent or guardian.</p>
 
           <h3 className="font-bold text-gray-900 uppercase">2. Product Accuracy</h3>
-          <p>We strive to accurately display product titles, weights, prices, and imagery. Please note that product images shown are for illustration purposes. All products are weighed by volume (grams) as commonly practiced for pickles and murabbas unless clearly stated otherwise.</p>
-          <p>As our items are handcrafted in traditional batches, slight natural variations in color, texture, oil content, or packaging may occur. These variations do not affect the quality or taste of the product and are not considered defects.</p>
+          <p>We strive to accurately display product titles, weights, prices, and imagery. Please note that product images shown are for illustration purposes. All products are weighed by weight (grams) as commonly practiced for dry fruits and nuts unless clearly stated otherwise.</p>
+          <p>As our items are hand-packed in small premium batches, slight natural variations in color, texture, or packaging may occur. These variations do not affect the quality or taste of the product and are not considered defects.</p>
 
           <h3 className="font-bold text-gray-900 uppercase">3. Prices &amp; Availability</h3>
           <p>All prices are listed in Pakistani Rupees (PKR) and are inclusive of applicable taxes. Prices and product availability are subject to change without prior notice. We reserve the right to refuse or cancel any order due to pricing errors, stock unavailability, or suspected fraudulent activity.</p>
@@ -44,13 +42,13 @@ export default function TermsPage() {
           <p>Delivery timelines and charges are governed by our Shipping &amp; Delivery Policy, which forms part of these Terms &amp; Conditions. We are not responsible for delays caused by courier partners, adverse weather, or force majeure events beyond our reasonable control.</p>
 
           <h3 className="font-bold text-gray-900 uppercase">7. Returns &amp; Refunds</h3>
-          <p>All returns and refunds are governed by our Returns &amp; Refund Policy. No returns or refunds are accepted for opened, partially consumed, or non-defective products. Damaged or leaking jars must be reported within 24 hours of delivery.</p>
+          <p>All returns and refunds are governed by our Returns &amp; Refund Policy. No returns or refunds are accepted for opened, partially consumed, or non-defective products. Damaged items must be reported within 24 hours of delivery.</p>
 
           <h3 className="font-bold text-gray-900 uppercase">8. Intellectual Property</h3>
-          <p>All content on this website — including text, logos, images, graphics, product descriptions, and the &quot;Nisar Achar&quot; brand name — is the property of Nisar Achar and is protected under copyright and trademark laws. You may not reproduce, copy, or reuse any content without our prior written consent.</p>
+          <p>All content on this website — including text, logos, images, graphics, product descriptions, and the &quot;Royal Dry Fruits&quot; brand name — is the property of Royal Dry Fruits and is protected under copyright and trademark laws. You may not reproduce, copy, or reuse any content without our prior written consent.</p>
 
           <h3 className="font-bold text-gray-900 uppercase">9. Limitation of Liability</h3>
-          <p>To the fullest extent permitted by law, Nisar Achar shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or website. Our total liability in any case shall be limited to the amount paid by you for the specific product.</p>
+          <p>To the fullest extent permitted by law, Royal Dry Fruits shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or website. Our total liability in any case shall be limited to the amount paid by you for the specific product.</p>
 
           <h3 className="font-bold text-gray-900 uppercase">10. Privacy &amp; Data Protection</h3>
           <p>Any personal information you provide is handled in accordance with our Privacy Policy. Your details are used solely for order fulfillment and customer service communication and are never sold to third parties.</p>
@@ -62,7 +60,7 @@ export default function TermsPage() {
           <p>We reserve the right to update or modify these Terms &amp; Conditions at any time without prior notice. Continued use of the website after changes are posted constitutes acceptance of the revised terms.</p>
 
           <h3 className="font-bold text-gray-900 uppercase">Contact Us</h3>
-          <p>If you have any questions regarding these Terms &amp; Conditions, please contact us at <strong>0334-1677114</strong>, WhatsApp <strong>+92 334 1677114</strong>, or email <strong>admin@nisarachar.com</strong>.</p>
+          <p>If you have any questions regarding these Terms &amp; Conditions, please contact us at <strong>0347-3811510</strong>, WhatsApp <strong>+92 347 3811510</strong>, or email <strong>hello@royaldryfruits.com</strong>.</p>
         </div>
       </main>
 

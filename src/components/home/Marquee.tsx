@@ -3,10 +3,10 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 
 const texts = [
-  "Freshly Handmade",
-  "Loved by Thousands",
-  "Pakistan's Most Trusted Pickles",
-  "100% Chemical-Free"
+  "Handpicked Premium Nuts",
+  "Delivered Nationwide",
+  "Pakistan's Dry Fruit Destination",
+  "Gift Boxes & Hampers"
 ];
 
 function Items() {
@@ -17,7 +17,7 @@ function Items() {
           {texts.map((text, i) => (
             <div key={`${j}-${i}`} className="flex items-center space-x-8">
               <span>{text}</span>
-              <span className="text-[#e60000] text-sm">⚡</span>
+              <span className="text-wine text-sm">⚡</span>
             </div>
           ))}
         </React.Fragment>
@@ -77,7 +77,7 @@ export default function Marquee() {
   return (
     <div className="w-full overflow-hidden bg-white py-6">
       <div
-        className={`relative flex overflow-hidden font-serif text-[#e60000] text-xl md:text-2xl whitespace-nowrap tracking-wide select-none ${
+        className={`relative flex overflow-hidden font-serif text-dryfruit text-xl md:text-2xl whitespace-nowrap tracking-wide select-none ${
           dragging ? 'cursor-grabbing' : 'cursor-grab'
         }`}
         style={{ touchAction: 'pan-y' }}

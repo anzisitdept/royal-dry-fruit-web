@@ -7,7 +7,6 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
-import ReviewsWidget from '@/components/layout/ReviewsWidget';
 import { useCart } from '@/context/CartContext';
 import { useStoreData } from '@/context/StoreDataContext';
 
@@ -21,15 +20,14 @@ export default function WishlistPage() {
     <>
       <TopBar />
       <Header />
-      <ReviewsWidget />
 
-      <section className="bg-[#fae9e8] py-10 border-b border-red-100">
+      <section className="bg-sand py-10 border-b border-red-100">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#e60000] uppercase tracking-wide">
+          <h1 className="text-3xl md:text-4xl font-serif font-bold text-wine uppercase tracking-wide">
             My Wishlist ({wishlistProducts.length})
           </h1>
           <p className="text-xs md:text-sm text-gray-600 max-w-xl mx-auto mt-2">
-            Your saved favorite pickles, murabbas, and chutneys.
+            Your saved favorite nuts, dried fruits, and gift hampers.
           </p>
         </div>
       </section>
@@ -41,7 +39,7 @@ export default function WishlistPage() {
             <p className="text-gray-600 font-medium text-sm">Your wishlist is currently empty.</p>
             <Link
               href="/collections/all-products"
-              className="inline-block bg-[#e60000] text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-lg hover:bg-[#cc0000] transition"
+              className="inline-block bg-wine text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-lg hover:bg-wine-deep transition"
             >
               Explore Products
             </Link>
@@ -71,7 +69,7 @@ export default function WishlistPage() {
                   <div>
                     <Link
                       href={`/products/${product.slug}`}
-                      className="font-bold text-xs text-gray-900 hover:text-[#e60000] line-clamp-2 block"
+                      className="font-bold text-xs text-gray-900 hover:text-wine line-clamp-2 block"
                     >
                       {product.name}
                     </Link>
@@ -79,12 +77,12 @@ export default function WishlistPage() {
                   </div>
 
                   <div className="mt-4 space-y-3">
-                    <span className="text-[#e60000] font-extrabold text-sm block">
+                    <span className="text-wine font-extrabold text-sm block">
                       Rs. {product.price}
                     </span>
                     <button
                       onClick={() => addToCart(product)}
-                      className="w-full bg-[#e60000] hover:bg-[#cc0000] text-white text-xs font-bold uppercase tracking-wider py-2.5 rounded-lg flex items-center justify-center space-x-2 transition"
+                      className="w-full bg-wine hover:bg-wine-deep text-white text-xs font-bold uppercase tracking-wider py-2.5 rounded-lg flex items-center justify-center space-x-2 transition"
                     >
                       <ShoppingBag className="w-3.5 h-3.5" />
                       <span>ADD TO CART</span>

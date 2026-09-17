@@ -1,11 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { ChevronLeft, ChevronRight, Heart, Share2, MessageCircle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Heart, Share2 } from 'lucide-react';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
-import CustomerReviewsSection from '@/components/reviews/CustomerReviewsSection';
 
 import { getProductEffectivePrice } from '@/lib/productPrice';
 
@@ -80,11 +78,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     setIsCheckoutOpen(true);
   };
 
-  const handleBargainClick = () => {
-    const message = encodeURIComponent(`Hi! I am looking for a discount on ${product.name} (${selectedWeight}).`);
-    window.open(`https://wa.me/923341677114?text=${message}`, '_blank');
-  };
-
   return (
     <div style={{ fontFamily: 'sans-serif', color: '#222' }}>
       
@@ -108,17 +101,17 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             {/* Badges */}
             <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', flexDirection: 'column', gap: '6px', zIndex: 2 }}>
               {product.inStock === false && (
-                <span style={{ background: '#e60000', color: '#fff', fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: '2px' }}>
+                <span style={{ background: '#7F011F', color: '#fff', fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: '2px' }}>
                   OUT OF STOCK
                 </span>
               )}
               {product.discountBadge && (
-                <span style={{ background: '#e60000', color: '#fff', fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: '2px' }}>
+                <span style={{ background: '#7F011F', color: '#fff', fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: '2px' }}>
                   {product.discountBadge}
                 </span>
               )}
               {product.isBestSeller && (
-                <span style={{ background: '#fac80a', color: '#fff', fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: '2px' }}>
+                <span style={{ background: '#6B4B2E', color: '#fff', fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: '2px' }}>
                   Best Selling
                 </span>
               )}
@@ -149,7 +142,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       key={idx}
                       onClick={() => setSelectedImage(img)}
                       className={`w-16 h-16 sm:w-20 sm:h-20 rounded-md overflow-hidden p-0 cursor-pointer bg-white transition-all duration-200 flex-shrink-0 ${
-                        selectedImage === img ? 'ring-2 ring-[#e60000] shadow-xs' : 'border border-gray-200 opacity-70 hover:opacity-100'
+                        selectedImage === img ? 'ring-2 ring-wine shadow-xs' : 'border border-gray-200 opacity-70 hover:opacity-100'
                       }`}
                     >
                       <img src={img} alt={`Thumb ${idx}`} className="w-full h-full object-cover" />
@@ -182,43 +175,33 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
           {/* Rating & Urgency */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#555', marginBottom: '6px' }}>
-            <span style={{ color: '#e60000', fontSize: '15px' }}>★★★★★</span>
+            <span style={{ color: '#7F011F', fontSize: '15px' }}>★★★★★</span>
             <span style={{ fontWeight: 600, color: '#333' }}>({product.reviewsCount || 94} reviews)</span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#e60000', fontWeight: 600, marginBottom: '14px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#7F011F', fontWeight: 600, marginBottom: '14px' }}>
             <span>🔥</span> In High Demand
           </div>
 
           <p style={{ fontSize: '12px', color: '#666', marginBottom: '14px' }}>
-            Product type: <span style={{ color: '#333', fontWeight: 500 }}>{product.categoryName || 'Pickle'}</span>
+            Product type: <span style={{ color: '#333', fontWeight: 500 }}>{product.categoryName || 'Dry Fruits'}</span>
           </p>
 
           {/* Price Line */}
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '20px' }}>
+          <div className="flex items-center gap-3 mb-5">
             {originalPrice > currentPrice && (
               <span style={{ textDecoration: 'line-through', color: '#888', fontSize: '16px' }}>
                 Rs.{originalPrice.toLocaleString()}.00
               </span>
             )}
-            <span style={{ color: '#e60000', fontSize: '20px', fontWeight: 700 }}>
+            <span style={{ color: '#7F011F', fontSize: '20px', fontWeight: 700 }}>
               Rs.{currentPrice.toLocaleString()}.00
             </span>
-          </div>
-
-          {/* Need More Discount ~ Chat with Us! Box */}
-          <div className="mb-6">
-            <p className="font-serif text-base sm:text-lg font-bold text-gray-900 mb-2.5 flex items-center gap-2">
-              Need More Discount ~ Chat with Us! <MessageCircle className="w-5 h-5 text-[#25d366]" />
-            </p>
-            <button
-              onClick={handleBargainClick}
-              className="w-full bg-[#25d366] hover:bg-[#20bd5a] active:scale-[0.99] text-white font-bold text-xs sm:text-sm tracking-wider py-3.5 px-5 rounded-md transition duration-200 shadow-md shadow-green-600/20 flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>BARGAIN NOW</span>
-              <span className="text-[11px] sm:text-xs opacity-90 font-normal">(رعایت حاصل کریں)</span>
-            </button>
+            {originalPrice > currentPrice && (
+              <span className="bg-wine text-white text-xs font-extrabold px-2.5 py-1 rounded-full">
+                {Math.round(((originalPrice - currentPrice) / originalPrice) * 100)}% OFF
+              </span>
+            )}
           </div>
 
           {/* Dynamic Weight Selection Grid */}
@@ -237,7 +220,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                     onClick={() => setSelectedWeight(w)}
                     className={`min-h-[46px] rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 flex flex-col items-center justify-center gap-0.5 px-3 py-2 active:scale-[0.98] cursor-pointer ${
                       active
-                        ? 'bg-red-50/70 border-2 border-[#e60000] text-[#e60000] shadow-xs font-bold'
+                        ? 'bg-red-50/70 border-2 border-wine text-wine shadow-xs font-bold'
                         : 'bg-white border border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50'
                     }`}
                   >
@@ -246,7 +229,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       {active && <span className="font-bold text-xs">✓</span>}
                     </div>
                     {weightPrice > 0 && (
-                      <span className={`text-[10px] ${active ? 'text-[#e60000]' : 'text-gray-500'}`}>
+                      <span className={`text-[10px] ${active ? 'text-wine' : 'text-gray-500'}`}>
                         Rs. {weightPrice.toLocaleString()}
                       </span>
                     )}
@@ -291,13 +274,13 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   onClick={() => toggleWishlist(product.id)}
                   className={`w-[46px] h-[46px] rounded-lg border flex items-center justify-center transition active:scale-95 shadow-2xs cursor-pointer ${
                     isInWishlist(product.id)
-                      ? 'border-red-300 bg-red-50 text-[#e60000]'
+                      ? 'border-red-300 bg-red-50 text-wine'
                       : 'border-gray-300 bg-white text-gray-600 hover:border-gray-400'
                   }`}
                   aria-label="Save to wishlist"
                   title="Save to wishlist"
                 >
-                  <Heart size={18} fill={isInWishlist(product.id) ? '#e60000' : 'none'} color={isInWishlist(product.id) ? '#e60000' : 'currentColor'} />
+                  <Heart size={18} fill={isInWishlist(product.id) ? '#7F011F' : 'none'} color={isInWishlist(product.id) ? '#7F011F' : 'currentColor'} />
                 </button>
 
                 <button
@@ -325,7 +308,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               className={`w-full md:flex-1 h-[48px] px-4 rounded-lg font-bold text-xs md:text-xs tracking-wider uppercase flex items-center justify-center gap-2 transition duration-200 shadow-sm active:scale-[0.99] cursor-pointer ${
                 product.inStock === false
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-[#1a1a1a] hover:bg-black text-white shadow-gray-900/10'
+                  : 'bg-wine hover:bg-wine-deep text-white shadow-wine/20'
               }`}
             >
               {product.inStock === false ? (
@@ -344,13 +327,13 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 onClick={() => toggleWishlist(product.id)}
                 className={`w-[48px] h-[48px] rounded-lg border flex items-center justify-center transition active:scale-95 shadow-2xs cursor-pointer ${
                   isInWishlist(product.id)
-                    ? 'border-red-300 bg-red-50 text-[#e60000]'
+                    ? 'border-red-300 bg-red-50 text-wine'
                     : 'border-gray-300 bg-white text-gray-600 hover:border-gray-400 hover:bg-gray-50'
                 }`}
                 aria-label="Save to wishlist"
                 title="Save to wishlist"
               >
-                <Heart size={18} fill={isInWishlist(product.id) ? '#e60000' : 'none'} color={isInWishlist(product.id) ? '#e60000' : 'currentColor'} />
+                <Heart size={18} fill={isInWishlist(product.id) ? '#7F011F' : 'none'} color={isInWishlist(product.id) ? '#7F011F' : 'currentColor'} />
               </button>
 
               <button
@@ -379,7 +362,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             className={`w-full min-h-[48px] sm:min-h-[50px] px-5 py-3.5 rounded-lg font-bold text-xs sm:text-sm tracking-wider uppercase transition duration-200 shadow-sm active:scale-[0.99] mb-6 flex items-center justify-center gap-2 cursor-pointer ${
               product.inStock === false
                 ? 'bg-gray-100 border border-gray-300 text-gray-400 cursor-not-allowed'
-                : 'bg-white hover:bg-gray-50 text-gray-900 border-2 border-gray-900'
+                : 'bg-white hover:bg-sand text-wine border-2 border-wine'
             }`}
           >
             <span>{product.inStock === false ? 'OUT OF STOCK' : 'BUY IT NOW'}</span>
@@ -398,7 +381,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           <button
             onClick={() => setActiveTab('description')}
             className={`pb-3 px-3 md:px-4 font-serif text-base md:text-lg font-bold border-b-2 transition ${
-              activeTab === 'description' ? 'border-[#111] text-[#111]' : 'border-transparent text-gray-400 hover:text-gray-700'
+              activeTab === 'description' ? 'border-wine text-wine' : 'border-transparent text-gray-400 hover:text-gray-700'
             }`}
           >
             Description
@@ -407,7 +390,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             <button
               onClick={() => setActiveTab('ingredients')}
               className={`pb-3 px-3 md:px-4 font-serif text-base md:text-lg font-bold border-b-2 transition ${
-                activeTab === 'ingredients' ? 'border-[#111] text-[#111]' : 'border-transparent text-gray-400 hover:text-gray-700'
+                activeTab === 'ingredients' ? 'border-wine text-wine' : 'border-transparent text-gray-400 hover:text-gray-700'
               }`}
             >
               Ingredients
@@ -417,7 +400,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             <button
               onClick={() => setActiveTab('benefits')}
               className={`pb-3 px-3 md:px-4 font-serif text-base md:text-lg font-bold border-b-2 transition ${
-                activeTab === 'benefits' ? 'border-[#111] text-[#111]' : 'border-transparent text-gray-400 hover:text-gray-700'
+                activeTab === 'benefits' ? 'border-wine text-wine' : 'border-transparent text-gray-400 hover:text-gray-700'
               }`}
             >
               Benefits
@@ -429,16 +412,16 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         <div style={{ maxWidth: '850px', fontSize: '14px', color: '#333', lineHeight: 1.7 }}>
           
           <p style={{ textAlign: 'left', fontWeight: 700, fontSize: '13px', background: '#fafafa', padding: '12px', borderRadius: '4px', border: '1px solid #eee', marginBottom: '28px' }}>
-            Note: {product.name} is freshly prepared and available in {availableWeights.join(', ')} packaging options.
+            Note: {product.name} is freshly packed and available in {availableWeights.join(', ')} packaging options.
           </p>
 
           {activeTab === 'description' && (
             <div>
               <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '22px', fontWeight: 700, color: '#111', marginBottom: '14px' }}>
-                🍵 Buy {product.name} {product.urduName ? `– ${product.urduName}` : ''} Online in Pakistan | Authentic Desi Flavor
+                🍵 Buy {product.name} {product.urduName ? `– ${product.urduName}` : ''} Online in Pakistan | Premium Quality
               </h3>
               <p style={{ color: '#555', marginBottom: '20px' }}>
-                {product.description || `Our ${product.name} is prepared with the finest handpicked fresh ingredients and traditional spices. This timeless recipe delivers authentic Pakistani flavor with every bite—perfect for enjoying with parathas, rice, and daily meals.`}
+                {product.description || `Our ${product.name} is sourced from the finest orchards and carefully packed to preserve its natural freshness, rich flavor, and premium quality—perfect for snacking, gifting, and everyday nutrition.`}
               </p>
             </div>
           )}
@@ -468,11 +451,11 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '20px', marginBottom: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span style={{ color: '#22c55e', fontSize: '16px' }}>☑</span>
-              <span><strong>100% Pure, Traditional, and Handcrafted</strong></span>
+              <span><strong>100% Handpicked & Premium Quality</strong></span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span style={{ color: '#22c55e', fontSize: '16px' }}>☑</span>
-              <span><strong>Rich in authentic desi taste & aroma</strong></span>
+              <span><strong>Naturally rich in taste, freshness & aroma</strong></span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span style={{ color: '#22c55e', fontSize: '16px' }}>☑</span>
@@ -482,11 +465,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
         </div>
 
-      </div>
-
-      {/* Customer Reviews Section */}
-      <div id="customer-reviews-section" className="mt-10 md:mt-16 border-t border-gray-200 pt-8 md:pt-10">
-        <CustomerReviewsSection productId={product.id} />
       </div>
 
       {/* Sticky Purchase Bar at Bottom (Desktop & Tablet) */}
@@ -502,7 +480,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 {originalPrice > currentPrice && (
                   <span className="line-through text-gray-400 mr-1.5">Rs.{originalPrice.toLocaleString()}</span>
                 )}
-                <span className="text-[#e60000] font-bold">Rs.{currentPrice.toLocaleString()}</span>
+                <span className="text-wine font-bold">Rs.{currentPrice.toLocaleString()}</span>
               </p>
             </div>
           </div>
@@ -512,7 +490,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               <select
                 value={selectedWeight}
                 onChange={e => setSelectedWeight(e.target.value)}
-                className="border border-gray-300 rounded px-2.5 py-2 text-xs bg-white font-medium cursor-pointer focus:outline-none focus:border-[#e60000]"
+                className="border border-gray-300 rounded px-2.5 py-2 text-xs bg-white font-medium cursor-pointer focus:outline-none focus:border-wine"
               >
                 {availableWeights.map(w => <option key={w} value={w}>{w}</option>)}
               </select>
@@ -521,7 +499,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             <button
               onClick={handleAddToCart}
               disabled={product.inStock === false}
-              className="bg-[#1a1a1a] hover:bg-black text-white font-bold text-[11px] uppercase tracking-wider px-5 py-2.5 rounded disabled:bg-gray-300 disabled:cursor-not-allowed transition cursor-pointer active:scale-95 shadow-xs"
+              className="bg-wine hover:bg-wine-deep text-white font-bold text-[11px] uppercase tracking-wider px-5 py-2.5 rounded disabled:bg-gray-300 disabled:cursor-not-allowed transition cursor-pointer active:scale-95 shadow-xs"
             >
               {product.inStock === false ? 'OUT OF STOCK' : 'ADD TO CART'}
             </button>
@@ -529,7 +507,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             <button
               onClick={handleBuyNow}
               disabled={product.inStock === false}
-              className="bg-[#e60000] hover:bg-[#cc0000] text-white font-bold text-[11px] uppercase tracking-wider px-5 py-2.5 rounded disabled:bg-gray-300 disabled:cursor-not-allowed transition cursor-pointer active:scale-95 shadow-xs"
+              className="bg-wine hover:bg-wine-deep text-white font-bold text-[11px] uppercase tracking-wider px-5 py-2.5 rounded disabled:bg-gray-300 disabled:cursor-not-allowed transition cursor-pointer active:scale-95 shadow-xs"
             >
               BUY NOW
             </button>
@@ -544,7 +522,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             <div className="flex-1 min-w-0">
               <p className="text-[11px] font-bold text-gray-900 m-0 truncate">{product.name}</p>
               <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-xs text-[#e60000] font-extrabold">Rs.{currentPrice.toLocaleString()}</span>
+                <span className="text-xs text-wine font-extrabold">Rs.{currentPrice.toLocaleString()}</span>
                 <span className="text-[10px] text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded font-medium">{selectedWeight}</span>
               </div>
             </div>
@@ -552,7 +530,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               <button
                 onClick={handleAddToCart}
                 disabled={product.inStock === false}
-                className="bg-[#1a1a1a] active:bg-black text-white font-bold text-[11px] uppercase tracking-wider px-4 py-2.5 rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed transition flex-shrink-0 shadow-sm cursor-pointer"
+                className="bg-wine active:bg-wine-deep text-white font-bold text-[11px] uppercase tracking-wider px-4 py-2.5 rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed transition flex-shrink-0 shadow-sm cursor-pointer"
               >
                 {product.inStock === false ? 'OUT OF STOCK' : 'ADD TO CART'}
               </button>

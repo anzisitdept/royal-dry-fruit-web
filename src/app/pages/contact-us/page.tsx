@@ -7,7 +7,6 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
-import ReviewsWidget from '@/components/layout/ReviewsWidget';
 
 export default function ContactUsPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -28,11 +27,10 @@ export default function ContactUsPage() {
     <>
       <TopBar />
       <Header />
-      <ReviewsWidget />
 
-      <section className="bg-[#fae9e8] py-10 border-b border-red-100">
+      <section className="bg-sand py-10 border-b border-red-100">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#e60000] uppercase tracking-wide">
+          <h1 className="text-3xl md:text-4xl font-serif font-bold text-wine uppercase tracking-wide">
             Contact Us & Customer Support
           </h1>
           <p className="text-xs md:text-sm text-gray-600 max-w-xl mx-auto mt-2">
@@ -55,11 +53,11 @@ export default function ContactUsPage() {
                 <CheckCircle className="w-12 h-12 text-green-600 mx-auto" />
                 <h3 className="text-lg font-bold text-gray-900">Message Received!</h3>
                 <p className="text-xs text-gray-600">
-                  Thank you for reaching out to Nisar Achar. Our customer support representative will get back to you within 24 hours.
+                  Thank you for reaching out to Royal Dry Fruits. Our customer support representative will get back to you within 24 hours.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="bg-[#e60000] text-white text-xs font-bold px-6 py-2.5 rounded-lg"
+                  className="bg-wine text-white text-xs font-bold px-6 py-2.5 rounded-lg"
                 >
                   Send Another Message
                 </button>
@@ -74,7 +72,7 @@ export default function ContactUsPage() {
                     placeholder="e.g. Hassan Ahmed"
                     value={formData.name}
                     onChange={e => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e60000] outline-none"
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
                   />
                 </div>
 
@@ -87,7 +85,7 @@ export default function ContactUsPage() {
                       placeholder="0300 1234567"
                       value={formData.phone}
                       onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e60000] outline-none"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
                     />
                   </div>
                   <div>
@@ -97,7 +95,7 @@ export default function ContactUsPage() {
                       placeholder="name@example.com"
                       value={formData.email}
                       onChange={e => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e60000] outline-none"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
                     />
                   </div>
                 </div>
@@ -107,7 +105,7 @@ export default function ContactUsPage() {
                   <select
                     value={formData.subject}
                     onChange={e => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e60000] outline-none bg-white"
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none bg-white"
                   >
                     <option value="General Inquiry">General Order Inquiry</option>
                     <option value="Delivery Tracking">Delivery Tracking & Status</option>
@@ -124,13 +122,13 @@ export default function ContactUsPage() {
                     placeholder="Write details about your question or order..."
                     value={formData.message}
                     onChange={e => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e60000] outline-none"
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-[#e60000] hover:bg-[#cc0000] text-white font-bold text-xs uppercase tracking-widest py-3.5 rounded-xl flex items-center justify-center space-x-2 shadow-md transition"
+                  className="w-full bg-wine hover:bg-wine-deep text-white font-bold text-xs uppercase tracking-widest py-3.5 rounded-xl flex items-center justify-center space-x-2 shadow-md transition"
                 >
                   <Send className="w-4 h-4" />
                   <span>SUBMIT MESSAGE</span>
@@ -141,19 +139,19 @@ export default function ContactUsPage() {
 
           {/* Right Column: Contact Details */}
           <div className="space-y-6">
-            <div className="bg-[#fae9e8] p-8 rounded-3xl border border-red-100 space-y-6">
-              <h3 className="text-xl font-bold font-serif text-[#e60000] uppercase">
+            <div className="bg-sand p-8 rounded-3xl border border-red-100 space-y-6">
+              <h3 className="text-xl font-bold font-serif text-wine uppercase">
                 Direct Contact Helpline
               </h3>
 
               <div className="space-y-4 text-xs text-gray-800">
                 <div className="flex items-start space-x-4">
-                  <div className="p-3 bg-white rounded-xl text-[#e60000] shadow-xs">
+                  <div className="p-3 bg-white rounded-xl text-wine shadow-xs">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 uppercase">Customer Support Helpline</h4>
-                    <p className="font-bold text-sm text-[#e60000] mt-0.5">0334-1677114</p>
+                    <p className="font-bold text-sm text-wine mt-0.5">0347-3811510</p>
                     <p className="text-gray-500 text-[11px]">Available Mon - Sat (9:00 AM - 9:00 PM)</p>
                   </div>
                 </div>
@@ -165,34 +163,34 @@ export default function ContactUsPage() {
                   <div>
                     <h4 className="font-bold text-gray-900 uppercase">WhatsApp Instant Support</h4>
                     <a
-                      href="https://wa.me/923341677114"
+                      href="https://wa.me/923473811510"
                       target="_blank"
                       rel="noreferrer"
                       className="font-bold text-sm text-green-700 underline mt-0.5 block hover:text-green-800"
                     >
-                      Click to chat on WhatsApp (+92 334 1677114)
+                      Click to chat on WhatsApp (+92 347 3811510)
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="p-3 bg-white rounded-xl text-[#e60000] shadow-xs">
+                  <div className="p-3 bg-white rounded-xl text-wine shadow-xs">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 uppercase">Email Support</h4>
-                    <p className="font-semibold text-gray-800">support@nisarachar.com</p>
+                    <p className="font-semibold text-gray-800">hello@royaldryfruits.com</p>
                   </div>
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="p-3 bg-white rounded-xl text-[#e60000] shadow-xs">
+                  <div className="p-3 bg-white rounded-xl text-wine shadow-xs">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 uppercase">Head Office Address</h4>
                     <p className="font-medium text-gray-700 leading-relaxed">
-                      Nisar Achar Headquarters, Sector I-9/3, Industrial Area, Islamabad, Pakistan.
+                      Royal Dry Fruits Headquarters, Sector I-9/3, Industrial Area, Islamabad, Pakistan.
                     </p>
                   </div>
                 </div>
@@ -203,7 +201,7 @@ export default function ContactUsPage() {
             <div className="bg-gray-900 text-white p-6 rounded-3xl text-center space-y-2">
               <h4 className="font-bold text-sm uppercase tracking-wider text-yellow-400">Nationwide Cash on Delivery</h4>
               <p className="text-xs text-gray-300">
-                Delivering fresh home-style pickles and murabbas to Lahore, Karachi, Islamabad, Rawalpindi, Peshawar, Multan, Quetta, and all 300+ cities in Pakistan.
+                Delivering premium handpicked nuts and dried fruits to Lahore, Karachi, Islamabad, Rawalpindi, Peshawar, Multan, Quetta, and all 300+ cities in Pakistan.
               </p>
             </div>
           </div>

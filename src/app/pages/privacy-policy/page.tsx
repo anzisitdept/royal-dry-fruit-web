@@ -3,18 +3,16 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
-import ReviewsWidget from '@/components/layout/ReviewsWidget';
 
 export default function PrivacyPolicyPage() {
   return (
     <>
       <TopBar />
       <Header />
-      <ReviewsWidget />
 
-      <section className="bg-[#fae9e8] py-10 border-b border-red-100">
+      <section className="bg-sand py-10 border-b border-red-100">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#e60000] uppercase tracking-wide">
+          <h1 className="text-3xl md:text-4xl font-serif font-bold text-wine uppercase tracking-wide">
             Privacy Policy
           </h1>
         </div>
@@ -22,7 +20,7 @@ export default function PrivacyPolicyPage() {
 
       <main className="container mx-auto px-4 lg:px-8 max-w-4xl py-12 text-xs md:text-sm text-gray-700 leading-relaxed space-y-6">
         <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-xs space-y-4">
-          <p>Nisar Achar respects your privacy and is committed to protecting your personal data. This Privacy Policy explains what information we collect, how we use it, and the choices you have regarding your information.</p>
+          <p>Royal Dry Fruits (RDF) respects your privacy and is committed to protecting your personal data. This Privacy Policy explains what information we collect, how we use it, and the choices you have regarding your information.</p>
 
           <h3 className="font-bold text-gray-900 uppercase">Information Collection</h3>
           <p>We only collect personal information necessary to fulfill your orders, including your name, phone number, delivery address, and email address. For Cash on Delivery orders, we do not collect any payment card details.</p>
@@ -51,7 +49,7 @@ export default function PrivacyPolicyPage() {
           <p>You may request access to, correction of, or deletion of your personal data at any time. To exercise these rights, please contact us using the details below.</p>
 
           <h3 className="font-bold text-gray-900 uppercase">Contact Us</h3>
-          <p>If you have any questions about this Privacy Policy or how your data is handled, please contact us at <strong>0334-1677114</strong>, WhatsApp <strong>+92 334 1677114</strong>, or email <strong>admin@nisarachar.com</strong>.</p>
+          <p>If you have any questions about this Privacy Policy or how your data is handled, please contact us at <strong>0347-3811510</strong>, WhatsApp <strong>+92 347 3811510</strong>, or email <strong>hello@royaldryfruits.com</strong>.</p>
         </div>
       </main>
 

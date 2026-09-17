@@ -18,7 +18,7 @@ import { CATEGORIES, Category } from '@/data/categories';
 /* ─── Products Real-Time Service ─────────────────────── */
 export function subscribeProducts(callback: (products: Product[]) => void) {
   try {
-    const productsRef = collection(db, 'products');
+    const productsRef = collection(db!, 'products');
     return onSnapshot(
       productsRef,
       (snapshot) => {
@@ -47,7 +47,7 @@ export function subscribeProducts(callback: (products: Product[]) => void) {
 /* ─── Categories Real-Time Service ───────────────────── */
 export function subscribeCategories(callback: (categories: Category[]) => void) {
   try {
-    const categoriesRef = collection(db, 'categories');
+    const categoriesRef = collection(db!, 'categories');
     return onSnapshot(
       categoriesRef,
       (snapshot) => {
@@ -93,9 +93,9 @@ export interface OrderPayload {
 }
 
 async function getNextOrderNumber(): Promise<number> {
-  const counterRef = doc(db, 'counters', 'orders');
+  const counterRef = doc(db!, 'counters', 'orders');
   try {
-    return await runTransaction(db, async (transaction) => {
+    return await runTransaction(db!, async (transaction) => {
       const snap = await transaction.get(counterRef);
       const current = snap.exists() ? Number(snap.data().count || 0) : 0;
       const next = current + 1;
@@ -111,7 +111,7 @@ async function getNextOrderNumber(): Promise<number> {
 
 export async function saveOrderToFirestore(order: OrderPayload) {
   try {
-    const ordersRef = collection(db, 'orders');
+    const ordersRef = collection(db!, 'orders');
     const seq = await getNextOrderNumber();
     const orderNumber =
       order.orderId && order.orderId.startsWith('NA-')
@@ -144,7 +144,7 @@ export interface ReviewPayload {
 
 export async function saveReviewToFirestore(review: ReviewPayload) {
   try {
-    const reviewsRef = collection(db, 'reviews');
+    const reviewsRef = collection(db!, 'reviews');
     const generatedReviewId = `REV-${Math.floor(100000 + Math.random() * 900000)}`;
     const docRef = await addDoc(reviewsRef, {
       productId: review.productId || 'store',
@@ -173,7 +173,7 @@ export function subscribeTopBarMessages(callback: (messages: string[]) => void) 
   ];
 
   try {
-    const docRef = doc(db, 'store_content', 'homepage');
+    const docRef = doc(db!, 'store_content', 'homepage');
     return onSnapshot(
       docRef,
       (docSnap) => {
@@ -198,7 +198,7 @@ export function subscribeTopBarMessages(callback: (messages: string[]) => void) 
 /* ─── Homepage Store Content Real-Time Service ───────── */
 export function subscribeStoreContent(callback: (content: StoreContent | null) => void) {
   try {
-    const docRef = doc(db, 'store_content', 'homepage');
+    const docRef = doc(db!, 'store_content', 'homepage');
     return onSnapshot(
       docRef,
       (docSnap) => {
@@ -223,7 +223,7 @@ export function subscribeStoreContent(callback: (content: StoreContent | null) =
 /* ─── Product Reviews Real-Time Service ──────────────── */
 export function subscribeProductReviews(productId: string, callback: (reviews: Review[]) => void) {
   try {
-    const reviewsRef = collection(db, 'reviews');
+    const reviewsRef = collection(db!, 'reviews');
     const q = query(
       reviewsRef,
       where('productId', '==', productId),
@@ -271,7 +271,7 @@ export function subscribeProductReviews(productId: string, callback: (reviews: R
 /* ─── All Approved Reviews Real-Time Service ─────────── */
 export function subscribeAllApprovedReviews(callback: (reviews: Review[]) => void) {
   try {
-    const reviewsRef = collection(db, 'reviews');
+    const reviewsRef = collection(db!, 'reviews');
     const q = query(
       reviewsRef,
       where('status', '==', 'approved')

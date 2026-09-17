@@ -36,7 +36,7 @@ export default function VideoCarousel() {
   return (
     <section className="py-10 md:py-12 overflow-hidden bg-white">
       <div className="container mx-auto px-3 md:px-4 max-w-7xl">
-        <h2 className="text-xl md:text-2xl lg:text-3xl text-center mb-8 md:mb-10 font-serif text-[#232323] uppercase tracking-wide">
+        <h2 className="text-xl md:text-2xl lg:text-3xl text-center mb-8 md:mb-10 font-serif text-charcoal uppercase tracking-wide">
           SEE WHAT OUR CUSTOMERS SAY
         </h2>
 

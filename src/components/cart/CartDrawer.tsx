@@ -73,7 +73,7 @@ export default function CartDrawer() {
             {/* Header */}
             <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50">
               <div className="flex items-center space-x-2">
-                <ShoppingBag className="w-5 h-5 text-[#e60000]" />
+                <ShoppingBag className="w-5 h-5 text-wine" />
                 <h2 className="font-bold text-gray-900 uppercase text-sm tracking-wide">
                   Your Shopping Cart ({cart.reduce((a, c) => a + c.quantity, 0)})
                 </h2>
@@ -89,16 +89,16 @@ export default function CartDrawer() {
 
             {/* Free Shipping Bar */}
             {!shippingDismissed && (
-            <div className="bg-[#fae9e8] p-3 text-center border-b border-[#f3d2d0] relative">
+            <div className="bg-sand p-3 text-center border-b border-wine/20 relative">
               <button
                 onClick={() => setShippingDismissed(true)}
-                className="absolute top-1.5 right-2 p-1 text-[#e60000]/50 hover:text-[#e60000] transition-colors z-10"
+                className="absolute top-1.5 right-2 p-1 text-wine/50 hover:text-wine transition-colors z-10"
                 aria-label="Close shipping notification"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
               {amountNeededForFreeShipping > 0 ? (
-                <p className="text-xs text-[#e60000] font-semibold pr-5">
+                <p className="text-xs text-wine font-semibold pr-5">
                   Add <span className="font-bold">Rs. {amountNeededForFreeShipping}</span> more to get <span className="underline">FREE Shipping</span>!
                 </p>
               ) : (
@@ -108,7 +108,7 @@ export default function CartDrawer() {
               )}
               <div className="w-full bg-white/70 h-2 rounded-full mt-2 overflow-hidden">
                 <motion.div 
-                  className="bg-[#e60000] h-full rounded-full"
+                  className="bg-wine h-full rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${progressPercent}%` }}
                   transition={{ duration: 0.5 }}
@@ -126,7 +126,7 @@ export default function CartDrawer() {
                   <Link
                     href="/collections/all-products"
                     onClick={() => setIsCartOpen(false)}
-                    className="inline-block bg-[#e60000] text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-md hover:bg-[#cc0000] transition"
+                    className="inline-block bg-wine text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-md hover:bg-wine-deep transition"
                   >
                     Explore Products
                   </Link>
@@ -151,7 +151,7 @@ export default function CartDrawer() {
                           <Link
                             href={`/products/${item.slug}`}
                             onClick={() => setIsCartOpen(false)}
-                            className="font-semibold text-xs text-gray-800 hover:text-[#e60000] line-clamp-2"
+                            className="font-semibold text-xs text-gray-800 hover:text-wine line-clamp-2"
                           >
                             {item.name}
                           </Link>
@@ -186,7 +186,7 @@ export default function CartDrawer() {
                         </div>
 
                         <div className="text-right">
-                          <span className="text-[#e60000] font-bold text-sm">
+                          <span className="text-wine font-bold text-sm">
                             Rs. {item.price * item.quantity}
                           </span>
                         </div>
@@ -214,7 +214,7 @@ export default function CartDrawer() {
                     setIsCartOpen(false);
                     setIsCheckoutOpen(true);
                   }}
-                  className="w-full bg-[#e60000] hover:bg-[#cc0000] text-white font-bold text-xs uppercase tracking-widest py-3.5 rounded-lg flex items-center justify-center space-x-2 shadow-lg transition-all"
+                  className="w-full bg-wine hover:bg-wine-deep text-white font-bold text-xs uppercase tracking-widest py-3.5 rounded-lg flex items-center justify-center space-x-2 shadow-lg transition-all"
                 >
                   <span>PROCEED TO CHECKOUT</span>
                   <ArrowRight className="w-4 h-4" />
@@ -222,7 +222,7 @@ export default function CartDrawer() {
 
                 <div className="flex items-center justify-center space-x-2 text-[10px] text-gray-500 pt-1">
                   <ShieldCheck className="w-3.5 h-3.5 text-green-600" />
-                  <span>100% Money Back Guarantee & Fresh Desi Taste</span>
+                  <span>100% Money Back Guarantee & Premium Quality</span>
                 </div>
               </div>
             )}

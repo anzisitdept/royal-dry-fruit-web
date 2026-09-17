@@ -7,23 +7,22 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
-import ReviewsWidget from '@/components/layout/ReviewsWidget';
 
 export default function OrdersPage() {
   const sampleOrders = [
     {
-      id: 'NA-000001',
+      id: 'RDF-000001',
       date: 'Aug 10, 2026',
       status: 'In Transit',
-      items: 'Sarson Da Saag Pickle (1kg), Amla Murabba (500g)',
+      items: 'California Almonds (1kg), Medjool Dates (500g)',
       total: 1639,
       payment: 'Cash on Delivery (COD)'
     },
     {
-      id: 'NA-000002',
+      id: 'RDF-000002',
       date: 'Jul 24, 2026',
       status: 'Delivered',
-      items: 'Special Aloo Bukhara Chutney (500g)',
+      items: 'Iranian Pistachios (500g)',
       total: 799,
       payment: 'Cash on Delivery (COD)'
     }
@@ -33,11 +32,10 @@ export default function OrdersPage() {
     <>
       <TopBar />
       <Header />
-      <ReviewsWidget />
 
-      <section className="bg-[#fae9e8] py-10 border-b border-red-100">
+      <section className="bg-sand py-10 border-b border-red-100">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#e60000] uppercase tracking-wide">
+          <h1 className="text-3xl md:text-4xl font-serif font-bold text-wine uppercase tracking-wide">
             My Orders History
           </h1>
         </div>
@@ -49,7 +47,7 @@ export default function OrdersPage() {
             <div key={order.id} className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs space-y-4">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 gap-2">
                 <div>
-                  <span className="font-bold text-sm text-[#e60000]">Order #{order.id}</span>
+                  <span className="font-bold text-sm text-wine">Order #{order.id}</span>
                   <span className="text-xs text-gray-500 ml-3">Placed on {order.date}</span>
                 </div>
                 <span className={`px-3 py-1 rounded-full text-xs font-bold ${
@@ -67,7 +65,7 @@ export default function OrdersPage() {
               <div className="flex justify-between items-center pt-2 border-t text-xs">
                 <span className="font-bold text-gray-900">Total: Rs. {order.total}</span>
                 <a
-                  href={`https://wa.me/923341677114?text=Hi%20Nisar%20Achar,%20please%20update%20status%20for%20order%20${order.id}`}
+                  href={`https://wa.me/923473811510?text=Hi%20Royal%20Dry%20Fruits,%20please%20update%20status%20for%20order%20${order.id}`}
                   target="_blank"
                   rel="noreferrer"
                   className="text-green-700 font-bold hover:underline"

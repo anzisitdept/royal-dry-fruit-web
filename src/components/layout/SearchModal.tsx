@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, X, ShoppingBag } from 'lucide-react';
+import { Search, X, ShoppingBag, Mic, MicOff } from 'lucide-react';
 import Link from 'next/link';
 import { Product } from '@/types';
 import { useStoreData } from '@/context/StoreDataContext';
@@ -13,7 +13,60 @@ export default function SearchModal() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Product[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isListening, setIsListening] = useState(false);
+  const [voiceSupported, setVoiceSupported] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const recognitionRef = useRef<any>(null);
+
+  useEffect(() => {
+    const w = window as unknown as Record<string, unknown>;
+    if (!w.SpeechRecognition && !w.webkitSpeechRecognition) {
+      setVoiceSupported(false);
+    }
+  }, []);
+
+  const stopListening = useCallback(() => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+    }
+    setIsListening(false);
+  }, []);
+
+  const startListening = useCallback(() => {
+    const w = window as unknown as Record<string, new () => Record<string, unknown>>;
+    const SpeechRecognitionAPI = w.SpeechRecognition || w.webkitSpeechRecognition;
+    if (!SpeechRecognitionAPI) return;
+
+    stopListening();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const recognition: any = new SpeechRecognitionAPI();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setQuery(transcript);
+      setIsListening(false);
+    };
+
+    recognition.onerror = () => {
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+      recognitionRef.current = null;
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+    setIsListening(true);
+  }, [stopListening]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -30,6 +83,7 @@ export default function SearchModal() {
       setQuery('');
       setResults([]);
       setSuggestions([]);
+      stopListening();
     }
     return () => {
       document.body.style.overflow = 'unset';
@@ -59,21 +113,21 @@ export default function SearchModal() {
 
     // Dynamic suggestions based on query
     const baseTerms = [
-      'mango',
-      'mango pickle',
-      'mango murabba',
-      'crushed mango pickle',
-      'multani mango pickle',
-      'mangoes',
-      'amla pickle',
-      'amla murabba',
-      'aloo bukhara chutney',
-      'lasoora pickle',
-      'moringa pickle',
-      'sarson saag pickle',
-      'gulkand murabba',
-      'apple murabba',
-      'chia seeds'
+      'almonds',
+      'cashews',
+      'pistachios',
+      'walnuts',
+      'raisins',
+      'dates',
+      'mixed nuts',
+      'dried apricots',
+      'figs',
+      'kalonji',
+      'pine nuts',
+      'hazelnuts',
+      'peanuts',
+      'gift box',
+      'seeds'
     ];
 
     const matchedSuggestions = baseTerms.filter(t => t.includes(q) || q.split(' ').some(word => t.includes(word)));
@@ -118,7 +172,7 @@ export default function SearchModal() {
             className="relative w-full max-w-3xl bg-white rounded-lg shadow-2xl overflow-hidden z-10 flex flex-col max-h-[85vh] border border-gray-200"
           >
             {/* Search Input Header */}
-            <div className="p-3 md:p-4 bg-[#fdf2f2] border-b border-red-100 flex items-center gap-3">
+            <div className="p-3 md:p-4 bg-sand border-b border-wine/20 flex items-center gap-3">
               <input
                 ref={inputRef}
                 type="text"
@@ -130,6 +184,19 @@ export default function SearchModal() {
               {query && (
                 <button onClick={() => setQuery('')} className="text-gray-400 hover:text-gray-600 p-1">
                   <X size={16} />
+                </button>
+              )}
+              {voiceSupported && (
+                <button
+                  onClick={isListening ? stopListening : startListening}
+                  className={`p-1.5 rounded-full transition ${
+                    isListening
+                      ? 'bg-wine text-white animate-pulse'
+                      : 'text-gray-500 hover:text-wine hover:bg-sand'
+                  }`}
+                  aria-label={isListening ? 'Stop listening' : 'Search by voice'}
+                >
+                  {isListening ? <MicOff size={18} /> : <Mic size={18} />}
                 </button>
               )}
               <button
@@ -149,11 +216,11 @@ export default function SearchModal() {
                     SUGGESTIONS
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {['mango', 'pickle', 'murabba', 'chutney', 'sarson saag', 'amla', 'gulkand', 'chia seeds'].map(term => (
+                    {['almonds', 'cashews', 'pistachios', 'walnuts', 'dates', 'raisins', 'mixed nuts', 'gift box'].map(term => (
                       <button
                         key={term}
                         onClick={() => setQuery(term)}
-                        className="bg-gray-100 hover:bg-[#fae9e8] hover:text-[#e60000] text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-md transition flex items-center gap-1.5"
+                        className="bg-gray-100 hover:bg-sand hover:text-wine text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-md transition flex items-center gap-1.5"
                       >
                         <Search size={12} className="text-gray-400" />
                         <span>{term}</span>
@@ -174,7 +241,7 @@ export default function SearchModal() {
                           <button
                             key={idx}
                             onClick={() => setQuery(sug)}
-                            className="bg-gray-50 hover:bg-[#fae9e8] text-gray-800 text-xs font-medium px-3 py-1.5 rounded-md border border-gray-200 flex items-center gap-1.5 transition"
+                            className="bg-gray-50 hover:bg-sand text-gray-800 text-xs font-medium px-3 py-1.5 rounded-md border border-gray-200 flex items-center gap-1.5 transition"
                           >
                             <Search size={12} className="text-gray-400" />
                             <span>{highlightMatch(sug, query)}</span>
@@ -193,14 +260,14 @@ export default function SearchModal() {
                     {results.length === 0 ? (
                       <div className="text-center py-8 text-gray-500">
                         <p className="text-sm font-semibold">No products found matching "{query}"</p>
-                        <p className="text-xs text-gray-400 mt-1">Try searching for "Pickle", "Murabba", "Chutney" or "Amla"</p>
+                        <p className="text-xs text-gray-400 mt-1">Try searching for "Almonds", "Cashews", "Pistachios" or "Dates"</p>
                       </div>
                     ) : (
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         {results.map(product => (
                           <div
                             key={product.id}
-                            className="bg-white border border-gray-100 rounded-lg p-2 hover:border-[#e60000] hover:shadow-md transition flex flex-col justify-between group"
+                            className="bg-white border border-gray-100 rounded-lg p-2 hover:border-wine hover:shadow-md transition flex flex-col justify-between group"
                           >
                             <Link
                               href={`/products/${product.slug}`}
@@ -214,19 +281,19 @@ export default function SearchModal() {
                                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                                 {product.discountBadge && (
-                                  <span className="absolute top-1 left-1 bg-[#e60000] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-xs">
+                                  <span className="absolute top-1 left-1 bg-wine text-white text-[9px] font-bold px-1.5 py-0.5 rounded-xs">
                                     {product.discountBadge}
                                   </span>
                                 )}
                               </div>
 
-                              <p className="font-semibold text-xs text-gray-900 group-hover:text-[#e60000] line-clamp-2 leading-tight mb-1 text-center">
+                              <p className="font-semibold text-xs text-gray-900 group-hover:text-wine line-clamp-2 leading-tight mb-1 text-center">
                                 {product.name}
                               </p>
                             </Link>
 
                             <div className="text-center mt-1">
-                              <span className="text-xs font-bold text-[#e60000]">
+                              <span className="text-xs font-bold text-wine">
                                 Rs.{product.price.toLocaleString()}
                               </span>
                               {product.originalPrice > product.price && (

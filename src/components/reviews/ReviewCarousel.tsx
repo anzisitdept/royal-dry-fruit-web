@@ -14,9 +14,9 @@ interface ReviewCard {
 }
 
 const STATIC_REVIEWS: ReviewCard[] = [
-  { stars: 5, title: '5 star for taste', body: 'I tried their aloo bhkhara chatni … Its delicious. Will order again inshaAllah', author: 'Anonymous' },
+  { stars: 5, title: '5 star for taste', body: 'I tried their premium almonds, cashews and pistachios … So delicious. Will order again inshaAllah', author: 'Anonymous' },
   { stars: 5, title: 'best quality', body: 'best quality, packing, everything.', author: '03161717268' },
-  { stars: 5, title: 'Amazing product!', body: 'Received quickly and the taste is authentic desi. Highly recommended for everyone.', author: 'Fatima K.' },
+  { stars: 5, title: 'Amazing product!', body: 'Received quickly and the quality is outstanding. Highly recommended for everyone.', author: 'Fatima K.' },
   { stars: 5, title: 'Excellent packaging', body: 'Very well packed. Quality is outstanding. Will buy again.', author: 'Ahmed R.' }
 ];
 
@@ -87,12 +87,12 @@ export default function ReviewCarousel({ compact = false }: { compact?: boolean 
             <p className="font-serif font-bold text-gray-900 leading-tight mb-3 text-2xl md:text-3xl">
               Let customers speak for us
             </p>
-            <div className="text-[#e60000] text-2xl md:text-3xl mb-2">★★★★★</div>
-            <p className="text-sm text-[#e60000] font-semibold mb-6">from {count} reviews</p>
+            <div className="text-wine text-2xl md:text-3xl mb-2">★★★★★</div>
+            <p className="text-sm text-wine font-semibold mb-6">from {count} reviews</p>
 
             {/* Verified badge */}
             <div className="hidden lg:flex items-center gap-2 justify-center lg:justify-start mb-6">
-              <span className="bg-[#e60000] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm">
+              <span className="bg-wine text-white text-[10px] font-bold px-2.5 py-1 rounded-sm">
                 ✓ Verified Customer
               </span>
             </div>
@@ -140,7 +140,7 @@ export default function ReviewCarousel({ compact = false }: { compact?: boolean 
                   >
                     <div className="h-full bg-[#fafafa] border border-gray-100 rounded-lg p-5 flex flex-col">
                       {/* Stars */}
-                      <div className="text-[#e60000] text-lg mb-2">
+                      <div className="text-wine text-lg mb-2">
                         {'★'.repeat(r.stars)}{'☆'.repeat(Math.max(0, 5 - r.stars))}
                       </div>
                       {/* Title */}
@@ -150,7 +150,7 @@ export default function ReviewCarousel({ compact = false }: { compact?: boolean 
                       {/* Author + Verified */}
                       <div className="flex items-center gap-2 mt-auto">
                         <p className="text-sm text-gray-700 font-semibold">{r.author}</p>
-                        <span className="bg-[#e60000] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm">
+                        <span className="bg-wine text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm">
                           ✓ Verified Buyer
                         </span>
                       </div>

@@ -10,66 +10,66 @@ export interface Category {
 
 export const CATEGORIES: Category[] = [
   {
-    id: 'pickles',
-    slug: 'pickles',
-    name: 'Desi Pickles (اچار)',
-    urduName: 'دیسی اچار',
-    description: '100% Homemade, pure mustard oil based traditional Pakistani pickles prepared with natural herbs and spices.',
-    image: 'https://nisarachar.com/cdn/shop/files/02_2ec724f6-078a-47e4-b64a-57cd5f305606_533x.jpg',
-    itemCount: 15
-  },
-  {
-    id: 'murabba',
-    slug: 'murabba',
-    name: 'Authentic Murabbas (مربہ)',
-    urduName: 'دیسی مربہ جات',
-    description: 'Prophetic Tibb-e-Nabwi preserves made from organic fruits, pure sugar syrup, cardamom, and saffron.',
-    image: 'https://nisarachar.com/cdn/shop/files/04_e50c3509-8de8-4347-8386-7c1317eb893c_533x.jpg',
-    itemCount: 8
-  },
-  {
-    id: 'chutney',
-    slug: 'chutney',
-    name: 'Special Chutneys (چٹنی)',
-    urduName: 'دیسی چٹنی',
-    description: 'Mouthwatering sweet and spicy chutneys made from Aloo Bukhara, Tamarind, Dates, and Fresh Herbs.',
-    image: 'https://nisarachar.com/cdn/shop/files/01_e8785eb1-16a7-4ebe-a073-40cf7dce0210_533x.jpg',
-    itemCount: 6
-  },
-  {
-    id: 'super-foods',
-    slug: 'super-foods',
-    name: 'Super Foods & Seeds (سپر فوڈز)',
-    urduName: 'سپر فوڈز اور بیج',
-    description: 'Pure organic seeds, Moringa powder, Chia seeds, and raw natural boosters for daily health and energy.',
-    image: 'https://nisarachar.com/cdn/shop/files/06_d241e5df-955b-4d06-acda-2420ffd7af15_533x.jpg',
-    itemCount: 7
-  },
-  {
-    id: 'syrup',
-    slug: 'syrup',
-    name: 'Organic Syrups (شربت)',
-    urduName: 'دیسی شربت',
-    description: 'Refreshing traditional herbal distillates and rose syrups made from pure natural botanicals.',
-    image: 'https://nisarachar.com/cdn/shop/files/02_00c0b731-9c48-4d3a-bf59-0ad7b9a3cfbe_533x.jpg',
+    id: 'dry-fruits',
+    slug: 'dry-fruits',
+    name: 'Premium Dry Fruits (میوہ جات)',
+    urduName: 'پریمیم ڈرائی فروٹس',
+    description: 'Handpicked premium almonds, cashews, pistachios, and walnuts sourced from the finest orchards.',
+    image: 'https://images.unsplash.com/photo-1769255484605-a245be3f1bf9?auto=format&fit=crop&w=800&q=80',
     itemCount: 4
   },
   {
-    id: 'best-selling-pickles',
-    slug: 'best-selling-pickles',
-    name: 'Best Selling Items (بہترین ڈیزائن)',
-    urduName: 'سب سے زیادہ فروخت ہونے والی',
-    description: 'Our most loved pickles, murabbas, and chutneys ordered by thousands of happy customers across Pakistan.',
-    image: 'https://nisarachar.com/cdn/shop/files/MAINN_WEB.jpg',
-    itemCount: 12
+    id: 'dates-dried-fruits',
+    slug: 'dates-dried-fruits',
+    name: 'Dates & Dried Fruits (کھجور اور خشک میوہ)',
+    urduName: 'کھجور اور خشک میوہ جات',
+    description: 'Sun-cured Medjool dates, golden raisins, Turkish figs, and Hunza apricots full of natural sweetness.',
+    image: 'https://images.unsplash.com/photo-1771231591559-d19c89ad118a?auto=format&fit=crop&w=800&q=80',
+    itemCount: 4
   },
   {
-    id: 'bundles',
-    slug: 'bundles',
-    name: 'Special Bundle Offers (بنڈل افر)',
-    urduName: 'خصوصی بنڈل آفرز',
-    description: 'Exclusive combo packs offering maximum savings and free home delivery nationwide.',
-    image: 'https://nisarachar.com/cdn/shop/files/06_d241e5df-955b-4d06-acda-2420ffd7af15_533x.jpg',
+    id: 'roasted-flavored',
+    slug: 'roasted-flavored',
+    name: 'Roasted & Flavored Nuts (بھنے ہوئے میوہ جات)',
+    urduName: 'روسٹڈ اور فلیورڈ نٹس',
+    description: 'Perfectly dry-roasted nuts in salted, honey-glazed, and masala flavor profiles for every craving.',
+    image: 'https://images.unsplash.com/photo-1760263215389-a8cc51bfc4c2?auto=format&fit=crop&w=800&q=80',
+    itemCount: 4
+  },
+  {
+    id: 'combos',
+    slug: 'combos',
+    name: 'Combos & Trail Packs (کامبو)',
+    urduName: 'کامبوز اور ٹریل پیکس',
+    description: 'Curated nut and dried-fruit blends designed for on-the-go snacking and family sharing.',
+    image: 'https://images.unsplash.com/photo-1769255485022-f9bb6d6e8169?auto=format&fit=crop&w=800&q=80',
+    itemCount: 2
+  },
+  {
+    id: 'gift-boxes',
+    slug: 'gift-boxes',
+    name: 'Gift Boxes & Hampers (گفٹ باکسز)',
+    urduName: 'گفٹ باکس اور ہیمپرز',
+    description: 'Elegantly curated luxury hampers and gift boxes for Eid, weddings, and every celebration.',
+    image: 'https://images.unsplash.com/photo-1627542343984-fb1c46987823?auto=format&fit=crop&w=800&q=80',
+    itemCount: 3
+  },
+  {
+    id: 'superfoods',
+    slug: 'superfoods',
+    name: 'Seeds & Superfoods (سپر فوڈز)',
+    urduName: 'سیڈز اور سپر فوڈز',
+    description: 'Organic chia, pumpkin, and flax seeds — pure nutrition packed into tiny powerhouse bites.',
+    image: 'https://images.unsplash.com/photo-1512166967298-8b7de37890b6?auto=format&fit=crop&w=800&q=80',
+    itemCount: 3
+  },
+  {
+    id: 'best-sellers',
+    slug: 'best-sellers',
+    name: 'Best Sellers (بہترین اشیاء)',
+    urduName: 'سب سے زیادہ فروخت ہونے والی',
+    description: 'Our most loved nuts, dates, and hampers ordered by thousands of happy customers across Pakistan.',
+    image: 'https://images.unsplash.com/photo-1514537193821-ed4955693802?auto=format&fit=crop&w=800&q=80',
     itemCount: 5
   }
 ];

@@ -54,9 +54,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   // Load cart and wishlist from localStorage on mount
   useEffect(() => {
     try {
-      const savedCart = localStorage.getItem('nisar_cart');
+      const savedCart = localStorage.getItem('rdf_cart');
       if (savedCart) setCart(JSON.parse(savedCart));
-      const savedWishlist = localStorage.getItem('nisar_wishlist');
+      const savedWishlist = localStorage.getItem('rdf_wishlist');
       if (savedWishlist) setWishlist(JSON.parse(savedWishlist));
     } catch (e) {
       console.error(e);
@@ -66,7 +66,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   // Save cart and wishlist
   useEffect(() => {
     try {
-      localStorage.setItem('nisar_cart', JSON.stringify(cart));
+      localStorage.setItem('rdf_cart', JSON.stringify(cart));
     } catch (e) {
       console.error(e);
     }
@@ -74,7 +74,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     try {
-      localStorage.setItem('nisar_wishlist', JSON.stringify(wishlist));
+      localStorage.setItem('rdf_wishlist', JSON.stringify(wishlist));
     } catch (e) {
       console.error(e);
     }
@@ -196,7 +196,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       {children}
       {/* Global Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-[999] bg-[#e60000] text-white px-5 py-3 rounded-lg shadow-2xl flex items-center space-x-3 text-sm font-medium animate-bounce">
+        <div className="fixed bottom-6 right-6 z-[999] bg-wine text-white px-5 py-3 rounded-lg shadow-2xl flex items-center space-x-3 text-sm font-medium animate-bounce">
           <span className="text-lg">✓</span>
           <span>{toastMessage}</span>
         </div>

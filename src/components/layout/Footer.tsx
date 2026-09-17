@@ -17,10 +17,10 @@ function FooterSection({ title, children }: { title: string; children: React.Rea
         aria-expanded={open}
         className="lg:cursor-default w-full flex items-center justify-between lg:justify-start text-left"
       >
-        <h3 className="font-bold text-xs tracking-widest uppercase mb-0 lg:mb-5 text-white font-sans">
+        <h3 className="font-bold text-xs tracking-widest uppercase mb-0 lg:mb-5 text-ivory font-sans">
           {title}
         </h3>
-        <span className="lg:hidden text-white/80 transition-transform duration-300">
+        <span className="lg:hidden text-ivory/80 transition-transform duration-300">
           <ChevronDown size={16} className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
         </span>
       </button>
@@ -56,35 +56,36 @@ function TiktokIcon() {
   );
 }
 
-function YoutubeIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-    </svg>
-  );
-}
+
+const SHOP_LINKS = [
+  { label: 'Premium Dry Fruits', href: '/collections/dry-fruits' },
+  { label: 'Dates & Dried Fruits', href: '/collections/dates-dried-fruits' },
+  { label: 'Roasted & Flavored', href: '/collections/roasted-flavored' },
+  { label: 'Combos & Trail Packs', href: '/collections/combos' },
+  { label: 'Gift Boxes & Hampers', href: '/collections/gift-boxes' },
+  { label: 'Seeds & Superfoods', href: '/collections/superfoods' },
+  { label: 'Best Sellers', href: '/collections/best-sellers' },
+  { label: 'All Products', href: '/collections/all-products' },
+];
 
 export default function Footer() {
   return (
     <footer className="w-full font-sans">
 
       {/* Main Footer Content */}
-      <div className="bg-[#e60000] text-white pt-14 pb-8">
+      <div className="bg-wine text-white pt-14 pb-8">
         <div className="container mx-auto px-4 lg:px-8 max-w-[1320px]">
 
-          {/* 4-Column Grid matching official layout */}
+          {/* 4-Column Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
 
             {/* Column 1: SHOP */}
             <div>
               <FooterSection title="SHOP">
-                <ul className="space-y-2.5 text-xs font-normal text-gray-200">
-                  <li><Link href="/collections/new-arrivals" className="hover:underline">New Arrivals</Link></li>
-                  <li><Link href="/collections/achar" className="hover:underline">Achar</Link></li>
-                  <li><Link href="/collections/chutney" className="hover:underline">Chutney</Link></li>
-                  <li><Link href="/collections/best-selling-pickles" className="hover:underline">Best Selling</Link></li>
-                  <li><Link href="/collections/bundles" className="hover:underline">Bundles</Link></li>
-                  <li><Link href="/collections/all-products" className="hover:underline">All Products</Link></li>
+                <ul className="space-y-2.5 text-xs font-normal text-ivory/80">
+                  {SHOP_LINKS.map(link => (
+                    <li key={link.href}><Link href={link.href} className="hover:underline hover:text-ivory">{link.label}</Link></li>
+                  ))}
                 </ul>
               </FooterSection>
             </div>
@@ -92,110 +93,98 @@ export default function Footer() {
             {/* Column 2: INFORMATION */}
             <div>
               <FooterSection title="INFORMATION">
-                <ul className="space-y-2.5 text-xs font-normal text-gray-200">
-                  <li><Link href="/pages/returns-and-refund-policy" className="hover:underline">Returns And Refund Policy</Link></li>
-                  <li><Link href="/pages/cancellation-policy" className="hover:underline">Cancellation Policy</Link></li>
-                  <li><Link href="/pages/terms-conditions" className="hover:underline">Terms & Conditions</Link></li>
-                  <li><Link href="/pages/shipping-policy" className="hover:underline">Shipping Policy</Link></li>
-                  <li><Link href="/pages/privacy-policy" className="hover:underline">Privacy Policy</Link></li>
-                  <li><Link href="/pages/frequently-asked-questions" className="hover:underline">FAQ's</Link></li>
-                  <li><Link href="/pages/cookie-policy" className="hover:underline">Cookie Policy</Link></li>
-                  <li><Link href="/pages/contact-us" className="hover:underline">Contact Us</Link></li>
+                <ul className="space-y-2.5 text-xs font-normal text-ivory/80">
+                  <li><Link href="/pages/about" className="hover:underline hover:text-ivory">About Royal Dry Fruits</Link></li>
+                  <li><Link href="/pages/outlets" className="hover:underline hover:text-ivory">Outlets & Store Locations</Link></li>
+                  <li><Link href="/pages/returns-and-refund-policy" className="hover:underline hover:text-ivory">Returns And Refund Policy</Link></li>
+                  <li><Link href="/pages/cancellation-policy" className="hover:underline hover:text-ivory">Cancellation Policy</Link></li>
+                  <li><Link href="/pages/terms-conditions" className="hover:underline hover:text-ivory">Terms & Conditions</Link></li>
+                  <li><Link href="/pages/shipping-policy" className="hover:underline hover:text-ivory">Shipping Policy</Link></li>
+                  <li><Link href="/pages/privacy-policy" className="hover:underline hover:text-ivory">Privacy Policy</Link></li>
+                  <li><Link href="/pages/cookie-policy" className="hover:underline hover:text-ivory">Cookie Policy</Link></li>
+                  <li><Link href="/pages/frequently-asked-questions" className="hover:underline hover:text-ivory">FAQ&apos;s</Link></li>
+                  <li><Link href="/pages/contact-us" className="hover:underline hover:text-ivory">Contact Us</Link></li>
                 </ul>
               </FooterSection>
             </div>
 
-            {/* Column 3: SIGN UP AND AVAIL 10% EXTRA DISCOUNT */}
+            {/* Column 3: SIGN UP */}
             <div>
-              <h3 className="font-bold text-xs tracking-wider uppercase mb-3 text-white leading-snug">
-                SIGN UP AND AVAIL 10% EXTRA DISCOUNT
+              <h3 className="font-bold text-xs tracking-wider uppercase mb-3 text-ivory leading-snug">
+                SIGN UP AND SAVE 10%
               </h3>
-              <p className="text-xs mb-4 text-gray-200 leading-relaxed">
-                Sign up for exclusive updates, new arrivals & insider only discounts
+              <p className="text-xs mb-4 text-ivory/80 leading-relaxed">
+                Sign up for exclusive updates, new arrivals & member-only discounts on premium dry fruits.
               </p>
 
-              {/* Form Input + Submit Button */}
               <form onSubmit={e => { e.preventDefault(); alert('Subscribed successfully!'); }} className="flex gap-2 mb-5">
                 <input
                   suppressHydrationWarning
                   type="email"
                   required
                   placeholder="Enter Your Email Address"
-                  className="w-full px-3 py-2.5 bg-white text-[#e60000] text-xs font-medium focus:outline-none placeholder-gray-500 rounded-none"
+                  className="w-full px-3 py-2.5 bg-ivory text-wine text-xs font-medium focus:outline-none placeholder-gray-500 rounded-none"
                 />
                 <button
                   suppressHydrationWarning
                   type="submit"
-                  className="bg-white text-[#e60000] font-bold text-xs tracking-wider uppercase px-4 py-2.5 hover:bg-gray-100 transition rounded-none flex-shrink-0"
+                  className="bg-ivory text-wine font-bold text-xs tracking-wider uppercase px-4 py-2.5 hover:bg-sand transition rounded-none flex-shrink-0"
                 >
                   SUBMIT
                 </button>
               </form>
 
-              {/* 4 Professional White Circle Social Icons */}
               <div className="flex items-center gap-3 pt-1">
-                {/* Facebook */}
                 <a
                   href="https://facebook.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-white text-[#e60000] flex items-center justify-center transition-all duration-200 hover:bg-transparent hover:text-white hover:ring-2 hover:ring-white"
+                  className="w-9 h-9 rounded-full bg-ivory text-wine flex items-center justify-center transition-all duration-200 hover:bg-transparent hover:text-ivory hover:ring-2 hover:ring-ivory"
                   title="Facebook"
                 >
                   <FacebookIcon />
                 </a>
-                {/* Instagram */}
                 <a
                   href="https://instagram.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-white text-[#e60000] flex items-center justify-center transition-all duration-200 hover:bg-transparent hover:text-white hover:ring-2 hover:ring-white"
+                  className="w-9 h-9 rounded-full bg-ivory text-wine flex items-center justify-center transition-all duration-200 hover:bg-transparent hover:text-ivory hover:ring-2 hover:ring-ivory"
                   title="Instagram"
                 >
                   <InstagramIcon />
                 </a>
-                {/* TikTok */}
                 <a
                   href="https://tiktok.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-white text-[#e60000] flex items-center justify-center transition-all duration-200 hover:bg-transparent hover:text-white hover:ring-2 hover:ring-white"
+                  className="w-9 h-9 rounded-full bg-ivory text-wine flex items-center justify-center transition-all duration-200 hover:bg-transparent hover:text-ivory hover:ring-2 hover:ring-ivory"
                   title="TikTok"
                 >
                   <TiktokIcon />
                 </a>
-                {/* YouTube */}
-                <a
-                  href="https://youtube.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-white text-[#e60000] flex items-center justify-center transition-all duration-200 hover:bg-transparent hover:text-white hover:ring-2 hover:ring-white"
-                  title="YouTube"
-                >
-                  <YoutubeIcon />
-                </a>
+
               </div>
             </div>
 
             {/* Column 4: CUSTOMER SERVICE */}
             <div>
-              <h3 className="font-bold text-xs tracking-widest uppercase mb-5 text-white font-sans">CUSTOMER SERVICE</h3>
-              <ul className="space-y-3 text-xs font-normal text-gray-200 leading-relaxed">
+              <h3 className="font-bold text-xs tracking-widest uppercase mb-5 text-ivory font-sans">CUSTOMER SERVICE</h3>
+              <ul className="space-y-3 text-xs font-normal text-ivory/80 leading-relaxed">
                 <li className="flex items-start gap-2">
                   <span>📞</span>
-                  <span>WhatsApp us on <strong>+92 334 1677114</strong></span>
+                  <span>WhatsApp us on <strong className="text-ivory">+92 347 3811510</strong></span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span>📞</span>
-                  <span>WhatsApp or ☎ Call us on <strong>0334-1677114</strong>.</span>
+                  <span>WhatsApp or ☎ Call us on <strong className="text-ivory">0347-3811510</strong>.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span>✉</span>
-                  <span>admin@nisarachar.com</span>
+                  <span>hello@royaldryfruits.com</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span>🚚</span>
-                  <span>Free Shipping Over 2999 PKR Order.</span>
+                  <span>Free Shipping Over Rs. 3,000 Order.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span>📣</span>
@@ -203,44 +192,27 @@ export default function Footer() {
                 </li>
               </ul>
 
-              {/* Developed By ANZI & Co. watermark */}
-              <div className="mt-6 pt-5 border-t border-white/20">
-                <p className="text-xs font-semibold text-white uppercase tracking-wider mb-2.5">Developed By</p>
+              {/* Developed By ANZI & Co. */}
+              <div className="mt-6 pt-5 border-t border-ivory/20">
+                <p className="text-xs font-semibold text-ivory uppercase tracking-wider mb-2.5">Developed By</p>
                 <a
-                  href="https://www.anziandco.com?ref=nisarachar"
+                  href="https://www.anziandco.com?ref=royaldryfruits"
                   target="_blank"
                   rel="noopener"
-                  className="inline-block transition-transform duration-200 hover:scale-[1.03] focus:outline-none"
+                  className="inline-block text-lg font-display font-semibold text-ivory/90 hover:text-ivory transition-colors"
                   title="ANZI & Co."
                 >
-                  <img
-                    src="/watermark.png"
-                    alt="ANZI & Co."
-                    className="w-56 max-w-full h-auto object-contain"
-                  />
+                  ANZI &amp; Co.
                 </a>
               </div>
             </div>
 
           </div>
 
-          {/* Bottom Bar: Copyright & Visa / Mastercard Logos without white container background */}
-          <div className="border-t border-white/20 pt-6 flex flex-col md:flex-row items-center justify-between text-sm md:text-base text-gray-100 font-medium gap-4">
-            <p>Nisar Achar @2025. All Rights Reserved</p>
-
-            {/* Payment Method Images rendered side by side directly */}
-            <div className="flex items-center gap-3">
-              <img
-                src="/Visa.png"
-                alt="Visa"
-                className="h-10 w-auto object-contain rounded-sm"
-              />
-              <img
-                src="/mastercard.jpg"
-                alt="Mastercard"
-                className="h-10 w-auto object-contain rounded-sm"
-              />
-            </div>
+          {/* Bottom Bar: Copyright & COD note */}
+          <div className="border-t border-ivory/20 pt-6 flex flex-col md:flex-row items-center justify-between text-sm md:text-base text-ivory/70 font-medium gap-4">
+            <p>Royal Dry Fruits © 2026. All Rights Reserved.</p>
+            <span className="text-xs uppercase tracking-wider text-ivory/60">Cash on Delivery · Nationwide Shipping</span>
           </div>
         </div>
       </div>

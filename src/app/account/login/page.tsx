@@ -33,8 +33,8 @@ export default function LoginPage() {
       <div className="pt-4 pb-8 text-center">
         <Link href="/">
           <img
-            src="/NISAAR.png"
-            alt="Nisar Achar"
+            src="/RDF-logo.png"
+            alt="Royal Dry Fruits"
             className="h-16 md:h-20 w-auto mx-auto object-contain"
           />
         </Link>

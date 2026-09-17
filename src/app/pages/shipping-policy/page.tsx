@@ -4,18 +4,16 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
-import ReviewsWidget from '@/components/layout/ReviewsWidget';
 
 export default function ShippingPolicyPage() {
   return (
     <>
       <TopBar />
       <Header />
-      <ReviewsWidget />
 
-      <section className="bg-[#fae9e8] py-10 border-b border-red-100">
+      <section className="bg-sand py-10 border-b border-red-100">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#e60000] uppercase tracking-wide">
+          <h1 className="text-3xl md:text-4xl font-serif font-bold text-wine uppercase tracking-wide">
             Shipping & Delivery Policy
           </h1>
         </div>
@@ -24,13 +22,13 @@ export default function ShippingPolicyPage() {
       <main className="container mx-auto px-4 lg:px-8 max-w-4xl py-12 text-xs md:text-sm text-gray-700 leading-relaxed space-y-6">
         <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-xs space-y-6">
           <p>
-            This Shipping &amp; Delivery Policy explains how Nisar Achar packs, dispatches, and delivers your orders anywhere across Pakistan. By placing an order, you agree to the terms described below.
+            This Shipping &amp; Delivery Policy explains how Royal Dry Fruits (RDF) packs, dispatches, and delivers your orders anywhere across Pakistan. By placing an order, you agree to the terms described below.
           </p>
 
           <div>
             <h2 className="font-bold text-gray-900 text-base uppercase mb-2">1. Nationwide Delivery Coverage</h2>
             <p>
-              Nisar Achar delivers orders to all major cities, towns, and union councils across Pakistan — including Lahore, Karachi, Islamabad, Rawalpindi, Peshawar, Multan, Faisalabad, Quetta, and hundreds of other locations — through trusted courier partners such as TCS, Leopards Courier, M&amp;P, and Call Courier.
+              Royal Dry Fruits delivers orders to all major cities, towns, and union councils across Pakistan — including Lahore, Karachi, Islamabad, Rawalpindi, Peshawar, Multan, Faisalabad, Quetta, and hundreds of other locations — through trusted courier partners such as TCS, Leopards Courier, M&amp;P, and Call Courier.
             </p>
           </div>
 
@@ -63,7 +61,7 @@ export default function ShippingPolicyPage() {
           <div>
             <h2 className="font-bold text-gray-900 text-base uppercase mb-2">5. Packing &amp; Quality Protection</h2>
             <p>
-              Every glass jar is carefully wrapped in heavy-duty bubble wrap and packed inside a reinforced corrugated box to protect the product from leaking, breaking, or damage during transit.
+              Every order is vacuum-sealed and packed in airtight, moisture-proof protective packaging, then cushioned inside a reinforced corrugated box to protect the premium nuts and dried fruits from damage, crushing, or spoilage during transit.
             </p>
           </div>
 
@@ -77,14 +75,14 @@ export default function ShippingPolicyPage() {
           <div>
             <h2 className="font-bold text-gray-900 text-base uppercase mb-2">7. Order Tracking &amp; Support</h2>
             <p>
-              Once your parcel is dispatched, you will receive a tracking number on WhatsApp. For any delivery-related query, contact our helpline at <strong>0334-1677114</strong> or WhatsApp us at <strong>+92 334 1677114</strong>. Our support team is available Mon - Sat (9:00 AM - 9:00 PM).
+              Once your parcel is dispatched, you will receive a tracking number on WhatsApp. For any delivery-related query, contact our helpline at <strong>0347-3811510</strong> or WhatsApp us at <strong>+92 347 3811510</strong>. Our support team is available Mon - Sat (9:00 AM - 9:00 PM).
             </p>
           </div>
 
           <div>
             <h2 className="font-bold text-gray-900 text-base uppercase mb-2">8. Damaged or Incorrect Delivery</h2>
             <p>
-              If you receive a damaged, leaking, or incorrect item, please notify us within <strong>24 hours of delivery</strong> with photo or video evidence on WhatsApp. We will arrange a free replacement or refund in accordance with our Returns &amp; Refund Policy.
+              If you receive a damaged or incorrect item, please notify us within <strong>24 hours of delivery</strong> with photo or video evidence on WhatsApp. We will arrange a free replacement or refund in accordance with our Returns &amp; Refund Policy.
             </p>
           </div>
 

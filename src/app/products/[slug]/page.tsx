@@ -7,7 +7,6 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
-import ReviewsWidget from '@/components/layout/ReviewsWidget';
 import ProductCarousel from '@/components/home/ProductCarousel';
 import { useStoreData } from '@/context/StoreDataContext';
 import ProductDetailClient from './ProductDetailClient';
@@ -35,7 +34,7 @@ export default function ProductDetailPage({ params }: { params?: Promise<{ slug:
         <TopBar />
         <Header />
         <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-3">
-          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#e60000]"></div>
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-wine"></div>
           <p className="text-gray-400 text-xs tracking-wider uppercase font-medium">Loading Product...</p>
         </div>
         <Footer />
@@ -56,7 +55,7 @@ export default function ProductDetailPage({ params }: { params?: Promise<{ slug:
           </p>
           <Link
             href="/collections/all-products"
-            className="inline-block bg-[#e60000] text-white px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#cc0000] transition shadow-xs"
+            className="inline-block bg-wine text-white px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-wine-deep transition shadow-xs"
           >
             Explore All Products
           </Link>
@@ -79,21 +78,20 @@ export default function ProductDetailPage({ params }: { params?: Promise<{ slug:
     <>
       <TopBar />
       <Header />
-      <ReviewsWidget />
 
       {/* Breadcrumb Navigation */}
       <div className="bg-gray-50 border-b border-gray-100 py-3">
         <div className="container mx-auto px-4 max-w-7xl">
           <nav className="text-xs text-gray-500 font-medium">
-            <Link href="/" className="hover:text-[#e60000]">Home</Link>
+            <Link href="/" className="hover:text-wine">Home</Link>
             <span className="mx-2">/</span>
-            <Link href="/collections/all-products" className="hover:text-[#e60000]">Collections</Link>
+            <Link href="/collections/all-products" className="hover:text-wine">Collections</Link>
             <span className="mx-2">/</span>
-            <Link href={`/collections/${categoryObj?.slug || product.category}`} className="hover:text-[#e60000] capitalize">
+            <Link href={`/collections/${categoryObj?.slug || product.category}`} className="hover:text-wine capitalize">
               {categoryDisplayName}
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-[#e60000] font-bold">{product.name}</span>
+            <span className="text-wine font-bold">{product.name}</span>
           </nav>
         </div>
       </div>

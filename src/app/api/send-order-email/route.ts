@@ -4,11 +4,11 @@ import nodemailer from "nodemailer";
 const SMTP_HOST = process.env.SMTP_HOST || "smtp.gmail.com";
 const SMTP_PORT = Number(process.env.SMTP_PORT) || 465;
 const SMTP_SECURE = process.env.SMTP_SECURE !== "false"; // true for 465, false for 587
-const SMTP_USER = process.env.SMTP_USER || "info.nisarachar@gmail.com";
+const SMTP_USER = process.env.SMTP_USER || "hello.royaldryfruits@gmail.com";
 const SMTP_PASS = process.env.SMTP_PASS;
-const SMTP_FROM = process.env.SMTP_FROM || `"Nisar Ki Achar" <${SMTP_USER}>`;
-const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "info.nisarachar@gmail.com";
-const WHATSAPP_NUM = process.env.STORE_WHATSAPP_NUMBER || "923341677114";
+const SMTP_FROM = process.env.SMTP_FROM || `"Royal Dry Fruits" <${SMTP_USER}>`;
+const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "hello.royaldryfruits@gmail.com";
+const WHATSAPP_NUM = process.env.STORE_WHATSAPP_NUMBER || "923473811510";
 
 // Configure reusable Nodemailer transporter
 function getTransporter() {
@@ -77,7 +77,7 @@ export async function POST(req: Request) {
             subject: `🚨 New Order #${orderId} Received - Rs. ${totalAmount.toLocaleString()}`,
             html: `
 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #222; border: 1px solid #eee; border-radius: 10px; overflow: hidden;">
-  <div style="background: #b45309; padding: 20px; color: white;">
+  <div style="background: #7F011F; padding: 20px; color: white;">
     <h2 style="margin: 0; font-size: 20px;">🚨 New Store Order #${orderId}</h2>
     <p style="margin: 5px 0 0; opacity: 0.9; font-size: 13px;">Total: Rs. ${totalAmount.toLocaleString()} (${paymentMethod})</p>
   </div>
@@ -103,7 +103,7 @@ export async function POST(req: Request) {
     <div style="margin-top: 20px; padding: 14px; background: #fdfaf6; border-radius: 8px; border: 1px solid #fde68a;">
       <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Subtotal:</span><span>Rs. ${subtotal.toLocaleString()}</span></div>
       <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Delivery Fee:</span><span>${shippingFee === 0 ? "FREE" : `Rs. ${shippingFee}`}</span></div>
-      <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; margin-top: 8px; border-top: 1px solid #fde68a; padding-top: 8px; color: #b45309;">
+      <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; margin-top: 8px; border-top: 1px solid #fde68a; padding-top: 8px; color: #7F011F;">
         <span>Total Payable (COD):</span><span>Rs. ${totalAmount.toLocaleString()}</span>
       </div>
     </div>
@@ -117,15 +117,15 @@ export async function POST(req: Request) {
             await transporter.sendMail({
                 from: SMTP_FROM,
                 to: customerEmail,
-                subject: `✅ Order Confirmed! #${orderId} - Nisar Ki Achar`,
+                subject: `✅ Order Confirmed! #${orderId} - Royal Dry Fruits`,
                 html: `
 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #222; border: 1px solid #eee; border-radius: 12px; overflow: hidden;">
-  <div style="background: #b45309; padding: 28px 20px; text-align: center; color: white;">
-    <h1 style="margin: 0; font-size: 24px;">🫙 Nisar Ki Achar</h1>
+  <div style="background: #7F011F; padding: 28px 20px; text-align: center; color: white;">
+    <h1 style="margin: 0; font-size: 24px;">🥜 Royal Dry Fruits</h1>
     <p style="margin: 6px 0 0; font-size: 14px; opacity: 0.95;">Thank you for your order, ${customerName}!</p>
   </div>
   <div style="padding: 24px;">
-    <p style="font-size: 15px; line-height: 1.5;">We have received your order <strong>#${orderId}</strong> and are preparing your freshly handcrafted pickles for dispatch. Estimated delivery is <strong>2 to 4 business days</strong>.</p>
+    <p style="font-size: 15px; line-height: 1.5;">We have received your order <strong>#${orderId}</strong> and are carefully packing your premium dry fruits for dispatch. Estimated delivery is <strong>2 to 4 business days</strong>.</p>
 
     <div style="margin: 20px 0; text-align: center;">
       <a href="${whatsappLink}" style="display: inline-block; background: #25D366; color: white; text-decoration: none; font-weight: bold; padding: 12px 24px; border-radius: 8px; font-size: 14px;">
@@ -148,7 +148,7 @@ export async function POST(req: Request) {
     <div style="margin-top: 16px; padding-top: 12px; border-top: 2px solid #eee;">
       <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 14px;"><span>Subtotal:</span><span>Rs. ${subtotal.toLocaleString()}</span></div>
       <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 14px;"><span>Shipping Fee:</span><span>${shippingFee === 0 ? "FREE" : `Rs. ${shippingFee}`}</span></div>
-      <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; margin-top: 8px; border-top: 1px solid #eee; padding-top: 8px; color: #b45309;">
+      <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; margin-top: 8px; border-top: 1px solid #eee; padding-top: 8px; color: #7F011F;">
         <span>Total Amount (COD):</span><span>Rs. ${totalAmount.toLocaleString()}</span>
       </div>
     </div>
@@ -160,7 +160,7 @@ export async function POST(req: Request) {
     </div>
   </div>
   <div style="background: #fafafa; border-top: 1px solid #eee; padding: 16px; text-align: center; font-size: 12px; color: #888;">
-    Nisar Ki Achar · Traditional Desi Mustard Oil Pickles
+    Royal Dry Fruits · Premium Nuts &amp; Dried Fruits
   </div>
 </div>
 `,
