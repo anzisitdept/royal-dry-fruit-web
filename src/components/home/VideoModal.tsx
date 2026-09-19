@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { getProductBySlug } from '@/data/products';
 import { ReelItem } from '@/types';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface VideoModalProps {
   reel: ReelItem | null;
@@ -13,6 +14,7 @@ interface VideoModalProps {
 }
 
 export default function VideoModal({ reel, onClose }: VideoModalProps) {
+  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(false);
   const { addToCart } = useCart();
@@ -41,6 +43,7 @@ export default function VideoModal({ reel, onClose }: VideoModalProps) {
       {/* Close Button */}
       <button 
         onClick={onClose}
+        aria-label={t('ariaMenu.closeVideo')}
         className="absolute top-6 right-6 text-white bg-black/50 hover:bg-black/80 rounded-full p-3 transition-colors z-20"
       >
         <X className="w-6 h-6" />
@@ -63,10 +66,11 @@ export default function VideoModal({ reel, onClose }: VideoModalProps) {
         {/* Top Controls */}
         <div className="relative z-10 p-4 flex justify-between items-center bg-gradient-to-b from-black/70 to-transparent">
           <div className="text-white font-semibold text-sm drop-shadow-md">
-            Royal Dry Fruits Reel
+            {t('home.rdfReel')}
           </div>
           <button 
             onClick={toggleMute} 
+            aria-label={isMuted ? t('ariaMenu.unmute') : t('ariaMenu.mute')}
             className="text-white bg-black/40 p-2 rounded-full backdrop-blur-sm hover:bg-black/60 transition"
           >
             {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
@@ -104,7 +108,7 @@ export default function VideoModal({ reel, onClose }: VideoModalProps) {
                 className="bg-wine hover:bg-wine-deep text-white text-xs font-bold px-3 py-2 rounded-lg flex items-center space-x-1 flex-shrink-0 transition"
               >
                 <ShoppingBag className="w-3.5 h-3.5" />
-                <span>ADD</span>
+                <span>{t('product.addToCart')}</span>
               </button>
             </div>
           )}

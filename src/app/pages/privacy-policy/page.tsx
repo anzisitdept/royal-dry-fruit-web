@@ -3,6 +3,7 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
+import PageHeader from '@/components/layout/PageHeader';
 
 export default function PrivacyPolicyPage() {
   return (
@@ -10,13 +11,7 @@ export default function PrivacyPolicyPage() {
       <TopBar />
       <Header />
 
-      <section className="bg-sand py-10 border-b border-red-100">
-        <div className="container mx-auto px-4 max-w-7xl text-center">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-wine uppercase tracking-wide">
-            Privacy Policy
-          </h1>
-        </div>
-      </section>
+      <PageHeader titleKey="pages.privacy" />
 
       <main className="container mx-auto px-4 lg:px-8 max-w-4xl py-12 text-xs md:text-sm text-gray-700 leading-relaxed space-y-6">
         <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-xs space-y-4">

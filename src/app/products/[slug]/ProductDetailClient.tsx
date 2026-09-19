@@ -4,11 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Heart, Share2 } from 'lucide-react';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 import { getProductEffectivePrice } from '@/lib/productPrice';
 
 export default function ProductDetailClient({ product }: { product: Product }) {
   const { addToCart, toggleWishlist, isInWishlist, setIsCheckoutOpen } = useCart();
+  const { t, isUr } = useLanguage();
 
   // Dynamic weights from Firestore
   const availableWeights = (product.weights && Array.isArray(product.weights) && product.weights.length > 0)
@@ -30,8 +32,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
   const subtotal = currentPrice * quantity;
 
-  const initialImg = (product.image && product.image.trim() !== '') 
-    ? product.image 
+  const initialImg = (product.image && product.image.trim() !== '')
+    ? product.image
     : (product.images && product.images[0] && product.images[0].trim() !== '' ? product.images[0] : '');
   const [selectedImage, setSelectedImage] = useState(initialImg);
   const [showStickyBar, setShowStickyBar] = useState(false);
@@ -43,8 +45,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       : ['1kg'];
     const defaultW = weights.find(w => w.toLowerCase().replace(/\s+/g, '') === '1kg') || weights[0] || '1kg';
     setSelectedWeight(defaultW);
-    const img = (product.image && product.image.trim() !== '') 
-      ? product.image 
+    const img = (product.image && product.image.trim() !== '')
+      ? product.image
       : (product.images && product.images[0] && product.images[0].trim() !== '' ? product.images[0] : '');
     setSelectedImage(img);
   }, [product]);
@@ -63,7 +65,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
   const handleAddToCart = () => {
     if (product.inStock === false) {
-      alert('This product is currently out of stock.');
+      alert(t('productDetail.outOfStockAlert'));
       return;
     }
     addToCart(product, selectedWeight, quantity);
@@ -71,15 +73,50 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
   const handleBuyNow = () => {
     if (product.inStock === false) {
-      alert('This product is currently out of stock.');
+      alert(t('productDetail.outOfStockAlert'));
       return;
     }
     addToCart(product, selectedWeight, quantity);
     setIsCheckoutOpen(true);
   };
 
+  const shareLink = async () => {
+    const url = window.location.href;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: product.name, url });
+      } catch {
+        // User cancelled the native share sheet — do nothing
+      }
+      return;
+    }
+
+    try {
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        await navigator.clipboard.writeText(url);
+      } else {
+        // Fallback for insecure contexts / older browsers
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      alert(t('productDetail.linkCopied'));
+    } catch {
+      alert(t('productDetail.copyFailed'));
+    }
+  };
+
+  const headingAlign: React.CSSProperties = { textAlign: isUr ? 'right' : 'left' };
+
   return (
-    <div style={{ fontFamily: 'sans-serif', color: '#222' }}>
+    <div style={{ color: '#222' }}>
       
       {/* Main Grid: Left Gallery | Right Details */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-start px-4 md:px-0">
@@ -90,19 +127,19 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             {selectedImage && selectedImage.trim() !== '' ? (
               <img
                 src={selectedImage}
-                alt={product.name || 'Product'}
+                alt={product.name || t('product.productAlt')}
                 style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
               />
             ) : (
               <div style={{ color: '#aaa', fontSize: '14px', fontWeight: 500, padding: '40px' }}>
-                No Image Available
+                {t('productDetail.noImage')}
               </div>
             )}
             {/* Badges */}
             <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', flexDirection: 'column', gap: '6px', zIndex: 2 }}>
               {product.inStock === false && (
                 <span style={{ background: '#7F011F', color: '#fff', fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: '2px' }}>
-                  OUT OF STOCK
+                  {t('product.outOfStock')}
                 </span>
               )}
               {product.discountBadge && (
@@ -112,7 +149,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               )}
               {product.isBestSeller && (
                 <span style={{ background: '#6B4B2E', color: '#fff', fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: '2px' }}>
-                  Best Selling
+                  {t('product.bestSeller')}
                 </span>
               )}
             </div>
@@ -131,7 +168,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                     const idx = validImages.indexOf(selectedImage);
                     if (idx > 0) setSelectedImage(validImages[idx - 1]);
                   }}
-                  aria-label="Previous image"
+                  aria-label={t('productDetail.previousImage')}
                 >
                   <ChevronLeft size={18} />
                 </button>
@@ -145,7 +182,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                         selectedImage === img ? 'ring-2 ring-wine shadow-xs' : 'border border-gray-200 opacity-70 hover:opacity-100'
                       }`}
                     >
-                      <img src={img} alt={`Thumb ${idx}`} className="w-full h-full object-cover" />
+                      <img src={img} alt={`${t('product.productAlt')} ${idx + 1}`} className="w-full h-full object-cover" />
                     </button>
                   ))}
                 </div>
@@ -156,7 +193,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                     const idx = validImages.indexOf(selectedImage);
                     if (idx < validImages.length - 1) setSelectedImage(validImages[idx + 1]);
                   }}
-                  aria-label="Next image"
+                  aria-label={t('productDetail.nextImage')}
                 >
                   <ChevronRight size={18} />
                 </button>
@@ -169,22 +206,22 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         <div className="w-full md:pl-4 lg:pl-6">
           
           {/* Title */}
-          <h1 style={{ fontFamily: 'Georgia, serif', fontSize: '24px', fontWeight: 700, color: '#111', lineHeight: 1.3, marginBottom: '8px' }}>
+          <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#111', lineHeight: 1.3, marginBottom: '8px' }}>
             {product.name}
           </h1>
 
           {/* Rating & Urgency */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#555', marginBottom: '6px' }}>
             <span style={{ color: '#7F011F', fontSize: '15px' }}>★★★★★</span>
-            <span style={{ fontWeight: 600, color: '#333' }}>({product.reviewsCount || 94} reviews)</span>
+            <span style={{ fontWeight: 600, color: '#333' }}>{t('productDetail.reviewCount', { count: product.reviewsCount || 94 })}</span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#7F011F', fontWeight: 600, marginBottom: '14px' }}>
-            <span>🔥</span> In High Demand
+            <span>🔥</span> {t('productDetail.inHighDemand')}
           </div>
 
-          <p style={{ fontSize: '12px', color: '#666', marginBottom: '14px' }}>
-            Product type: <span style={{ color: '#333', fontWeight: 500 }}>{product.categoryName || 'Dry Fruits'}</span>
+          <p style={{ fontSize: '12px', color: '#666', marginBottom: '14px', ...headingAlign }}>
+            {t('productDetail.productType')} <span style={{ color: '#333', fontWeight: 500 }}>{product.categoryName || t('productDetail.dryFruitsFallback')}</span>
           </p>
 
           {/* Price Line */}
@@ -199,7 +236,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </span>
             {originalPrice > currentPrice && (
               <span className="bg-wine text-white text-xs font-extrabold px-2.5 py-1 rounded-full">
-                {Math.round(((originalPrice - currentPrice) / originalPrice) * 100)}% OFF
+                {t('productDetail.off', { percent: Math.round(((originalPrice - currentPrice) / originalPrice) * 100) })}
               </span>
             )}
           </div>
@@ -207,7 +244,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           {/* Dynamic Weight Selection Grid */}
           <div className="mb-5">
             <p className="text-xs text-gray-600 mb-2">
-              Gross Weight: <strong className="text-gray-900 font-bold">{selectedWeight}</strong>
+              {t('productDetail.grossWeight')} <strong className="text-gray-900 font-bold">{selectedWeight}</strong>
             </p>
             <div className={`grid gap-2.5 ${availableWeights.length === 1 ? 'grid-cols-1 max-w-[200px]' : availableWeights.length === 2 ? 'grid-cols-2' : availableWeights.length === 3 ? 'grid-cols-3' : 'grid-cols-2 sm:grid-cols-4'}`}>
               {availableWeights.map(w => {
@@ -241,7 +278,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
           {/* Subtotal */}
           <p style={{ fontSize: '13px', color: '#333', marginBottom: '14px' }}>
-            Subtotal: <strong>Rs.{subtotal.toLocaleString()}.00</strong>
+            {t('productDetail.subtotal')} <strong>Rs.{subtotal.toLocaleString()}.00</strong>
           </p>
 
           {/* Action Controls: Quantity, Add to Cart, Wishlist, Share */}
@@ -254,7 +291,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 <button
                   onClick={() => setQuantity(q => Math.max(1, q - 1))}
                   className="w-10 h-full flex items-center justify-center text-base text-gray-700 hover:bg-gray-100 active:bg-gray-200 rounded transition font-bold cursor-pointer"
-                  aria-label="Decrease quantity"
+                  aria-label={t('productDetail.decreaseQuantity')}
                 >
                   -
                 </button>
@@ -262,7 +299,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 <button
                   onClick={() => setQuantity(q => q + 1)}
                   className="w-10 h-full flex items-center justify-center text-base text-gray-700 hover:bg-gray-100 active:bg-gray-200 rounded transition font-bold cursor-pointer"
-                  aria-label="Increase quantity"
+                  aria-label={t('productDetail.increaseQuantity')}
                 >
                   +
                 </button>
@@ -277,24 +314,17 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       ? 'border-red-300 bg-red-50 text-wine'
                       : 'border-gray-300 bg-white text-gray-600 hover:border-gray-400'
                   }`}
-                  aria-label="Save to wishlist"
-                  title="Save to wishlist"
+                  aria-label={t('productDetail.saveToWishlist')}
+                  title={t('productDetail.saveToWishlist')}
                 >
                   <Heart size={18} fill={isInWishlist(product.id) ? '#7F011F' : 'none'} color={isInWishlist(product.id) ? '#7F011F' : 'currentColor'} />
                 </button>
 
                 <button
-                  onClick={() => {
-                    if (navigator.share) {
-                      navigator.share({ title: product.name, url: window.location.href });
-                    } else {
-                      navigator.clipboard.writeText(window.location.href);
-                      alert('Link copied to clipboard!');
-                    }
-                  }}
+                  onClick={shareLink}
                   className="w-[46px] h-[46px] rounded-lg border border-gray-300 bg-white text-gray-600 hover:border-gray-400 flex items-center justify-center transition active:scale-95 shadow-2xs cursor-pointer"
-                  aria-label="Share product"
-                  title="Share product"
+                  aria-label={t('productDetail.shareProduct')}
+                  title={t('productDetail.shareProduct')}
                 >
                   <Share2 size={18} />
                 </button>
@@ -312,11 +342,11 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               }`}
             >
               {product.inStock === false ? (
-                <span>OUT OF STOCK</span>
+                <span>{t('product.outOfStock')}</span>
               ) : (
                 <>
-                  <span>ADD TO CART</span>
-                  <span className="font-normal text-[11px] opacity-90 tracking-normal">(ابھی آرڈر کریں)</span>
+                  <span>{t('product.addToCart')}</span>
+                  <span className="font-normal text-[11px] opacity-90 tracking-normal">{t('productDetail.orderNowHint')}</span>
                 </>
               )}
             </button>
@@ -330,24 +360,17 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                     ? 'border-red-300 bg-red-50 text-wine'
                     : 'border-gray-300 bg-white text-gray-600 hover:border-gray-400 hover:bg-gray-50'
                 }`}
-                aria-label="Save to wishlist"
-                title="Save to wishlist"
+                aria-label={t('productDetail.saveToWishlist')}
+                title={t('productDetail.saveToWishlist')}
               >
                 <Heart size={18} fill={isInWishlist(product.id) ? '#7F011F' : 'none'} color={isInWishlist(product.id) ? '#7F011F' : 'currentColor'} />
               </button>
 
               <button
-                onClick={() => {
-                  if (navigator.share) {
-                    navigator.share({ title: product.name, url: window.location.href });
-                  } else {
-                    navigator.clipboard.writeText(window.location.href);
-                    alert('Link copied to clipboard!');
-                  }
-                }}
+                onClick={shareLink}
                 className="w-[48px] h-[48px] rounded-lg border border-gray-300 bg-white text-gray-600 hover:border-gray-400 hover:bg-gray-50 flex items-center justify-center transition active:scale-95 shadow-2xs cursor-pointer"
-                aria-label="Share product"
-                title="Share product"
+                aria-label={t('productDetail.shareProduct')}
+                title={t('productDetail.shareProduct')}
               >
                 <Share2 size={18} />
               </button>
@@ -365,8 +388,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 : 'bg-white hover:bg-sand text-wine border-2 border-wine'
             }`}
           >
-            <span>{product.inStock === false ? 'OUT OF STOCK' : 'BUY IT NOW'}</span>
-            {product.inStock !== false && <span className="font-normal text-[11px] sm:text-xs opacity-90 tracking-normal">(ابھی خریدیں)</span>}
+            <span>{product.inStock === false ? t('product.outOfStock') : t('productDetail.buyNow')}</span>
+            {product.inStock !== false && <span className="font-normal text-[11px] sm:text-xs opacity-90 tracking-normal">{t('productDetail.buyNowHint')}</span>}
           </button>
 
 
@@ -384,7 +407,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               activeTab === 'description' ? 'border-wine text-wine' : 'border-transparent text-gray-400 hover:text-gray-700'
             }`}
           >
-            Description
+            {t('productDetail.description')}
           </button>
           {product.ingredients && (
             <button
@@ -393,7 +416,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 activeTab === 'ingredients' ? 'border-wine text-wine' : 'border-transparent text-gray-400 hover:text-gray-700'
               }`}
             >
-              Ingredients
+              {t('productDetail.ingredients')}
             </button>
           )}
           {product.benefits && (
@@ -403,33 +426,34 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 activeTab === 'benefits' ? 'border-wine text-wine' : 'border-transparent text-gray-400 hover:text-gray-700'
               }`}
             >
-              Benefits
+              {t('productDetail.benefits')}
             </button>
           )}
         </div>
 
         {/* Tab Content */}
         <div style={{ maxWidth: '850px', fontSize: '14px', color: '#333', lineHeight: 1.7 }}>
-          
-          <p style={{ textAlign: 'left', fontWeight: 700, fontSize: '13px', background: '#fafafa', padding: '12px', borderRadius: '4px', border: '1px solid #eee', marginBottom: '28px' }}>
-            Note: {product.name} is freshly packed and available in {availableWeights.join(', ')} packaging options.
+
+          <p style={{ textAlign: isUr ? 'right' : 'left', fontWeight: 700, fontSize: '13px', background: '#fafafa', padding: '12px', borderRadius: '4px', border: '1px solid #eee', marginBottom: '28px' }}>
+            {t('productDetail.note', { name: product.name, weights: availableWeights.join(', ') })}
           </p>
 
           {activeTab === 'description' && (
-            <div>
-              <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '22px', fontWeight: 700, color: '#111', marginBottom: '14px' }}>
-                🍵 Buy {product.name} {product.urduName ? `– ${product.urduName}` : ''} Online in Pakistan | Premium Quality
+            <div style={headingAlign}>
+              <h3 style={{ fontSize: '22px', fontWeight: 700, color: '#111', marginBottom: '14px', lineHeight: 1.5 }}>
+                {t('productDetail.buyOnlineTitle', { name: product.name })}
+                {product.urduName ? ` – ${product.urduName}` : ''}
               </h3>
               <p style={{ color: '#555', marginBottom: '20px' }}>
-                {product.description || `Our ${product.name} is sourced from the finest orchards and carefully packed to preserve its natural freshness, rich flavor, and premium quality—perfect for snacking, gifting, and everyday nutrition.`}
+                {product.description || t('productDetail.defaultDescription', { name: product.name })}
               </p>
             </div>
           )}
 
           {activeTab === 'ingredients' && (
-            <div>
-              <h4 style={{ fontFamily: 'Georgia, serif', fontSize: '18px', fontWeight: 700, color: '#111', marginBottom: '12px' }}>
-                Pure & Natural Ingredients
+            <div style={headingAlign}>
+              <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#111', marginBottom: '12px' }}>
+                {t('productDetail.pureIngredients')}
               </h4>
               <p style={{ color: '#555', marginBottom: '20px' }}>
                 {product.ingredients}
@@ -438,9 +462,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           )}
 
           {activeTab === 'benefits' && (
-            <div>
-              <h4 style={{ fontFamily: 'Georgia, serif', fontSize: '18px', fontWeight: 700, color: '#111', marginBottom: '12px' }}>
-                Key Benefits
+            <div style={headingAlign}>
+              <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#111', marginBottom: '12px' }}>
+                {t('productDetail.keyBenefits')}
               </h4>
               <p style={{ color: '#555', marginBottom: '20px' }}>
                 {product.benefits}
@@ -451,15 +475,15 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '20px', marginBottom: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span style={{ color: '#22c55e', fontSize: '16px' }}>☑</span>
-              <span><strong>100% Handpicked & Premium Quality</strong></span>
+              <span><strong>{t('productDetail.checkHandpicked')}</strong></span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span style={{ color: '#22c55e', fontSize: '16px' }}>☑</span>
-              <span><strong>Naturally rich in taste, freshness & aroma</strong></span>
+              <span><strong>{t('productDetail.checkNatural')}</strong></span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span style={{ color: '#22c55e', fontSize: '16px' }}>☑</span>
-              <span><strong>Perfect companion for everyday breakfast and meals</strong></span>
+              <span><strong>{t('productDetail.checkEveryday')}</strong></span>
             </div>
           </div>
 
@@ -501,7 +525,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               disabled={product.inStock === false}
               className="bg-wine hover:bg-wine-deep text-white font-bold text-[11px] uppercase tracking-wider px-5 py-2.5 rounded disabled:bg-gray-300 disabled:cursor-not-allowed transition cursor-pointer active:scale-95 shadow-xs"
             >
-              {product.inStock === false ? 'OUT OF STOCK' : 'ADD TO CART'}
+              {product.inStock === false ? t('product.outOfStock') : t('product.addToCart')}
             </button>
 
             <button
@@ -509,7 +533,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               disabled={product.inStock === false}
               className="bg-wine hover:bg-wine-deep text-white font-bold text-[11px] uppercase tracking-wider px-5 py-2.5 rounded disabled:bg-gray-300 disabled:cursor-not-allowed transition cursor-pointer active:scale-95 shadow-xs"
             >
-              BUY NOW
+              {t('productDetail.buyNow')}
             </button>
           </div>
         </div>
@@ -532,7 +556,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 disabled={product.inStock === false}
                 className="bg-wine active:bg-wine-deep text-white font-bold text-[11px] uppercase tracking-wider px-4 py-2.5 rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed transition flex-shrink-0 shadow-sm cursor-pointer"
               >
-                {product.inStock === false ? 'OUT OF STOCK' : 'ADD TO CART'}
+                {product.inStock === false ? t('product.outOfStock') : t('product.addToCart')}
               </button>
             </div>
           </div>

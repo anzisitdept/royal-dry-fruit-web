@@ -7,8 +7,11 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
+import PageHeader from '@/components/layout/PageHeader';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function ContactUsPage() {
+  const { t } = useLanguage();
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -28,16 +31,7 @@ export default function ContactUsPage() {
       <TopBar />
       <Header />
 
-      <section className="bg-sand py-10 border-b border-red-100">
-        <div className="container mx-auto px-4 max-w-7xl text-center">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-wine uppercase tracking-wide">
-            Contact Us & Customer Support
-          </h1>
-          <p className="text-xs md:text-sm text-gray-600 max-w-xl mx-auto mt-2">
-            We are here to help you with order inquiries, wholesale distribution, and product feedback.
-          </p>
-        </div>
-      </section>
+      <PageHeader titleKey="pages.contact.title" subtitleKey="pages.contact.subtitle" />
 
       <main className="container mx-auto px-4 lg:px-8 max-w-7xl py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -45,31 +39,31 @@ export default function ContactUsPage() {
           {/* Left Column: Form */}
           <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-xs space-y-6">
             <h2 className="text-xl font-bold font-serif text-gray-900 uppercase">
-              Send Us A Message
+              {t('contactPage.formTitle')}
             </h2>
 
             {submitted ? (
               <div className="p-8 text-center bg-green-50 rounded-2xl border border-green-200 space-y-3">
                 <CheckCircle className="w-12 h-12 text-green-600 mx-auto" />
-                <h3 className="text-lg font-bold text-gray-900">Message Received!</h3>
+                <h3 className="text-lg font-bold text-gray-900">{t('contactPage.successTitle')}</h3>
                 <p className="text-xs text-gray-600">
-                  Thank you for reaching out to Royal Dry Fruits. Our customer support representative will get back to you within 24 hours.
+                  {t('contactPage.successBody')}
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
                   className="bg-wine text-white text-xs font-bold px-6 py-2.5 rounded-lg"
                 >
-                  Send Another Message
+                  {t('contactPage.sendAnother')}
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4 text-xs">
                 <div>
-                  <label className="block font-semibold text-gray-700 mb-1">Your Full Name *</label>
+                  <label className="block font-semibold text-gray-700 mb-1">{t('contactPage.labelName')}</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Hassan Ahmed"
+                    placeholder={t('contactPage.placeholderName')}
                     value={formData.name}
                     onChange={e => setFormData({ ...formData, name: e.target.value })}
                     className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
@@ -78,21 +72,21 @@ export default function ContactUsPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-semibold text-gray-700 mb-1">Phone / WhatsApp Number *</label>
+                    <label className="block font-semibold text-gray-700 mb-1">{t('contactPage.labelPhone')}</label>
                     <input
                       type="tel"
                       required
-                      placeholder="0300 1234567"
+                      placeholder={t('contactPage.placeholderPhone')}
                       value={formData.phone}
                       onChange={e => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block font-semibold text-gray-700 mb-1">Email Address</label>
+                    <label className="block font-semibold text-gray-700 mb-1">{t('contactPage.labelEmail')}</label>
                     <input
                       type="email"
-                      placeholder="name@example.com"
+                      placeholder={t('contactPage.placeholderEmail')}
                       value={formData.email}
                       onChange={e => setFormData({ ...formData, email: e.target.value })}
                       className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
@@ -101,25 +95,25 @@ export default function ContactUsPage() {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-gray-700 mb-1">Subject</label>
+                  <label className="block font-semibold text-gray-700 mb-1">{t('contactPage.labelSubject')}</label>
                   <select
                     value={formData.subject}
                     onChange={e => setFormData({ ...formData, subject: e.target.value })}
                     className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none bg-white"
                   >
-                    <option value="General Inquiry">General Order Inquiry</option>
-                    <option value="Delivery Tracking">Delivery Tracking & Status</option>
-                    <option value="Wholesale / Bulk">Wholesale & Bulk Orders</option>
-                    <option value="Feedback">Product Quality Feedback</option>
+                    <option value="General Inquiry">{t('contactPage.subjectGeneral')}</option>
+                    <option value="Delivery Tracking">{t('contactPage.subjectTracking')}</option>
+                    <option value="Wholesale / Bulk">{t('contactPage.subjectWholesale')}</option>
+                    <option value="Feedback">{t('contactPage.subjectFeedback')}</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-gray-700 mb-1">Your Message *</label>
+                  <label className="block font-semibold text-gray-700 mb-1">{t('contactPage.labelMessage')}</label>
                   <textarea
                     rows={4}
                     required
-                    placeholder="Write details about your question or order..."
+                    placeholder={t('contactPage.placeholderMessage')}
                     value={formData.message}
                     onChange={e => setFormData({ ...formData, message: e.target.value })}
                     className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
@@ -131,7 +125,7 @@ export default function ContactUsPage() {
                   className="w-full bg-wine hover:bg-wine-deep text-white font-bold text-xs uppercase tracking-widest py-3.5 rounded-xl flex items-center justify-center space-x-2 shadow-md transition"
                 >
                   <Send className="w-4 h-4" />
-                  <span>SUBMIT MESSAGE</span>
+                  <span>{t('contactPage.submitMessage')}</span>
                 </button>
               </form>
             )}
@@ -141,7 +135,7 @@ export default function ContactUsPage() {
           <div className="space-y-6">
             <div className="bg-sand p-8 rounded-3xl border border-red-100 space-y-6">
               <h3 className="text-xl font-bold font-serif text-wine uppercase">
-                Direct Contact Helpline
+                {t('contactPage.helplineTitle')}
               </h3>
 
               <div className="space-y-4 text-xs text-gray-800">
@@ -150,9 +144,9 @@ export default function ContactUsPage() {
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 uppercase">Customer Support Helpline</h4>
+                    <h4 className="font-bold text-gray-900 uppercase">{t('contactPage.supportHelpline')}</h4>
                     <p className="font-bold text-sm text-wine mt-0.5">0347-3811510</p>
-                    <p className="text-gray-500 text-[11px]">Available Mon - Sat (9:00 AM - 9:00 PM)</p>
+                    <p className="text-gray-500 text-[11px]">{t('contactPage.availableMonSat')}</p>
                   </div>
                 </div>
 
@@ -161,14 +155,14 @@ export default function ContactUsPage() {
                     <MessageSquare className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 uppercase">WhatsApp Instant Support</h4>
+                    <h4 className="font-bold text-gray-900 uppercase">{t('contactPage.whatsappSupport')}</h4>
                     <a
                       href="https://wa.me/923473811510"
                       target="_blank"
                       rel="noreferrer"
                       className="font-bold text-sm text-green-700 underline mt-0.5 block hover:text-green-800"
                     >
-                      Click to chat on WhatsApp (+92 347 3811510)
+                      {t('contactPage.clickToChat')}
                     </a>
                   </div>
                 </div>
@@ -178,7 +172,7 @@ export default function ContactUsPage() {
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 uppercase">Email Support</h4>
+                    <h4 className="font-bold text-gray-900 uppercase">{t('contactPage.emailSupport')}</h4>
                     <p className="font-semibold text-gray-800">hello@royaldryfruits.com</p>
                   </div>
                 </div>
@@ -188,9 +182,9 @@ export default function ContactUsPage() {
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 uppercase">Head Office Address</h4>
+                    <h4 className="font-bold text-gray-900 uppercase">{t('contactPage.headOffice')}</h4>
                     <p className="font-medium text-gray-700 leading-relaxed">
-                      Royal Dry Fruits Headquarters, Sector I-9/3, Industrial Area, Islamabad, Pakistan.
+                      {t('contactPage.headOfficeText')}
                     </p>
                   </div>
                 </div>
@@ -199,9 +193,9 @@ export default function ContactUsPage() {
 
             {/* Pakistan Coverage Banner */}
             <div className="bg-gray-900 text-white p-6 rounded-3xl text-center space-y-2">
-              <h4 className="font-bold text-sm uppercase tracking-wider text-yellow-400">Nationwide Cash on Delivery</h4>
+              <h4 className="font-bold text-sm uppercase tracking-wider text-yellow-400">{t('contactPage.coverageTitle')}</h4>
               <p className="text-xs text-gray-300">
-                Delivering premium handpicked nuts and dried fruits to Lahore, Karachi, Islamabad, Rawalpindi, Peshawar, Multan, Quetta, and all 300+ cities in Pakistan.
+                {t('contactPage.coverageText')}
               </p>
             </div>
           </div>

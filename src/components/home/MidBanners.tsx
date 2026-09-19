@@ -3,8 +3,10 @@
 import React from 'react';
 import Link from 'next/link';
 import { useStoreData } from '@/context/StoreDataContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function MidBanners() {
+  const { t } = useLanguage();
   const { storeContent } = useStoreData();
   const banners = (storeContent.midBanners || []).filter(
     b => b && typeof b.image === 'string' && b.image.trim() !== ''
@@ -22,7 +24,7 @@ export default function MidBanners() {
         >
           <img
             src={banner.image}
-            alt={banner.alt || "Promotional Banner"}
+            alt={banner.alt || t('home.promotionalBanner')}
             referrerPolicy="no-referrer"
             loading="lazy"
             className="w-full h-auto md:h-full md:min-h-[120px] object-contain md:object-cover block transition-transform duration-500 group-hover:scale-[1.005]"

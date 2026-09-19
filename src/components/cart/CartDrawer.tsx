@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Trash2, Plus, Minus, ShoppingBag, ArrowRight, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { useCart } from '@/hooks/useCart';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function CartDrawer() {
   const {
@@ -18,6 +19,7 @@ export default function CartDrawer() {
     amountNeededForFreeShipping,
     freeShippingThreshold
   } = useCart();
+  const { isUr, t } = useLanguage();
 
   const [shippingDismissed, setShippingDismissed] = useState(false);
 
@@ -50,7 +52,7 @@ export default function CartDrawer() {
   return (
     <AnimatePresence>
       {isCartOpen && (
-        <div className="fixed inset-0 z-[100] flex justify-end">
+        <div className="fixed inset-0 z-[100]">
           
           {/* Backdrop Fade */}
           <motion.div
@@ -62,26 +64,26 @@ export default function CartDrawer() {
             onClick={() => setIsCartOpen(false)}
           />
 
-          {/* Slide-over Drawer Panel */}
+          {/* Slide-over Drawer Panel — anchored to the right edge */}
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col z-10 overflow-hidden"
+            className="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white h-full shadow-2xl flex flex-col z-10 overflow-hidden"
           >
             {/* Header */}
             <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50">
               <div className="flex items-center space-x-2">
                 <ShoppingBag className="w-5 h-5 text-wine" />
                 <h2 className="font-bold text-gray-900 uppercase text-sm tracking-wide">
-                  Your Shopping Cart ({cart.reduce((a, c) => a + c.quantity, 0)})
+                  {t('cartDrawer.yourCart', { count: cart.reduce((a, c) => a + c.quantity, 0) })}
                 </h2>
               </div>
               <button 
                 onClick={() => setIsCartOpen(false)}
                 className="p-2 text-gray-500 hover:text-black rounded-full transition-colors"
-                aria-label="Close Cart"
+                aria-label={t('cartDrawer.closeCart')}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -93,17 +95,17 @@ export default function CartDrawer() {
               <button
                 onClick={() => setShippingDismissed(true)}
                 className="absolute top-1.5 right-2 p-1 text-wine/50 hover:text-wine transition-colors z-10"
-                aria-label="Close shipping notification"
+                aria-label={t('cartDrawer.closeShippingNotice')}
               >
                 <X className="w-3.5 h-3.5" />
               </button>
               {amountNeededForFreeShipping > 0 ? (
                 <p className="text-xs text-wine font-semibold pr-5">
-                  Add <span className="font-bold">Rs. {amountNeededForFreeShipping}</span> more to get <span className="underline">FREE Shipping</span>!
+                  {t('cartDrawer.addMoreFreeShipping', { amount: amountNeededForFreeShipping.toLocaleString() })}
                 </p>
               ) : (
                 <p className="text-xs text-green-700 font-bold pr-5">
-                  Congratulations! You have unlocked FREE Shipping!
+                  {t('cartDrawer.freeShippingUnlocked')}
                 </p>
               )}
               <div className="w-full bg-white/70 h-2 rounded-full mt-2 overflow-hidden">
@@ -122,13 +124,13 @@ export default function CartDrawer() {
               {cart.length === 0 ? (
                 <div className="text-center py-16 space-y-4">
                   <ShoppingBag className="w-16 h-16 text-gray-300 mx-auto" />
-                  <p className="text-gray-500 text-sm font-medium">Your shopping cart is empty</p>
+                  <p className="text-gray-500 text-sm font-medium">{t('cartDrawer.emptyCart')}</p>
                   <Link
                     href="/collections/all-products"
                     onClick={() => setIsCartOpen(false)}
                     className="inline-block bg-wine text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-md hover:bg-wine-deep transition"
                   >
-                    Explore Products
+                    {t('cartDrawer.exploreProducts')}
                   </Link>
                 </div>
               ) : (
@@ -137,12 +139,12 @@ export default function CartDrawer() {
                     {item.image && item.image.trim() !== '' ? (
                       <img 
                         src={item.image} 
-                        alt={item.name || 'Cart item'} 
+                        alt={item.name || t('cartDrawer.cartItemAlt')} 
                         className="w-20 h-20 object-cover rounded-lg border border-gray-200 flex-shrink-0"
                       />
                     ) : (
                       <div className="w-20 h-20 bg-gray-100 rounded-lg border border-gray-200 flex-shrink-0 flex items-center justify-center text-[10px] text-gray-400 font-medium">
-                        No Image
+                        {t('product.noImage')}
                       </div>
                     )}
                     <div className="flex-1 flex flex-col justify-between">
@@ -153,7 +155,7 @@ export default function CartDrawer() {
                             onClick={() => setIsCartOpen(false)}
                             className="font-semibold text-xs text-gray-800 hover:text-wine line-clamp-2"
                           >
-                            {item.name}
+                            {(isUr && item.urduName) ? item.urduName : item.name}
                           </Link>
                           <button 
                             onClick={() => removeFromCart(item.cartId)}
@@ -163,7 +165,7 @@ export default function CartDrawer() {
                           </button>
                         </div>
                         <span className="inline-block bg-gray-100 text-gray-600 text-[10px] px-2 py-0.5 rounded mt-1 font-medium">
-                          Weight: {item.selectedWeight}
+                          {t('cartDrawer.weight', { weight: item.selectedWeight })}
                         </span>
                       </div>
 
@@ -201,12 +203,12 @@ export default function CartDrawer() {
             {cart.length > 0 && (
               <div className="p-4 border-t border-gray-200 bg-gray-50 space-y-3">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-600 font-medium">Subtotal</span>
+                  <span className="text-gray-600 font-medium">{t('cartDrawer.subtotal')}</span>
                   <span className="text-gray-900 font-extrabold text-base">Rs. {subtotal}</span>
                 </div>
 
                 <p className="text-[11px] text-gray-500">
-                  Taxes and shipping calculated at checkout. Cash on Delivery (COD) available across Pakistan.
+                  {t('cartDrawer.taxesShippingNote')}
                 </p>
 
                 <button
@@ -216,13 +218,13 @@ export default function CartDrawer() {
                   }}
                   className="w-full bg-wine hover:bg-wine-deep text-white font-bold text-xs uppercase tracking-widest py-3.5 rounded-lg flex items-center justify-center space-x-2 shadow-lg transition-all"
                 >
-                  <span>PROCEED TO CHECKOUT</span>
+                  <span>{t('cartDrawer.proceedCheckout')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
                 <div className="flex items-center justify-center space-x-2 text-[10px] text-gray-500 pt-1">
                   <ShieldCheck className="w-3.5 h-3.5 text-green-600" />
-                  <span>100% Money Back Guarantee & Premium Quality</span>
+                  <span>{t('cartDrawer.guarantee')}</span>
                 </div>
               </div>
             )}

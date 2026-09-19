@@ -7,8 +7,10 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function RegisterPage() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -31,10 +33,10 @@ export default function RegisterPage() {
       <section className="bg-sand py-10 border-b border-red-100">
         <div className="container mx-auto px-4 max-w-7xl text-center">
           <h1 className="text-3xl md:text-4xl font-serif font-bold text-wine uppercase tracking-wide">
-            Create New Account
+            {t('registerPage.title')}
           </h1>
           <p className="text-xs md:text-sm text-gray-600 max-w-xl mx-auto mt-2">
-            Join the Royal Dry Fruits family for fast checkout and special discount offers.
+            {t('registerPage.subtitle')}
           </p>
         </div>
       </section>
@@ -44,20 +46,20 @@ export default function RegisterPage() {
           {isRegistered ? (
             <div className="text-center py-6 space-y-4">
               <CheckCircle className="w-16 h-16 text-green-600 mx-auto" />
-              <h2 className="text-xl font-bold text-gray-900">Account Created!</h2>
-              <p className="text-xs text-gray-600">Your account has been created successfully. Welcome to Royal Dry Fruits!</p>
+              <h2 className="text-xl font-bold text-gray-900">{t('registerPage.successTitle')}</h2>
+              <p className="text-xs text-gray-600">{t('registerPage.successSub')}</p>
               <Link
                 href="/collections/all-products"
                 className="inline-block bg-wine text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-xl shadow-md"
               >
-                Start Shopping
+                {t('registerPage.startShopping')}
               </Link>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4 text-xs">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-gray-700 mb-1">First Name *</label>
+                  <label className="block font-bold text-gray-700 mb-1">{t('registerPage.firstName')}</label>
                   <input
                     type="text"
                     required
@@ -68,7 +70,7 @@ export default function RegisterPage() {
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-gray-700 mb-1">Last Name *</label>
+                  <label className="block font-bold text-gray-700 mb-1">{t('registerPage.lastName')}</label>
                   <input
                     type="text"
                     required
@@ -81,7 +83,7 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block font-bold text-gray-700 mb-1">Mobile / WhatsApp *</label>
+                <label className="block font-bold text-gray-700 mb-1">{t('registerPage.mobile')}</label>
                 <input
                   type="tel"
                   required
@@ -93,7 +95,7 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block font-bold text-gray-700 mb-1">Email Address *</label>
+                <label className="block font-bold text-gray-700 mb-1">{t('registerPage.email')}</label>
                 <input
                   type="email"
                   required
@@ -105,11 +107,11 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block font-bold text-gray-700 mb-1">Password *</label>
+                <label className="block font-bold text-gray-700 mb-1">{t('registerPage.password')}</label>
                 <input
                   type="password"
                   required
-                  placeholder="Minimum 6 characters"
+                  placeholder={t('registerPage.passwordPlaceholder')}
                   value={formData.password}
                   onChange={e => setFormData({ ...formData, password: e.target.value })}
                   className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-wine outline-none"
@@ -120,14 +122,14 @@ export default function RegisterPage() {
                 type="submit"
                 className="w-full bg-wine hover:bg-wine-deep text-white font-bold text-xs uppercase tracking-widest py-3.5 rounded-xl flex items-center justify-center space-x-2 shadow-md transition"
               >
-                <span>CREATE MY ACCOUNT</span>
+                <span>{t('registerPage.createBtn')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
               <div className="text-center pt-4 border-t border-gray-100 text-gray-600 text-xs">
-                Already have an account?{' '}
+                {t('registerPage.alreadyHave')}{' '}
                 <Link href="/account/login" className="font-bold text-wine hover:underline">
-                  Sign In Here
+                  {t('registerPage.signInHere')}
                 </Link>
               </div>
             </form>

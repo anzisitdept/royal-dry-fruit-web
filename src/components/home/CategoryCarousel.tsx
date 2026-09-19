@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useStoreData } from '@/context/StoreDataContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { Category } from '@/types';
 
 interface CategoryCarouselProps {
@@ -12,9 +13,10 @@ interface CategoryCarouselProps {
 }
 
 export default function CategoryCarousel({ 
-  title = "Shop by Category", 
+  title, 
   categoryIds 
 }: CategoryCarouselProps) {
+  const { t, isUr } = useLanguage();
   const { categories } = useStoreData();
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'center',
@@ -69,7 +71,7 @@ export default function CategoryCarousel({
   return (
     <section className="py-10 md:py-16 w-full">
       <h2 className="text-xl md:text-2xl lg:text-3xl text-center mb-8 md:mb-12 font-serif text-charcoal uppercase tracking-wide px-4">
-        {title}
+        {title || t('home.shopByCategory')}
       </h2>
 
       <div className="overflow-hidden w-full px-4 sm:px-6 md:px-8" ref={emblaRef}>
@@ -84,7 +86,7 @@ export default function CategoryCarousel({
                 {cat.image && cat.image.trim() !== '' ? (
                   <img
                     src={cat.image}
-                    alt={cat.name}
+                    alt={isUr && cat.urduName ? cat.urduName : cat.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 ) : (
@@ -92,7 +94,7 @@ export default function CategoryCarousel({
                 )}
               </div>
               <h3 className="font-bold text-charcoal uppercase tracking-wider text-xs md:text-sm group-hover:text-wine transition-colors text-center">
-                {cat.name}
+                {isUr && cat.urduName ? cat.urduName : cat.name}
               </h3>
             </Link>
           ))}
@@ -106,7 +108,7 @@ export default function CategoryCarousel({
             <button
               key={i}
               onClick={() => scrollTo(i)}
-              aria-label={`Go to slide ${i + 1}`}
+              aria-label={t('ariaMenu.goToSlide', { n: i + 1 })}
               className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                 selectedIndex === i ? 'w-6 bg-wine' : 'w-2 bg-gray-300 hover:bg-gray-400'
               }`}

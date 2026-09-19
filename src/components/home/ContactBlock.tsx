@@ -1,33 +1,35 @@
 import React from 'react';
 import { Mail, MessageCircle, Phone } from 'lucide-react';
-
-const contactItems = [
-  {
-    href: 'mailto:hello@royaldryfruits.com',
-    icon: Mail,
-    alt: 'Email',
-    label: 'Email Us',
-  },
-  {
-    href: 'https://wa.me/923473811510',
-    icon: MessageCircle,
-    alt: 'WhatsApp',
-    label: 'WhatsApp Us',
-  },
-  {
-    href: 'tel:03473811510',
-    icon: Phone,
-    alt: 'Phone',
-    label: 'Call Us',
-  },
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function ContactBlock() {
+  const { t } = useLanguage();
+  const contactItems = [
+    {
+      href: 'mailto:hello@royaldryfruits.com',
+      icon: Mail,
+      alt: 'Email',
+      label: t('contactBlock.email'),
+    },
+    {
+      href: 'https://wa.me/923473811510',
+      icon: MessageCircle,
+      alt: 'WhatsApp',
+      label: t('contactBlock.whatsapp'),
+    },
+    {
+      href: 'tel:03473811510',
+      icon: Phone,
+      alt: 'Phone',
+      label: t('contactBlock.call'),
+    },
+  ];
+
   return (
     <section className="py-12 md:py-16 bg-white w-full">
       <div className="container mx-auto px-4 max-w-5xl text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-charcoal mb-4">We&apos;re here to help!</h2>
-        <p className="text-charcoal/70 mb-8 md:mb-10 text-base md:text-lg">Have a question or need assistance with your order? Reach out to us.</p>
+        <h2 className="text-2xl md:text-3xl font-bold text-charcoal mb-4">{t('contactBlock.heading')}</h2>
+        <p className="text-charcoal/70 mb-8 md:mb-10 text-base md:text-lg">{t('contactBlock.subtitle')}</p>
 
         <div className="flex flex-row justify-center items-stretch gap-3 sm:gap-4 md:gap-6">
           {contactItems.map((item) => (

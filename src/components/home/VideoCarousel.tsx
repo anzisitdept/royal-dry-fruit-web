@@ -6,8 +6,10 @@ import { Volume2, VolumeX, Play } from 'lucide-react';
 import VideoModal from './VideoModal';
 import { ReelItem } from '@/types';
 import { useStoreData } from '@/context/StoreDataContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function VideoCarousel() {
+  const { t } = useLanguage();
   const { storeContent } = useStoreData();
   const REELS: ReelItem[] = storeContent.reels || [];
 
@@ -37,7 +39,7 @@ export default function VideoCarousel() {
     <section className="py-10 md:py-12 overflow-hidden bg-white">
       <div className="container mx-auto px-3 md:px-4 max-w-7xl">
         <h2 className="text-xl md:text-2xl lg:text-3xl text-center mb-8 md:mb-10 font-serif text-charcoal uppercase tracking-wide">
-          SEE WHAT OUR CUSTOMERS SAY
+          {t('home.videoHeading')}
         </h2>
 
         <div className="overflow-hidden" ref={emblaRef}>
@@ -64,10 +66,11 @@ export default function VideoCarousel() {
                   {/* Top Bar Overlay */}
                   <div className="absolute top-3 left-3 right-3 flex justify-between items-center z-10">
                     <span className="bg-black/60 backdrop-blur-md text-white text-[10px] uppercase tracking-wider font-semibold px-2.5 py-1 rounded-full border border-white/20">
-                      Customer Reel
+                      {t('home.customerReel')}
                     </span>
                     <button
                       onClick={(e) => toggleMute(reel.id, e)}
+                      aria-label={mutedMap[reel.id] ? t('ariaMenu.unmute') : t('ariaMenu.mute')}
                       className="bg-black/60 text-white p-2 rounded-full backdrop-blur-md hover:bg-black/80 transition"
                     >
                       {mutedMap[reel.id] ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
@@ -87,7 +90,7 @@ export default function VideoCarousel() {
                       {reel.title}
                     </p>
                     <span className="text-[11px] text-yellow-400 font-medium mt-1 inline-block">
-                      ★ 4.9 Verified Review
+                      {t('home.verifiedReview')}
                     </span>
                   </div>
 

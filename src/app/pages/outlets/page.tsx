@@ -6,6 +6,7 @@ import TopBar from '@/components/layout/TopBar'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import WhatsAppButton from '@/components/layout/WhatsAppButton'
+import { useLanguage } from '@/context/LanguageContext'
 import {
   MapPin, Phone, Clock, ChevronDown, Navigation, MessageCircle, Store, Building2, ShoppingBag,
 } from 'lucide-react'
@@ -73,6 +74,7 @@ const OUTLETS: Outlet[] = [
 const CITIES = ['All', 'Sukkur', 'Karachi']
 
 export default function OutletsPage() {
+  const { t } = useLanguage()
   const [activeCity, setActiveCity] = useState('All')
   const [expanded, setExpanded] = useState<string | null>(null)
 
@@ -88,14 +90,13 @@ export default function OutletsPage() {
         <section className="bg-wine-deep text-ivory">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-16 text-center">
             <p className="text-sand text-xs font-bold uppercase tracking-[0.25em] mb-3">
-              Visit Us in Person
+              {t('pages.outlets.kicker')}
             </p>
             <h1 className="font-serif text-3xl md:text-5xl font-bold mb-4">
-              Our Outlets &amp; Store Locations
+              {t('pages.outlets.title')}
             </h1>
             <p className="max-w-2xl mx-auto text-ivory/80 text-sm md:text-base">
-              Walk into any of our outlets for a live tasting experience, custom gift baskets,
-              and same-day pickup. Find the store nearest to you.
+              {t('outletsPage.heroSubtitle')}
             </p>
           </div>
         </section>
@@ -114,7 +115,7 @@ export default function OutletsPage() {
                 }`}
               >
                 <MapPin className="inline w-3.5 h-3.5 mr-1" />
-                {city}
+                {city === 'All' ? t('outletsPage.filterAll') : city}
               </button>
             ))}
           </div>
@@ -125,6 +126,12 @@ export default function OutletsPage() {
               const Icon = outlet.typeIcon
               const isOpen = expanded === outlet.id
               const soon = outlet.status === 'soon'
+              const typeKey = outlet.id === 'sukkur-flagship' ? 'outletsPage.typeFlagship' : outlet.id === 'sukkur-market' ? 'outletsPage.typeMarket' : 'outletsPage.typeSoon'
+              const localName = t(`outletsPage.${outlet.id}Name`)
+              const localAddress = t(`outletsPage.${outlet.id}Address`)
+              const localLandmark = t(`outletsPage.${outlet.id}Landmark`)
+              const localHours = t(`outletsPage.${outlet.id}Hours`)
+              const localServices = outlet.services.map((s, i) => t(`outletsPage.${outlet.id}Service${i}`))
               return (
                 <div
                   key={outlet.id}
@@ -141,14 +148,14 @@ export default function OutletsPage() {
                         </span>
                         <div>
                           <p className={`text-[10px] uppercase tracking-[0.2em] font-bold ${soon ? 'text-wine' : 'text-sand'}`}>
-                            {outlet.type}
+                            {t(typeKey)}
                           </p>
-                          <h2 className="font-serif text-lg font-bold leading-tight mt-0.5">{outlet.name}</h2>
+                          <h2 className="font-serif text-lg font-bold leading-tight mt-0.5">{localName}</h2>
                         </div>
                       </div>
                       {soon && (
                         <span className="bg-wine text-white text-[9px] font-bold uppercase tracking-wider px-2 py-1 rounded-full whitespace-nowrap">
-                          Coming Soon
+                          {t('outletsPage.comingSoon')}
                         </span>
                       )}
                     </div>
@@ -158,8 +165,8 @@ export default function OutletsPage() {
                     <div className="flex gap-2.5 text-gray-600">
                       <MapPin className="w-4 h-4 text-wine flex-shrink-0 mt-0.5" />
                       <div>
-                        <p>{outlet.address}</p>
-                        <p className="text-xs text-gray-400 mt-0.5">{outlet.landmark}</p>
+                        <p>{localAddress}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">{localLandmark}</p>
                       </div>
                     </div>
 
@@ -172,7 +179,7 @@ export default function OutletsPage() {
 
                     <div className="flex gap-2.5 text-gray-600 items-start">
                       <Clock className="w-4 h-4 text-wine flex-shrink-0 mt-0.5" />
-                      <p className="text-xs leading-relaxed">{outlet.hours}</p>
+                      <p className="text-xs leading-relaxed">{localHours}</p>
                     </div>
 
                     {/* Expandable services */}
@@ -180,13 +187,13 @@ export default function OutletsPage() {
                       onClick={() => setExpanded(isOpen ? null : outlet.id)}
                       className="w-full flex items-center justify-between bg-sand/50 hover:bg-sand rounded-xl px-4 py-2.5 text-xs font-bold text-dryfruit transition cursor-pointer"
                     >
-                      <span>{isOpen ? 'Hide services' : 'What we offer here'}</span>
+                      <span>{isOpen ? t('outletsPage.hideServices') : t('outletsPage.whatWeOffer')}</span>
                       <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
                     </button>
 
                     {isOpen && (
                       <ul className="space-y-1.5 pl-1.5">
-                        {outlet.services.map((s) => (
+                        {localServices.map((s) => (
                           <li key={s} className="flex items-center gap-2 text-xs text-gray-600">
                             <span className="w-1.5 h-1.5 rounded-full bg-wine flex-shrink-0" />
                             {s}
@@ -204,7 +211,7 @@ export default function OutletsPage() {
                         className="flex items-center justify-center gap-1.5 bg-wine hover:bg-wine-deep text-white text-xs font-bold py-2.5 rounded-xl transition cursor-pointer"
                       >
                         <Navigation className="w-3.5 h-3.5" />
-                        Directions
+                        {t('outletsPage.directions')}
                       </a>
                       <a
                         href={`https://wa.me/923473811510?text=${encodeURIComponent(`Hi Royal Dry Fruits! I'd like to know more about your outlet at ${outlet.name}.`)}`}
@@ -213,7 +220,7 @@ export default function OutletsPage() {
                         className="flex items-center justify-center gap-1.5 bg-white border border-gray-300 hover:border-wine hover:text-wine text-charcoal text-xs font-bold py-2.5 rounded-xl transition cursor-pointer"
                       >
                         <MessageCircle className="w-3.5 h-3.5" />
-                        WhatsApp
+                        {t('outletsPage.whatsapp')}
                       </a>
                     </div>
                   </div>
@@ -227,11 +234,10 @@ export default function OutletsPage() {
             <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-wine-deep/50 blur-2xl" />
             <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full bg-sand/10 blur-2xl" />
             <h2 className="font-serif text-2xl md:text-3xl font-bold mb-2 relative">
-              Opening a new outlet?
+              {t('outletsPage.ctaTitle')}
             </h2>
             <p className="text-ivory/80 text-sm max-w-xl mx-auto mb-6 relative">
-              We&apos;re expanding across Pakistan. Partner with Royal Dry Fruits as a franchisee,
-              distributor, or wholesale buyer — and bring premium quality to your city.
+              {t('outletsPage.ctaBody')}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 relative">
               <a
@@ -240,13 +246,13 @@ export default function OutletsPage() {
                 rel="noopener noreferrer"
                 className="inline-block bg-white text-wine font-bold text-xs uppercase tracking-wider px-7 py-3 rounded-xl hover:bg-sand transition"
               >
-                Talk Franchise / Wholesale
+                {t('outletsPage.ctaFranchise')}
               </a>
               <Link
                 href="/pages/contact-us"
                 className="inline-block border-2 border-white text-white font-bold text-xs uppercase tracking-wider px-7 py-3 rounded-xl hover:bg-wine-deep transition"
               >
-                Contact Support
+                {t('outletsPage.ctaContact')}
               </Link>
             </div>
           </div>

@@ -7,9 +7,11 @@ import Link from 'next/link';
 import { Product } from '@/types';
 import { useStoreData } from '@/context/StoreDataContext';
 import { useCart } from '@/context/CartContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function SearchModal() {
   const { isSearchOpen, setIsSearchOpen, addToCart } = useCart();
+  const { isUr, t } = useLanguage();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Product[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -45,7 +47,7 @@ export default function SearchModal() {
     const recognition: any = new SpeechRecognitionAPI();
     recognition.continuous = false;
     recognition.interimResults = false;
-    recognition.lang = 'en-US';
+    recognition.lang = isUr ? 'ur-PK' : 'en-US';
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     recognition.onresult = (event: any) => {
@@ -66,7 +68,7 @@ export default function SearchModal() {
     recognitionRef.current = recognition;
     recognition.start();
     setIsListening(true);
-  }, [stopListening]);
+  }, [stopListening, isUr]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -176,7 +178,7 @@ export default function SearchModal() {
               <input
                 ref={inputRef}
                 type="text"
-                placeholder="Search products..."
+                placeholder={t('search.placeholder')}
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 className="flex-1 bg-transparent text-sm md:text-base font-semibold text-gray-900 placeholder-gray-400 focus:outline-none"
@@ -194,7 +196,7 @@ export default function SearchModal() {
                       ? 'bg-wine text-white animate-pulse'
                       : 'text-gray-500 hover:text-wine hover:bg-sand'
                   }`}
-                  aria-label={isListening ? 'Stop listening' : 'Search by voice'}
+                  aria-label={isListening ? t('search.stopListening') : t('search.searchByVoice')}
                 >
                   {isListening ? <MicOff size={18} /> : <Mic size={18} />}
                 </button>
@@ -213,7 +215,7 @@ export default function SearchModal() {
               {query.trim() === '' ? (
                 <div>
                   <p className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-3">
-                    SUGGESTIONS
+                    {t('search.suggestions')}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {['almonds', 'cashews', 'pistachios', 'walnuts', 'dates', 'raisins', 'mixed nuts', 'gift box'].map(term => (
@@ -234,7 +236,7 @@ export default function SearchModal() {
                   {suggestions.length > 0 && (
                     <div>
                       <p className="text-[11px] font-bold text-gray-700 uppercase tracking-widest mb-3 border-b pb-1 border-gray-100">
-                        SUGGESTIONS
+                        {t('search.suggestions')}
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {suggestions.map((sug, idx) => (
@@ -254,13 +256,13 @@ export default function SearchModal() {
                   {/* PRODUCT RESULTS SECTION */}
                   <div>
                     <p className="text-[11px] font-bold text-gray-700 uppercase tracking-widest mb-4 border-b pb-1 border-gray-100">
-                      PRODUCT RESULTS
+                      {t('search.productResults')}
                     </p>
 
                     {results.length === 0 ? (
                       <div className="text-center py-8 text-gray-500">
-                        <p className="text-sm font-semibold">No products found matching "{query}"</p>
-                        <p className="text-xs text-gray-400 mt-1">Try searching for "Almonds", "Cashews", "Pistachios" or "Dates"</p>
+                        <p className="text-sm font-semibold">{t('search.noResultsFor', { q: query })}</p>
+                        <p className="text-xs text-gray-400 mt-1">{t('search.trySearching')}</p>
                       </div>
                     ) : (
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -277,7 +279,7 @@ export default function SearchModal() {
                               <div className="relative aspect-square rounded-md overflow-hidden bg-gray-50 mb-2">
                                 <img
                                   src={product.image}
-                                  alt={product.name}
+                                  alt={isUr && product.urduName ? product.urduName : product.name}
                                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                                 {product.discountBadge && (
@@ -288,7 +290,7 @@ export default function SearchModal() {
                               </div>
 
                               <p className="font-semibold text-xs text-gray-900 group-hover:text-wine line-clamp-2 leading-tight mb-1 text-center">
-                                {product.name}
+                                {isUr && product.urduName ? product.urduName : product.name}
                               </p>
                             </Link>
 

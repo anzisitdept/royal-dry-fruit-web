@@ -9,10 +9,12 @@ import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
 import { useCart } from '@/context/CartContext';
 import { useStoreData } from '@/context/StoreDataContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function WishlistPage() {
   const { wishlist, toggleWishlist, addToCart } = useCart();
   const { products } = useStoreData();
+  const { t } = useLanguage();
 
   const wishlistProducts = products.filter(p => wishlist.includes(p.id));
 
@@ -24,10 +26,10 @@ export default function WishlistPage() {
       <section className="bg-sand py-10 border-b border-red-100">
         <div className="container mx-auto px-4 max-w-7xl text-center">
           <h1 className="text-3xl md:text-4xl font-serif font-bold text-wine uppercase tracking-wide">
-            My Wishlist ({wishlistProducts.length})
+            {t('wishlistPage.title', { count: wishlistProducts.length })}
           </h1>
           <p className="text-xs md:text-sm text-gray-600 max-w-xl mx-auto mt-2">
-            Your saved favorite nuts, dried fruits, and gift hampers.
+            {t('wishlistPage.subtitle')}
           </p>
         </div>
       </section>
@@ -36,12 +38,12 @@ export default function WishlistPage() {
         {wishlistProducts.length === 0 ? (
           <div className="text-center py-16 space-y-4 bg-gray-50 rounded-2xl border border-dashed border-gray-300">
             <Heart className="w-16 h-16 text-gray-300 mx-auto" />
-            <p className="text-gray-600 font-medium text-sm">Your wishlist is currently empty.</p>
+            <p className="text-gray-600 font-medium text-sm">{t('wishlistPage.empty')}</p>
             <Link
               href="/collections/all-products"
               className="inline-block bg-wine text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-lg hover:bg-wine-deep transition"
             >
-              Explore Products
+              {t('wishlistPage.exploreProducts')}
             </Link>
           </div>
         ) : (
@@ -55,7 +57,7 @@ export default function WishlistPage() {
                   {product.image && product.image.trim() !== '' ? (
                     <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
                   ) : (
-                    <span className="text-gray-300 text-xs font-medium">No Image</span>
+                    <span className="text-gray-300 text-xs font-medium">{t('wishlistPage.noImage')}</span>
                   )}
                   <button
                     onClick={() => toggleWishlist(product.id)}
@@ -85,7 +87,7 @@ export default function WishlistPage() {
                       className="w-full bg-wine hover:bg-wine-deep text-white text-xs font-bold uppercase tracking-wider py-2.5 rounded-lg flex items-center justify-center space-x-2 transition"
                     >
                       <ShoppingBag className="w-3.5 h-3.5" />
-                      <span>ADD TO CART</span>
+                      <span>{t('wishlistPage.addToCart')}</span>
                     </button>
                   </div>
                 </div>

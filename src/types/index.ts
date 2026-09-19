@@ -93,6 +93,11 @@ export interface Order {
   shippingFee: number;
   totalAmount: number;
   paymentMethod: string;
+  paymentType?: 'cod' | 'online';
+  paymentNetwork?: string;
+  receiptUrl?: string;
+  advancePaid?: number;
+  payableAtDelivery?: number;
   orderStatus: OrderStatus;
 }
 

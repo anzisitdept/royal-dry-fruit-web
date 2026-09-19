@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Review } from '@/types';
+import { useLanguage } from '@/context/LanguageContext';
 import { subscribeAllApprovedReviews } from '@/lib/firestoreServices';
 
 interface ReviewCard {
@@ -23,6 +24,7 @@ const STATIC_REVIEWS: ReviewCard[] = [
 const FALLBACK_REVIEW_COUNT = 2200;
 
 export default function ReviewCarousel({ compact = false }: { compact?: boolean }) {
+  const { t, isUr } = useLanguage();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -44,12 +46,21 @@ export default function ReviewCarousel({ compact = false }: { compact?: boolean 
 
   const hasDynamic = loaded && reviews.length > 0;
 
-  const items: ReviewCard[] = hasDynamic
+  const urduStaticReviews: ReviewCard[] = [
+    { stars: 5, title: t('reviews.static1Title'), body: t('reviews.static1Body'), author: t('reviews.authorAnonymous') },
+    { stars: 5, title: t('reviews.static2Title'), body: t('reviews.static2Body'), author: '03161717268' },
+    { stars: 5, title: t('reviews.static3Title'), body: t('reviews.static3Body'), author: 'فاطمہ K.' },
+    { stars: 5, title: t('reviews.static4Title'), body: t('reviews.static4Body'), author: 'احمد R.' },
+  ];
+
+  const items: ReviewCard[] = isUr
+    ? urduStaticReviews
+    : hasDynamic
     ? reviews.map(r => ({
         stars: typeof r.rating === 'number' ? r.rating : 5,
         title: r.title || '',
         body: r.body || '',
-        author: r.author || 'Anonymous'
+        author: r.author || t('reviews.authorAnonymous')
       }))
     : STATIC_REVIEWS;
 
@@ -85,15 +96,15 @@ export default function ReviewCarousel({ compact = false }: { compact?: boolean 
           {/* ── Left Column: Heading, Rating, Count, Nav ── */}
           <div className="lg:w-[320px] flex-shrink-0 text-center lg:text-left mb-8 lg:mb-0 lg:sticky lg:top-8">
             <p className="font-serif font-bold text-gray-900 leading-tight mb-3 text-2xl md:text-3xl">
-              Let customers speak for us
+              {t('reviews.heading')}
             </p>
             <div className="text-wine text-2xl md:text-3xl mb-2">★★★★★</div>
-            <p className="text-sm text-wine font-semibold mb-6">from {count} reviews</p>
+            <p className="text-sm text-wine font-semibold mb-6">{t('reviews.fromCount', { count })}</p>
 
             {/* Verified badge */}
             <div className="hidden lg:flex items-center gap-2 justify-center lg:justify-start mb-6">
               <span className="bg-wine text-white text-[10px] font-bold px-2.5 py-1 rounded-sm">
-                ✓ Verified Customer
+                {t('reviews.verifiedCustomer')}
               </span>
             </div>
 
@@ -103,7 +114,7 @@ export default function ReviewCarousel({ compact = false }: { compact?: boolean 
                 onClick={() => emblaApi?.scrollPrev()}
                 disabled={!canPrev}
                 className="bg-white border border-gray-300 hover:border-gray-400 shadow-sm rounded-full w-10 h-10 flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-default transition"
-                aria-label="Previous review"
+                aria-label={t('reviews.previous')}
               >
                 <ChevronLeft size={20} color="#333" />
               </button>
@@ -111,7 +122,7 @@ export default function ReviewCarousel({ compact = false }: { compact?: boolean 
                 onClick={() => emblaApi?.scrollNext()}
                 disabled={!canNext}
                 className="bg-white border border-gray-300 hover:border-gray-400 shadow-sm rounded-full w-10 h-10 flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-default transition"
-                aria-label="Next review"
+                aria-label={t('reviews.next')}
               >
                 <ChevronRight size={20} color="#333" />
               </button>
@@ -125,7 +136,7 @@ export default function ReviewCarousel({ compact = false }: { compact?: boolean 
               onClick={() => emblaApi?.scrollPrev()}
               disabled={!canPrev}
               className="lg:hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 shadow-md rounded-full p-1.5 sm:p-2 flex-shrink-0 cursor-pointer disabled:opacity-30 disabled:cursor-default"
-              aria-label="Previous review"
+              aria-label={t('reviews.previous')}
             >
               <ChevronLeft size={22} color="#333" />
             </button>
@@ -150,8 +161,8 @@ export default function ReviewCarousel({ compact = false }: { compact?: boolean 
                       {/* Author + Verified */}
                       <div className="flex items-center gap-2 mt-auto">
                         <p className="text-sm text-gray-700 font-semibold">{r.author}</p>
-                        <span className="bg-wine text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm">
-                          ✓ Verified Buyer
+<span className="bg-wine text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm">
+                          ✓ {t('reviews.verifiedBuyer')}
                         </span>
                       </div>
                     </div>
@@ -165,7 +176,7 @@ export default function ReviewCarousel({ compact = false }: { compact?: boolean 
               onClick={() => emblaApi?.scrollNext()}
               disabled={!canNext}
               className="lg:hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 shadow-md rounded-full p-1.5 sm:p-2 flex-shrink-0 cursor-pointer disabled:opacity-30 disabled:cursor-default"
-              aria-label="Next review"
+              aria-label={t('reviews.next')}
             >
               <ChevronRight size={22} color="#333" />
             </button>
@@ -176,3 +187,4 @@ export default function ReviewCarousel({ compact = false }: { compact?: boolean 
     </section>
   );
 }
+

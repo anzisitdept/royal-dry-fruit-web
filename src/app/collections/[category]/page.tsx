@@ -11,6 +11,7 @@ import WhatsAppButton from '@/components/layout/WhatsAppButton';
 
 import { Product } from '@/types';
 import { useStoreData } from '@/context/StoreDataContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { useCart } from '@/hooks/useCart';
 
 /* ─── Sidebar Wrapper ────────────────────────── */
@@ -34,7 +35,9 @@ import { getProductEffectivePrice, getProductEffectiveOriginalPrice, getProductD
 
 /* ─── Product Card ───────────────────────────── */
 function ProductCard({ product }: { product: Product }) {
+  const { t, isUr } = useLanguage();
   const [hovered, setHovered] = useState(false);
+  const productName = isUr && product.urduName ? product.urduName : product.name;
   const primaryImg = (product.image && product.image.trim() !== '') 
     ? product.image 
     : ((product.images && product.images[0] && product.images[0].trim() !== '') ? product.images[0] : '');
@@ -56,12 +59,12 @@ function ProductCard({ product }: { product: Product }) {
         {img ? (
           <img
             src={img}
-            alt={product.name || 'Product'}
+            alt={productName || t('product.productAlt')}
             style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s ease', transform: hovered ? 'scale(1.04)' : 'scale(1)' }}
           />
         ) : (
           <div style={{ color: '#aaa', fontSize: '11px', fontWeight: 500 }}>
-            No Image
+            {t('product.noImage')}
           </div>
         )}
 
@@ -73,7 +76,7 @@ function ProductCard({ product }: { product: Product }) {
           )}
           {product.isBestSeller && (
             <span style={{ background: '#6B4B2E', color: '#fff', fontSize: '9px', fontWeight: 700, padding: '2px 6px', lineHeight: 1.4 }}>
-              Best Selling
+              {t('product.bestSeller')}
             </span>
           )}
         </div>
@@ -81,7 +84,7 @@ function ProductCard({ product }: { product: Product }) {
 
       <Link href={`/products/${product.slug}`} style={{ textDecoration: 'none' }}>
         <h3 style={{ fontSize: '13px', color: '#1a1a1a', fontWeight: 600, lineHeight: 1.3, marginBottom: '6px' }}>
-          {product.name}
+          {productName}
         </h3>
       </Link>
 
@@ -109,12 +112,15 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
   const router = useRouter();
   const searchParams = useSearchParams();
   const { products, categories } = useStoreData();
+  const { t, isUr } = useLanguage();
 
   const categorySlug = forcedCategory || (params?.category as string) || 'all-products';
   const categoryData = categories.find(c => c.slug === categorySlug || c.id === categorySlug);
   const categoryTitle = (categorySlug === 'all' || categorySlug === 'all-products')
-    ? 'ALL PRODUCTS'
-    : (categoryData ? categoryData.name.split('(')[0].trim().toUpperCase() : categorySlug.replace(/-/g, ' ').toUpperCase());
+    ? t('catalog.allProducts')
+    : categoryData
+      ? (isUr && categoryData.urduName ? categoryData.urduName : categoryData.name.split('(')[0].trim().toUpperCase())
+      : (isUr ? categorySlug.replace(/-/g, ' ') : categorySlug.replace(/-/g, ' ').toUpperCase());
 
   // Dynamically filter products by category
   let categoryProducts: Product[] = [];
@@ -160,7 +166,7 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
 
   const Sidebar = () => (
     <aside className="lg:border-r lg:border-gray-100 lg:pr-5">
-      <SideSection title="Categories">
+      <SideSection title={t('catalog.categories')}>
         <div className="flex flex-col gap-2">
           {categories.map(cat => (
             <Link
@@ -177,13 +183,13 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
                 alignItems: 'center'
               }}
             >
-              <span>{cat.name.split('(')[0].trim()}</span>
+              <span>{isUr && cat.urduName ? cat.urduName : cat.name.split('(')[0].trim()}</span>
             </Link>
           ))}
         </div>
       </SideSection>
 
-      <SideSection title="Availability">
+      <SideSection title={t('catalog.availability')}>
         <div className="flex flex-col gap-1.5 text-xs text-gray-600">
           <label className="flex items-center gap-1.5 cursor-pointer">
             <input
@@ -192,7 +198,7 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
               onChange={e => setInStockFilter(e.target.checked)}
               className="accent-wine cursor-pointer"
             />
-            <span>In Stock ({inStockCount})</span>
+            <span>{t('catalog.inStock', { count: inStockCount })}</span>
           </label>
           <label className={`flex items-center gap-1.5 cursor-pointer ${outOfStockCount === 0 ? 'opacity-60' : ''}`}>
             <input
@@ -201,12 +207,12 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
               onChange={e => setOutOfStockFilter(e.target.checked)}
               className="accent-wine cursor-pointer"
             />
-            <span>Out Of Stock ({outOfStockCount})</span>
+            <span>{t('catalog.outOfStock', { count: outOfStockCount })}</span>
           </label>
         </div>
       </SideSection>
 
-      <SideSection title="Bestselling">
+      <SideSection title={t('catalog.bestselling')}>
         <div className="flex flex-col gap-3.5">
           {bestSellers.map(p => (
             <Link key={p.id} href={`/products/${p.slug}`} className="flex gap-2.5 items-center no-underline">
@@ -219,7 +225,7 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
                 <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
               </div>
               <div>
-                <p className="text-[11px] text-gray-800 leading-snug mb-1">{p.name.split('(')[0].trim()}</p>
+                <p className="text-[11px] text-gray-800 leading-snug mb-1">{isUr && p.urduName ? p.urduName : p.name.split('(')[0].trim()}</p>
                 <p className="text-[11px]">
                   {p.originalPrice && p.originalPrice > p.price ? (
                     <span className="line-through text-gray-400 mr-1">Rs.{p.originalPrice.toLocaleString()}</span>
@@ -238,7 +244,7 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
     <div className="max-w-[1280px] mx-auto px-4 md:px-6">
       {/* Direct Breadcrumb: Home > [Category Name] */}
       <nav className="py-4 text-xs text-gray-500">
-        <Link href="/" className="text-gray-500 no-underline">Home</Link>
+        <Link href="/" className="text-gray-500 no-underline">{t('catalog.home')}</Link>
         <span className="mx-1.5 text-gray-400">{'>'}</span>
         <span className="text-gray-700">{categoryTitle}</span>
       </nav>
@@ -257,8 +263,8 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
             <div className="absolute inset-0 bg-black/50" onClick={() => setShowFilter(false)} />
             <div className="absolute left-0 top-0 bottom-0 w-[85%] max-w-sm bg-white shadow-2xl overflow-y-auto p-5 animate-slideUp">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-sm text-gray-900 uppercase">Filters</h3>
-                <button onClick={() => setShowFilter(false)} className="p-1 text-gray-500 hover:text-gray-900" aria-label="Close filters">
+                <h3 className="font-bold text-sm text-gray-900 uppercase">{t('catalog.filters')}</h3>
+                <button onClick={() => setShowFilter(false)} className="p-1 text-gray-500 hover:text-gray-900" aria-label={t('catalog.closeFilters')}>
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -282,14 +288,14 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
               className="lg:hidden flex items-center gap-1.5 border border-gray-300 rounded px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50"
             >
               <SlidersHorizontal className="w-3.5 h-3.5" />
-              Filter
+              {t('catalog.filter')}
             </button>
 
             <div className="flex-1" />
 
             {/* Items Per Page */}
             <div className="flex items-center gap-2">
-              <span className="hidden sm:inline text-[11px] font-semibold text-gray-500 uppercase">Items</span>
+              <span className="hidden sm:inline text-[11px] font-semibold text-gray-500 uppercase">{t('catalog.items')}</span>
               <select
                 value={itemsPerPage}
                 onChange={e => setItemsPerPage(Number(e.target.value))}
@@ -302,17 +308,17 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
 
             {/* Sort By */}
             <div className="flex items-center gap-2">
-              <span className="hidden sm:inline text-[11px] font-semibold text-gray-500 uppercase">Sort</span>
+              <span className="hidden sm:inline text-[11px] font-semibold text-gray-500 uppercase">{t('catalog.sort')}</span>
               <select
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value)}
                 className="border border-gray-300 rounded px-2 py-1.5 text-xs bg-white cursor-pointer"
               >
-                <option value="featured">Featured</option>
-                <option value="best-selling">Best Selling</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="title">Alphabetically, A-Z</option>
+                <option value="featured">{t('catalog.sortFeatured')}</option>
+                <option value="best-selling">{t('catalog.sortBestSelling')}</option>
+                <option value="price-low">{t('catalog.sortPriceLow')}</option>
+                <option value="price-high">{t('catalog.sortPriceHigh')}</option>
+                <option value="title">{t('catalog.sortAlpha')}</option>
               </select>
             </div>
 
@@ -321,7 +327,7 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
           {/* Product Grid - Default 4-Column Layout */}
           {displayed.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 0', color: '#999', fontSize: '14px' }}>
-              No products found.
+              {t('catalog.noProducts')}
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
@@ -339,11 +345,12 @@ export function CategoryInner({ forcedCategory }: { forcedCategory?: string } = 
 }
 
 export default function CategoryCollectionPage({ forcedCategory }: { forcedCategory?: string } = {}) {
+  const { t } = useLanguage();
   return (
     <>
       <TopBar />
       <Header />
-      <Suspense fallback={<div style={{ padding: '60px', textAlign: 'center', color: '#888' }}>Loading Category…</div>}>
+      <Suspense fallback={<div style={{ padding: '60px', textAlign: 'center', color: '#888' }}>{t('catalog.loading')}</div>}>
         <CategoryInner forcedCategory={forcedCategory} />
       </Suspense>
 

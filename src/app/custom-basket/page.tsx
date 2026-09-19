@@ -8,6 +8,7 @@ import WhatsAppButton from '@/components/layout/WhatsAppButton'
 import { useStoreData } from '@/context/StoreDataContext'
 import { useCart } from '@/context/CartContext'
 import { getProductEffectivePrice } from '@/lib/productPrice'
+import { useLanguage } from '@/context/LanguageContext'
 import { Plus, Minus, Trash2, ShoppingBag, MessageCircle, Scale, CheckCircle2 } from 'lucide-react'
 
 interface BasketEntry {
@@ -22,6 +23,18 @@ const BASKET_SIZES = [
   { id: 'large', label: 'Large', weight: 2000, desc: 'Great for gifting' },
 ]
 
+const SIZE_DESC_KEYS: Record<string, string> = {
+  small: 'customBasket.sizeSmallDesc',
+  medium: 'customBasket.sizeMediumDesc',
+  large: 'customBasket.sizeLargeDesc',
+}
+
+const SIZE_LABEL_KEYS: Record<string, string> = {
+  small: 'customBasket.sizeSmall',
+  medium: 'customBasket.sizeMedium',
+  large: 'customBasket.sizeLarge',
+}
+
 const parseGrams = (w: string) => {
   const m = w.match(/([\d.]+)\s*(g|kg)/i)
   if (!m) return 0
@@ -33,6 +46,7 @@ const formatNumber = (n: number) => n.toLocaleString()
 export default function CustomBasketPage() {
   const { products } = useStoreData()
   const { addToCart, setIsCartOpen } = useCart()
+  const { t } = useLanguage()
 
   const [activeCategory, setActiveCategory] = useState('')
   const [entries, setEntries] = useState<BasketEntry[]>([])
@@ -125,14 +139,13 @@ export default function CustomBasketPage() {
         <section className="bg-wine-deep text-ivory">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-16 text-center">
             <p className="text-sand text-xs font-bold uppercase tracking-[0.25em] mb-3">
-              Build Your Own
+              {t('customBasket.kicker')}
             </p>
             <h1 className="font-serif text-3xl md:text-5xl font-bold mb-4">
-              Custom Gift Basket
+              {t('customBasket.title')}
             </h1>
             <p className="max-w-2xl mx-auto text-ivory/80 text-sm md:text-base">
-              Pick your favourite dry fruits and nuts, choose how much you want, and we&apos;ll pack
-              it into a beautifully curated basket for you, your family, or as a gift.
+              {t('customBasket.subtitle')}
             </p>
           </div>
         </section>
@@ -145,7 +158,7 @@ export default function CustomBasketPage() {
               <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-6">
                 <div className="flex items-center gap-2 mb-4">
                   <Scale className="w-5 h-5 text-wine" />
-                  <h2 className="font-serif text-lg font-bold text-charcoal">1. Choose Your Basket Size</h2>
+                  <h2 className="font-serif text-lg font-bold text-charcoal">1. {t('customBasket.chooseSize')}</h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {BASKET_SIZES.map((size) => {
@@ -154,16 +167,16 @@ export default function CustomBasketPage() {
                       <button
                         key={size.id}
                         onClick={() => setTargetSize(size)}
-                        className={`rounded-xl border-2 px-4 py-3 text-left transition cursor-pointer ${
+                        className={`rounded-xl border-2 px-4 py-3 text-start transition cursor-pointer ${
                           active
                             ? 'border-wine bg-wine/5 shadow-sm'
                             : 'border-gray-200 bg-white hover:border-wine/40'
                         }`}
                       >
                         <p className={`font-bold text-sm ${active ? 'text-wine' : 'text-charcoal'}`}>
-                          {size.label} <span className="font-normal text-gray-500">({size.weight / 1000}kg)</span>
+                          {t(SIZE_LABEL_KEYS[size.id])} <span className="font-normal text-gray-500">({size.weight / 1000}kg)</span>
                         </p>
-                        <p className="text-xs text-gray-500 mt-0.5">{size.desc}</p>
+                        <p className="text-xs text-gray-500 mt-0.5">{t(SIZE_DESC_KEYS[size.id])}</p>
                       </button>
                     )
                   })}
@@ -219,12 +232,12 @@ export default function CustomBasketPage() {
                           <span className="text-wine font-extrabold">Rs.{formatNumber(price)}</span>
                         </div>
                         <button
-                          onClick={() => addToBasket(product.id)}
-                          className="mt-auto w-full bg-sand hover:bg-wine hover:text-white text-dryfruit font-bold text-[11px] uppercase tracking-wider py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer"
-                        >
-                          <Plus className="w-3.5 h-3.5" />
-                          {inBasket ? 'Add More' : 'Add to Basket'}
-                        </button>
+                            onClick={() => addToBasket(product.id)}
+                            className="mt-auto w-full bg-sand hover:bg-wine hover:text-white text-dryfruit font-bold text-[11px] uppercase tracking-wider py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer"
+                          >
+                            <Plus className="w-3.5 h-3.5" />
+                            {inBasket ? t('customBasket.addMore') : t('customBasket.addToBasket')}
+                          </button>
                       </div>
                     </div>
                   )
@@ -236,14 +249,14 @@ export default function CustomBasketPage() {
             <div className="lg:sticky lg:top-24">
               <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
                 <div className="bg-wine text-white px-5 py-4 flex items-center justify-between">
-                  <h2 className="font-serif text-lg font-bold">Your Basket</h2>
+                  <h2 className="font-serif text-lg font-bold">{t('customBasket.yourBasket')}</h2>
                   <ShoppingBag className="w-5 h-5" />
                 </div>
 
                 {/* Progress */}
                 <div className="px-5 pt-4">
                   <div className="flex justify-between text-xs mb-1.5">
-                    <span className="text-gray-600 font-semibold">Weight progress</span>
+                    <span className="text-gray-600 font-semibold">{t('customBasket.weightProgress')}</span>
                     <span className="text-wine font-bold">
                       {totalGrams}g / {targetSize.weight}g
                     </span>
@@ -256,11 +269,11 @@ export default function CustomBasketPage() {
                   </div>
                   {targetReached ? (
                     <p className="flex items-center gap-1 text-xs text-wine font-semibold mt-2">
-                      <CheckCircle2 className="w-4 h-4" /> Target reached — your basket is ready!
+                      <CheckCircle2 className="w-4 h-4" /> {t('customBasket.targetReached')}
                     </p>
                   ) : (
                     <p className="text-[11px] text-gray-400 mt-2">
-                      Add {Math.max(0, targetSize.weight - totalGrams)}g more to reach your {targetSize.label} basket.
+                      {t('customBasket.addMoreTo', { grams: Math.max(0, targetSize.weight - totalGrams), size: t(SIZE_LABEL_KEYS[targetSize.id]) })}
                     </p>
                   )}
                 </div>
@@ -269,7 +282,7 @@ export default function CustomBasketPage() {
                 <div className="px-5 py-4 space-y-4 max-h-[360px] overflow-y-auto">
                   {selectedItems.length === 0 && (
                     <p className="text-sm text-gray-400 text-center py-6">
-                      Your basket is empty. Pick some dry fruits to get started!
+                      {t('customBasket.basketEmpty')}
                     </p>
                   )}
                   {selectedItems.map((item) => (
@@ -300,7 +313,7 @@ export default function CustomBasketPage() {
                             <button
                               onClick={() => changeQty(item.productId, -1)}
                               className="w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-50 cursor-pointer"
-                              aria-label="Decrease quantity"
+                              aria-label={t('customBasket.decreaseQuantity')}
                             >
                               <Minus className="w-3 h-3" />
                             </button>
@@ -308,7 +321,7 @@ export default function CustomBasketPage() {
                             <button
                               onClick={() => changeQty(item.productId, 1)}
                               className="w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-50 cursor-pointer"
-                              aria-label="Increase quantity"
+                              aria-label={t('customBasket.increaseQuantity')}
                             >
                               <Plus className="w-3 h-3" />
                             </button>
@@ -316,7 +329,7 @@ export default function CustomBasketPage() {
                           <button
                             onClick={() => removeEntry(item.productId)}
                             className="text-gray-400 hover:text-red-500 transition cursor-pointer"
-                            aria-label="Remove item"
+                            aria-label={t('customBasket.removeItem')}
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -329,7 +342,7 @@ export default function CustomBasketPage() {
                 {/* Total + CTAs */}
                 <div className="px-5 pb-5 pt-1">
                   <div className="flex items-center justify-between border-t border-gray-100 pt-3 mb-4">
-                    <span className="text-sm font-semibold text-gray-600">Estimated Total</span>
+                    <span className="text-sm font-semibold text-gray-600">{t('customBasket.estimatedTotal')}</span>
                     <span className="font-serif text-xl font-bold text-wine">
                       Rs.{formatNumber(totalPrice)}
                     </span>
@@ -341,7 +354,7 @@ export default function CustomBasketPage() {
                     className="w-full bg-wine hover:bg-wine-deep text-white font-bold text-sm uppercase tracking-wide py-3.5 rounded-xl transition flex items-center justify-center gap-2 mb-3 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed cursor-pointer"
                   >
                     <ShoppingBag className="w-4 h-4" />
-                    Add All to Cart
+                    {t('customBasket.addAllToCart')}
                   </button>
 
                   <button
@@ -350,7 +363,7 @@ export default function CustomBasketPage() {
                     className="w-full bg-[#25d366] hover:bg-[#1fb758] text-white font-bold text-sm uppercase tracking-wide py-3.5 rounded-xl transition flex items-center justify-center gap-2 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed cursor-pointer"
                   >
                     <MessageCircle className="w-4 h-4" />
-                    Order on WhatsApp
+                    {t('customBasket.orderOnWhatsApp')}
                   </button>
                 </div>
               </div>

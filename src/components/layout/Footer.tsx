@@ -172,11 +172,7 @@ export default function Footer() {
               <ul className="space-y-3 text-xs font-normal text-ivory/80 leading-relaxed">
                 <li className="flex items-start gap-2">
                   <span>📞</span>
-                  <span>WhatsApp us on <strong className="text-ivory">+92 347 3811510</strong></span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span>📞</span>
-                  <span>WhatsApp or ☎ Call us on <strong className="text-ivory">0347-3811510</strong>.</span>
+                  <span>Call us on <strong className="text-ivory">0347-3811510</strong>.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span>✉</span>

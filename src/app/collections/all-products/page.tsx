@@ -6,8 +6,10 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
 import { CategoryInner } from '../[category]/page';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function AllProductsPage() {
+  const { t } = useLanguage();
   return (
     <>
       <TopBar />
@@ -15,7 +17,7 @@ export default function AllProductsPage() {
       <Suspense
         fallback={
           <div style={{ padding: '60px', textAlign: 'center', color: '#888' }}>
-            Loading All Products…
+            {t('catalog.loadingAll')}
           </div>
         }
       >

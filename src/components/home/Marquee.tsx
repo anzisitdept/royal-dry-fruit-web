@@ -1,15 +1,9 @@
 'use client';
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 
-const texts = [
-  "Handpicked Premium Nuts",
-  "Delivered Nationwide",
-  "Pakistan's Dry Fruit Destination",
-  "Gift Boxes & Hampers"
-];
-
-function Items() {
+function Items({ texts }: { texts: string[] }) {
   return (
     <>
       {[...Array(4)].map((_, j) => (
@@ -27,6 +21,8 @@ function Items() {
 }
 
 export default function Marquee() {
+  const { t } = useLanguage();
+  const texts = [t('marquee.t1'), t('marquee.t2'), t('marquee.t3'), t('marquee.t4')];
   const trackRef = useRef<HTMLDivElement>(null);
   const posRef = useRef(0);
   const rafRef = useRef<number | null>(null);
@@ -88,8 +84,8 @@ export default function Marquee() {
         onPointerCancel={endDrag}
       >
         <div ref={trackRef} className="flex items-center space-x-8 px-4 will-change-transform">
-          <Items />
-          <Items />
+          <Items texts={texts} />
+          <Items texts={texts} />
         </div>
       </div>
     </div>

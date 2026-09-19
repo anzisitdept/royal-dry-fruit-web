@@ -1,12 +1,14 @@
 import React from 'react';
 import { Leaf, ShieldCheck, Truck, Gift } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function TrustBadges() {
+  const { t } = useLanguage();
   const badges = [
-    { id: 1, title: 'Freshly Packed', subtitle: 'Sealed to lock in freshness', icon: Leaf },
-    { id: 2, title: 'Premium Quality', subtitle: 'Handpicked finest nuts', icon: ShieldCheck },
-    { id: 3, title: 'Nationwide Delivery', subtitle: 'Serving all of Pakistan', icon: Truck },
-    { id: 4, title: 'Perfect for Gifting', subtitle: 'Elegant boxes & hampers', icon: Gift },
+    { id: 1, title: t('trust.freshTitle'), subtitle: t('trust.freshSub'), icon: Leaf },
+    { id: 2, title: t('trust.qualityTitle'), subtitle: t('trust.qualitySub'), icon: ShieldCheck },
+    { id: 3, title: t('trust.deliveryTitle'), subtitle: t('trust.deliverySub'), icon: Truck },
+    { id: 4, title: t('trust.giftTitle'), subtitle: t('trust.giftSub'), icon: Gift },
   ];
 
   return (

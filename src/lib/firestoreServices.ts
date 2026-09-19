@@ -89,6 +89,11 @@ export interface OrderPayload {
   shippingFee: number;
   totalAmount: number;
   paymentMethod: string;
+  paymentType?: 'cod' | 'online';
+  paymentNetwork?: string;
+  receiptUrl?: string;
+  advancePaid?: number;
+  payableAtDelivery?: number;
   orderStatus: 'Pending' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
 }
 

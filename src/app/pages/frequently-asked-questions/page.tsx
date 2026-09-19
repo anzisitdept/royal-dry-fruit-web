@@ -7,6 +7,7 @@ import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
+import PageHeader from '@/components/layout/PageHeader';
 
 const FAQS = [
   {
@@ -43,16 +44,7 @@ export default function FAQPage() {
       <TopBar />
       <Header />
 
-      <section className="bg-sand py-10 border-b border-red-100">
-        <div className="container mx-auto px-4 max-w-7xl text-center">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-wine uppercase tracking-wide">
-            Frequently Asked Questions (FAQ)
-          </h1>
-          <p className="text-xs md:text-sm text-gray-600 max-w-xl mx-auto mt-2">
-            Find quick answers regarding delivery times, ingredients, COD payment, and freshness guarantees.
-          </p>
-        </div>
-      </section>
+      <PageHeader titleKey="pages.faq" />
 
       <main className="container mx-auto px-4 lg:px-8 max-w-4xl py-12">
         <div className="space-y-4">

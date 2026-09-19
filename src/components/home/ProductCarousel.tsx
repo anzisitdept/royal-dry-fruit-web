@@ -5,6 +5,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Link from 'next/link';
 import { Product } from '@/types';
 import { useStoreData } from '@/context/StoreDataContext';
+import { useLanguage } from '@/context/LanguageContext';
 import ProductCard from '@/components/products/ProductCard';
 
 interface ProductCarouselProps {
@@ -15,11 +16,12 @@ interface ProductCarouselProps {
 }
 
 export default function ProductCarousel({ 
-  title = "DISCOVER OUR PREMIUM DRY FRUITS", 
+  title, 
   categoryFilter,
   productIds,
   viewAllLink = "/collections/all-products"
 }: ProductCarouselProps) {
+  const { t } = useLanguage();
   const [emblaRef] = useEmblaCarousel({
     align: 'start',
     containScroll: 'trimSnaps'
@@ -77,14 +79,14 @@ export default function ProductCarousel({
         {/* Title Header */}
         <div className="flex flex-col items-center mb-6 md:mb-10">
           <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-center font-serif text-charcoal uppercase tracking-wide">
-            {title}
+            {title || t('productCarousel.discoverDefault')}
           </h2>
           <div className="w-full h-px bg-gray-200 my-3 md:my-4 relative max-w-3xl">
             <Link 
               href={viewAllLink} 
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 md:px-4 text-[10px] md:text-xs font-semibold uppercase tracking-widest text-gray-500 hover:text-wine-deep transition whitespace-nowrap"
             >
-              View All Products
+              {t('productCarousel.viewAll')}
             </Link>
           </div>
         </div>

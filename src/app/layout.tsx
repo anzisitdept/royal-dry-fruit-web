@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Montserrat } from "next/font/google";
+import { Cormorant_Garamond, Montserrat, Noto_Nastaliq_Urdu } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/context/LanguageContext";
 import { CartProvider } from "@/context/CartContext";
 import { StoreDataProvider } from "@/context/StoreDataContext";
 import { AuthProvider } from "@/context/AuthContext";
@@ -22,6 +23,12 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
+const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-urdu",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "Royal Dry Fruits — Premium Dry Fruits & Nuts",
   description:
@@ -34,19 +41,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${cormorantGaramond.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${montserrat.variable} ${cormorantGaramond.variable} ${notoNastaliqUrdu.variable}`} suppressHydrationWarning>
       <body className="antialiased min-h-screen flex flex-col font-sans bg-ivory text-charcoal" suppressHydrationWarning>
-        <StoreDataProvider>
-          <CartProvider>
-            <AuthProvider>
-              {children}
-            </AuthProvider>
-            <CartDrawer />
-            <CheckoutModal />
-            <SearchModal />
-            <WelcomePopup />
-          </CartProvider>
-        </StoreDataProvider>
+        <LanguageProvider>
+          <StoreDataProvider>
+            <CartProvider>
+              <AuthProvider>
+                {children}
+              </AuthProvider>
+              <CartDrawer />
+              <CheckoutModal />
+              <SearchModal />
+              <WelcomePopup />
+            </CartProvider>
+          </StoreDataProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

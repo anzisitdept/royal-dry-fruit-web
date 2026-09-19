@@ -9,10 +9,12 @@ import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
 import ProductCarousel from '@/components/home/ProductCarousel';
 import { useStoreData } from '@/context/StoreDataContext';
+import { useLanguage } from '@/context/LanguageContext';
 import ProductDetailClient from './ProductDetailClient';
 
 export default function ProductDetailPage({ params }: { params?: Promise<{ slug: string }> }) {
   const routeParams = useParams();
+  const { t } = useLanguage();
   // Support both Next.js route params and promise params
   const unwrappedParams = params ? use(params) : null;
   const rawSlug = (unwrappedParams?.slug || routeParams?.slug || '') as string;
@@ -35,7 +37,7 @@ export default function ProductDetailPage({ params }: { params?: Promise<{ slug:
         <Header />
         <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-3">
           <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-wine"></div>
-          <p className="text-gray-400 text-xs tracking-wider uppercase font-medium">Loading Product...</p>
+          <p className="text-gray-400 text-xs tracking-wider uppercase font-medium">{t('productDetail.loading')}</p>
         </div>
         <Footer />
         <WhatsAppButton />
@@ -49,15 +51,15 @@ export default function ProductDetailPage({ params }: { params?: Promise<{ slug:
         <TopBar />
         <Header />
         <div className="container mx-auto px-4 py-24 text-center max-w-lg">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Product Not Found</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('productDetail.notFound')}</h1>
           <p className="text-gray-500 text-xs md:text-sm mb-6">
-            The product <span className="font-semibold text-gray-700">"{decodedSlug}"</span> does not exist or has been removed.
+            {t('productDetail.notFoundSub', { slug: decodedSlug })}
           </p>
           <Link
             href="/collections/all-products"
             className="inline-block bg-wine text-white px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-wine-deep transition shadow-xs"
           >
-            Explore All Products
+            {t('productDetail.exploreAll')}
           </Link>
         </div>
         <Footer />
@@ -83,9 +85,9 @@ export default function ProductDetailPage({ params }: { params?: Promise<{ slug:
       <div className="bg-gray-50 border-b border-gray-100 py-3">
         <div className="container mx-auto px-4 max-w-7xl">
           <nav className="text-xs text-gray-500 font-medium">
-            <Link href="/" className="hover:text-wine">Home</Link>
+            <Link href="/" className="hover:text-wine">{t('breadcrumb.home')}</Link>
             <span className="mx-2">/</span>
-            <Link href="/collections/all-products" className="hover:text-wine">Collections</Link>
+            <Link href="/collections/all-products" className="hover:text-wine">{t('breadcrumb.collections')}</Link>
             <span className="mx-2">/</span>
             <Link href={`/collections/${categoryObj?.slug || product.category}`} className="hover:text-wine capitalize">
               {categoryDisplayName}
@@ -102,7 +104,7 @@ export default function ProductDetailPage({ params }: { params?: Promise<{ slug:
 
         {/* Related Products Carousel */}
         <section className="mt-16 border-t pt-12">
-          <ProductCarousel title="YOU MAY ALSO LIKE" categoryFilter={product.category} />
+          <ProductCarousel title={t('productDetail.youMayAlsoLike')} categoryFilter={product.category} />
         </section>
       </main>
 

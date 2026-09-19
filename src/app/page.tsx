@@ -1,3 +1,5 @@
+'use client';
+
 import TopBar from '@/components/layout/TopBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -11,8 +13,11 @@ import TrustBadges from '@/components/home/TrustBadges';
 import ContactBlock from '@/components/home/ContactBlock';
 import ReviewCarousel from '@/components/reviews/ReviewCarousel';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function HomePage() {
+  const { t } = useLanguage();
+
   return (
     <>
       <TopBar />
@@ -21,10 +26,10 @@ export default function HomePage() {
       <main className="flex-1">
         <HeroSlider />
         <Marquee />
-        <CategoryCarousel title="Shop by Category" />
-        <ProductCarousel title="Best Sellers" categoryFilter="best-selling" />
+        <CategoryCarousel title={t('home.shopByCategory')} />
+        <ProductCarousel title={t('home.bestSellers')} categoryFilter="best-selling" />
         <MidBanners />
-        <ProductCarousel title="New Arrivals" categoryFilter="new-arrivals" />
+        <ProductCarousel title={t('home.newArrivals')} categoryFilter="new-arrivals" />
         <VideoCarousel />
         <ReviewCarousel />
         <TrustBadges />

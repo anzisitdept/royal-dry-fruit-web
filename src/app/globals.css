@@ -42,6 +42,35 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-cormorant-garamond), serif;
 }
 
+/* ─── Urdu / RTL mode ───────────────────────────────────── */
+html.lang-ur {
+  font-family: var(--font-urdu), 'Noto Nastaliq Urdu', serif;
+}
+
+html.lang-ur body {
+  font-family: var(--font-urdu), 'Noto Nastaliq Urdu', serif;
+  line-height: 1.9;
+}
+
+html.lang-ur h1,
+html.lang-ur h2,
+html.lang-ur h3,
+html.lang-ur h4,
+html.lang-ur h5,
+html.lang-ur h6 {
+  font-family: var(--font-urdu), 'Noto Nastaliq Urdu', serif;
+  line-height: 1.7;
+  letter-spacing: 0 !important;
+}
+
+html.lang-ur .font-serif {
+  font-family: var(--font-urdu), 'Noto Nastaliq Urdu', serif !important;
+}
+
+html.lang-ur .uppercase {
+  letter-spacing: 0 !important;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

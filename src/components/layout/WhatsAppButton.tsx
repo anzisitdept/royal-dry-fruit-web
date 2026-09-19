@@ -2,9 +2,11 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function WhatsAppButton() {
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   // Hide WhatsApp button on cart and checkout pages
   if (pathname === '/cart' || pathname === '/checkout') return null;
@@ -14,8 +16,8 @@ export default function WhatsAppButton() {
       href="https://wa.me/923473811510"
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-20 right-5 md:bottom-24 md:right-6 z-50 bg-[#25D366] hover:bg-[#1ebe57] text-white rounded-full p-3 md:p-4 shadow-xl hover:scale-110 transition-transform duration-300 flex items-center justify-center"
-      aria-label="Chat on WhatsApp"
+      className="fixed bottom-6 right-5 md:bottom-8 md:right-6 z-50 bg-[#25D366] hover:bg-[#1ebe57] text-white rounded-full p-3 md:p-4 shadow-xl hover:scale-110 transition-transform duration-300 flex items-center justify-center"
+      aria-label={t('ariaMenu.chatOnWhatsApp')}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

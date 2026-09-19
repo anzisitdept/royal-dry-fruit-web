@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom'
 import { GoogleAuthProvider } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import { useAuth } from '@/context/AuthContext'
+import { useLanguage } from '@/context/LanguageContext'
 
 interface SignInModalProps {
   isOpen: boolean
@@ -13,6 +14,7 @@ interface SignInModalProps {
 }
 
 export function SignInModal({ isOpen, onClose, initialMode = 'signin' }: SignInModalProps) {
+  const { t } = useLanguage()
   const [mounted, setMounted] = useState(false)
   const [mode, setMode] = useState<'signin' | 'signup'>(initialMode)
   const [email, setEmail] = useState('')
@@ -88,7 +90,7 @@ export function SignInModal({ isOpen, onClose, initialMode = 'signin' }: SignInM
         <button
           onClick={onClose}
           className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 transition"
-          aria-label="Close"
+          aria-label={t('auth.closeLabel')}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -108,7 +110,7 @@ export function SignInModal({ isOpen, onClose, initialMode = 'signin' }: SignInM
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            Sign In
+            {t('auth.signIn')}
           </button>
           <button
             onClick={() => handleModeSwitch('signup')}
@@ -118,7 +120,7 @@ export function SignInModal({ isOpen, onClose, initialMode = 'signin' }: SignInM
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            Sign Up
+            {t('auth.signUp')}
           </button>
         </div>
 
@@ -126,7 +128,7 @@ export function SignInModal({ isOpen, onClose, initialMode = 'signin' }: SignInM
           <form onSubmit={handleSignIn} className="space-y-4">
             <div>
               <label htmlFor="signin-email" className="mb-1 block text-sm font-medium text-gray-700">
-                Email
+                {t('auth.email')}
               </label>
               <input
                 id="signin-email"
@@ -135,12 +137,12 @@ export function SignInModal({ isOpen, onClose, initialMode = 'signin' }: SignInM
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-wine outline-none"
-                placeholder="you@example.com"
+                placeholder={t('auth.emailPlaceholder')}
               />
             </div>
             <div>
               <label htmlFor="signin-password" className="mb-1 block text-sm font-medium text-gray-700">
-                Password
+                {t('auth.password')}
               </label>
               <input
                 id="signin-password"
@@ -168,7 +170,7 @@ export function SignInModal({ isOpen, onClose, initialMode = 'signin' }: SignInM
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
               ) : null}
-              Sign In
+              {t('auth.signIn')}
             </button>
 
             <button
@@ -176,14 +178,14 @@ export function SignInModal({ isOpen, onClose, initialMode = 'signin' }: SignInM
               onClick={clearError}
               className="w-full text-center text-xs text-gray-500 hover:text-wine transition"
             >
-              Forgot password?
+              {t('auth.forgotPassword')}
             </button>
           </form>
         ) : (
           <form onSubmit={handleSignUp} className="space-y-4">
             <div>
               <label htmlFor="signup-name" className="mb-1 block text-sm font-medium text-gray-700">
-                Name
+                {t('auth.name')}
               </label>
               <input
                 id="signup-name"
@@ -191,12 +193,12 @@ export function SignInModal({ isOpen, onClose, initialMode = 'signin' }: SignInM
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-wine outline-none"
-                placeholder="Your name"
+                placeholder={t('auth.namePlaceholder')}
               />
             </div>
             <div>
               <label htmlFor="signup-email" className="mb-1 block text-sm font-medium text-gray-700">
-                Email
+                {t('auth.email')}
               </label>
               <input
                 id="signup-email"
@@ -205,12 +207,12 @@ export function SignInModal({ isOpen, onClose, initialMode = 'signin' }: SignInM
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-wine outline-none"
-                placeholder="you@example.com"
+                placeholder={t('auth.emailPlaceholder')}
               />
             </div>
             <div>
               <label htmlFor="signup-password" className="mb-1 block text-sm font-medium text-gray-700">
-                Password
+                {t('auth.password')}
               </label>
               <input
                 id="signup-password"
@@ -238,14 +240,14 @@ export function SignInModal({ isOpen, onClose, initialMode = 'signin' }: SignInM
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
               ) : null}
-              Create Account
+              {t('auth.createAccount')}
             </button>
           </form>
         )}
 
         <div className="my-4 flex items-center gap-3">
           <div className="h-px flex-1 bg-gray-200" />
-          <span className="text-xs text-gray-400">OR</span>
+          <span className="text-xs text-gray-400">{t('auth.or')}</span>
           <div className="h-px flex-1 bg-gray-200" />
         </div>
 
@@ -272,13 +274,13 @@ export function SignInModal({ isOpen, onClose, initialMode = 'signin' }: SignInM
               fill="#EA4335"
             />
           </svg>
-          Continue with Google
+          {t('auth.continueWithGoogle')}
         </button>
 
         <p className="mt-6 text-center text-xs text-gray-400">
-          By continuing, you agree to our{' '}
+          {t('auth.termsNote', { link: '' })}
           <a href="/pages/terms-conditions" className="text-wine hover:underline">
-            Terms of Service
+            {t('auth.termsLink')}
           </a>
         </p>
       </div>
