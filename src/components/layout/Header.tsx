@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, ShoppingBag, Heart, User, Menu, X, ChevronDown, Globe, LogOut, Package, UserCircle, Gift, MapPin, Store, Info, PhoneCall } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -25,6 +26,17 @@ const COLLECTION_LABEL_KEYS: Record<string, string> = {
   'Best Sellers': 'collections.navBestSellers',
 };
 
+/* ─── Animated nav underline (slides between menu items on hover) ─── */
+function NavUnderline() {
+  return (
+    <motion.span
+      layoutId="nav-underline"
+      className="absolute inset-x-0 -bottom-[7px] h-[2px] bg-sand"
+      transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+    />
+  );
+}
+
 export default function Header() {
   const { totalCount, setIsCartOpen, setIsSearchOpen, wishlist } = useCart();
   const { user, loading: authLoading, logout } = useAuth();
@@ -33,6 +45,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState(false);
   const [desktopCollectionsOpen, setDesktopCollectionsOpen] = useState(false);
+  const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -122,17 +135,22 @@ export default function Header() {
           </div>
 
           {/* DESKTOP CENTER — Navigation */}
-          <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
+          <nav
+            className="hidden lg:flex items-center gap-4 xl:gap-6"
+            onMouseLeave={() => setHoveredNav(null)}
+          >
             <Link
               href="/collections/all-products"
-              className="text-ivory/90 hover:text-ivory text-[11px] xl:text-[12px] font-semibold uppercase tracking-wider xl:tracking-widest whitespace-nowrap transition-colors"
+              onMouseEnter={() => setHoveredNav('shop-all')}
+              className="relative text-ivory/90 hover:text-ivory text-[11px] xl:text-[12px] font-semibold uppercase tracking-wider xl:tracking-widest whitespace-nowrap transition-colors py-2"
             >
               {t('nav.shopAll')}
+              {hoveredNav === 'shop-all' && <NavUnderline />}
             </Link>
 
             <Link
               href="/custom-basket"
-              className="text-ivory hover:text-ivory text-[11px] xl:text-[12px] font-bold uppercase tracking-wider xl:tracking-widest whitespace-nowrap transition-colors border border-sand/40 rounded-full px-3 py-1.5 hover:bg-sand/15"
+              className="relative text-ivory hover:text-ivory text-[11px] xl:text-[12px] font-bold uppercase tracking-wider xl:tracking-widest whitespace-nowrap transition-colors border border-sand/40 rounded-full px-3 py-1.5 hover:bg-sand/15"
             >
               {t('nav.customBasket')}
             </Link>
@@ -143,14 +161,17 @@ export default function Header() {
               onMouseLeave={() => setDesktopCollectionsOpen(false)}
             >
               <button
+                suppressHydrationWarning
                 onClick={() => setDesktopCollectionsOpen((v) => !v)}
+                onMouseEnter={() => setHoveredNav('collections')}
                 aria-expanded={desktopCollectionsOpen}
-                className="text-ivory/90 hover:text-ivory text-[11px] xl:text-[12px] font-semibold uppercase tracking-wider xl:tracking-widest whitespace-nowrap transition-colors flex items-center gap-1"
+                className="relative text-ivory/90 hover:text-ivory text-[11px] xl:text-[12px] font-semibold uppercase tracking-wider xl:tracking-widest whitespace-nowrap transition-colors flex items-center gap-1 py-2"
               >
                 {t('nav.collections')}
                 <ChevronDown
                   className={`w-3 h-3 opacity-70 transition-transform duration-200 ${desktopCollectionsOpen ? 'rotate-180' : ''}`}
                 />
+                {hoveredNav === 'collections' && <NavUnderline />}
               </button>
 
               <div
@@ -177,9 +198,11 @@ export default function Header() {
               <Link
                 key={item.key}
                 href={item.href}
-                className="text-ivory/90 hover:text-ivory text-[11px] xl:text-[12px] font-semibold uppercase tracking-wider xl:tracking-widest whitespace-nowrap transition-colors"
+                onMouseEnter={() => setHoveredNav(item.key)}
+                className="relative text-ivory/90 hover:text-ivory text-[11px] xl:text-[12px] font-semibold uppercase tracking-wider xl:tracking-widest whitespace-nowrap transition-colors py-2"
               >
                 {t(item.key)}
+                {hoveredNav === item.key && <NavUnderline />}
               </Link>
             ))}
           </nav>
@@ -189,6 +212,7 @@ export default function Header() {
             {/* Desktop Language Switcher */}
             <div className="relative">
               <button
+                suppressHydrationWarning
                 onClick={() => setLangDropdownOpen((v) => !v)}
                 className="flex items-center gap-1 bg-black/20 hover:bg-black/30 border border-ivory/30 text-ivory rounded px-2.5 py-1 text-xs font-bold uppercase transition-colors"
                 aria-label={t('ariaMenu.switchLanguage')}
@@ -316,6 +340,7 @@ export default function Header() {
             {/* Mobile EN / UR Language Switcher Dropdown */}
             <div className="relative">
               <button
+                suppressHydrationWarning
                 onClick={() => setLangDropdownOpen((v) => !v)}
                 className="flex items-center gap-0.5 bg-black/20 hover:bg-black/30 border border-ivory/30 text-ivory rounded px-1.5 py-0.5 text-[11px] font-bold uppercase transition-colors"
                 aria-label={t('ariaMenu.switchLanguage')}

@@ -95,6 +95,7 @@ export default function TopBar() {
           onMouseLeave={() => setProfileDropdownOpen(false)}
         >
           <button
+            suppressHydrationWarning
             onClick={() => {
               if (!user) {
                 setSignInOpen(true);

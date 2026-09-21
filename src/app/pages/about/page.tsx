@@ -90,8 +90,8 @@ export default function AboutPage() {
             <div className="relative">
               <div className="absolute -inset-3 bg-sand rounded-3xl rotate-2" />
               <img
-                src="https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?auto=format&fit=crop&w=1000&q=80"
-                alt="Premium dry fruits selection"
+                src="/about-us.webp"
+                alt="About Royal Dry Fruits — premium dry fruits selection"
                 className="relative rounded-3xl w-full h-[360px] md:h-[440px] object-cover shadow-xl"
               />
               <div className="absolute -bottom-6 left-6 bg-wine text-ivory rounded-2xl px-5 py-4 shadow-lg">

@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Star, MessageSquareHeart } from 'lucide-react';
 import { Review } from '@/types';
 import { useLanguage } from '@/context/LanguageContext';
 import { subscribeAllApprovedReviews } from '@/lib/firestoreServices';
+import { ReviewFormModal } from '@/components/reviews/ReviewFormModal';
+import { FeedbackFormModal } from '@/components/reviews/FeedbackFormModal';
 
 interface ReviewCard {
   stars: number;
@@ -35,6 +37,8 @@ export default function ReviewCarousel({ compact = false }: { compact?: boolean 
   });
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
+  const [reviewFormOpen, setReviewFormOpen] = useState(false);
+  const [feedbackFormOpen, setFeedbackFormOpen] = useState(false);
 
   useEffect(() => {
     const unsub = subscribeAllApprovedReviews((rs) => {
@@ -180,10 +184,31 @@ export default function ReviewCarousel({ compact = false }: { compact?: boolean 
             >
               <ChevronRight size={22} color="#333" />
             </button>
-          </div>
+</div>
 
         </div>
+
+        {/* Action Buttons — Leave a Review / Submit Private Feedback */}
+        <div className="mt-10 md:mt-14 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <button
+            onClick={() => setReviewFormOpen(true)}
+            className="w-full sm:w-auto bg-wine hover:bg-wine-deep text-white text-xs font-bold uppercase tracking-widest px-7 py-3.5 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm"
+          >
+            <Star className="w-4 h-4" />
+            {t('reviews.leaveReviewBtn')}
+          </button>
+          <button
+            onClick={() => setFeedbackFormOpen(true)}
+            className="w-full sm:w-auto bg-white border border-wine text-wine hover:bg-wine hover:text-white text-xs font-bold uppercase tracking-widest px-7 py-3.5 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm"
+          >
+            <MessageSquareHeart className="w-4 h-4" />
+            {t('reviews.submitFeedbackBtn')}
+          </button>
+        </div>
       </div>
+
+      <ReviewFormModal isOpen={reviewFormOpen} onClose={() => setReviewFormOpen(false)} />
+      <FeedbackFormModal isOpen={feedbackFormOpen} onClose={() => setFeedbackFormOpen(false)} />
     </section>
   );
 }

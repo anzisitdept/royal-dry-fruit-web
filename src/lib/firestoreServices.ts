@@ -114,6 +114,19 @@ async function getNextOrderNumber(): Promise<number> {
   }
 }
 
+/* ─── Sanitize payload (Firestore rejects `undefined` values) ─── */
+export function stripUndefined<T>(value: T): T {
+  if (value === null || typeof value !== 'object') return value;
+  if (Array.isArray(value)) return value.map(stripUndefined) as T;
+  const result: Record<string, unknown> = {};
+  for (const key of Object.keys(value)) {
+    const v = (value as Record<string, unknown>)[key];
+    if (v === undefined) continue;
+    result[key] = stripUndefined(v);
+  }
+  return result as T;
+}
+
 export async function saveOrderToFirestore(order: OrderPayload) {
   try {
     const ordersRef = collection(db!, 'orders');
@@ -123,7 +136,7 @@ export async function saveOrderToFirestore(order: OrderPayload) {
         ? order.orderId
         : `NA-${String(seq).padStart(6, '0')}`;
     const docRef = await addDoc(ordersRef, {
-      ...order,
+      ...stripUndefined(order),
       orderId: orderNumber,
       createdAt: serverTimestamp()
     });
@@ -158,13 +171,38 @@ export async function saveReviewToFirestore(review: ReviewPayload) {
       title: review.title,
       body: review.body,
       isVerified: review.isVerified,
-      status: review.status || 'approved',
+      status: review.status || 'pending',
       reviewId: generatedReviewId,
       createdAt: serverTimestamp()
     });
     return { success: true, id: docRef.id, reviewId: generatedReviewId };
   } catch (error) {
     console.error('Error saving review to Firestore:', error);
+    return { success: false, error };
+  }
+}
+
+/* ─── Private Feedback to Firestore ─────────────────── */
+export interface FeedbackPayload {
+  author: string;
+  contact?: string;
+  message: string;
+}
+
+export async function saveFeedbackToFirestore(feedback: FeedbackPayload) {
+  try {
+    const feedbackRef = collection(db!, 'feedback');
+    const docRef = await addDoc(feedbackRef, {
+      author: feedback.author,
+      contact: feedback.contact || '',
+      message: feedback.message,
+      read: false,
+      status: 'new',
+      createdAt: serverTimestamp()
+    });
+    return { success: true, id: docRef.id };
+  } catch (error) {
+    console.error('Error saving feedback to Firestore:', error);
     return { success: false, error };
   }
 }
